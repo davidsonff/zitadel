@@ -3,6 +3,21 @@
     <img src="./docs/static/logos/zitadel-logo-light@2x.png#gh-dark-mode-only" alt="Zitadel Logo" max-height="200px" width="auto" />
 </p>
 
+> **Important — Apache 2.0 Fork**
+>
+> This repository is a fork of [ZITADEL](https://github.com/zitadel/zitadel), pinned to the last commit licensed under the **Apache License 2.0** (`d14a23ae7`, dated 2025-04-02).
+>
+> The upstream project re-licensed to AGPL v3 starting with ZITADEL v3 (commit `07ce3b690`). AGPL v3 requires that any organization running the software as a network service make the complete source code available to all users of that service — even for purely internal deployments. This creates distribution obligations that are incompatible with typical corporate internal-use scenarios where source distribution is not desired.
+>
+> We forked at the Apache 2.0 boundary to avoid these obligations. Under Apache 2.0:
+> - You may use, modify, and deploy the software internally with **no obligation to distribute source code**
+> - There is **no network/SaaS copyleft clause** — running it as an internal service triggers no disclosure requirements
+> - The only requirements are to **preserve copyright and license notices** and **note any modifications**
+>
+> All commits in this repository are Apache 2.0 licensed. See [LICENSE](./LICENSE) for full terms.
+
+---
+
 <p align="center">
     <a href="https://github.com/zitadel/zitadel/blob/main/LICENSE" alt="License">
         <img src="https://badgen.net/github/license/zitadel/zitadel/" /></a>
@@ -203,7 +218,7 @@ You can find our security policy [here](./SECURITY.md).
 
 ## License
 
-[here](./LICENSE) are our exact licensing terms.
+This project is licensed under the [Apache License 2.0](./LICENSE).
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See our [license](./LICENSE) for detailed information governing permissions and limitations on use.
+See the [LICENSE](./LICENSE) file for detailed information governing permissions and limitations on use.
