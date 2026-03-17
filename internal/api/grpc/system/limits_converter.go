@@ -1,8 +1,6 @@
 package system
 
 import (
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/command"
 	"github.com/zitadel/zitadel/pkg/grpc/system"
 )
@@ -10,7 +8,7 @@ import (
 func setInstanceLimitsPbToCommand(req *system.SetLimitsRequest) *command.SetLimits {
 	var setLimits = new(command.SetLimits)
 	if req.AuditLogRetention != nil {
-		setLimits.AuditLogRetention = gu.Ptr(req.AuditLogRetention.AsDuration())
+		setLimits.AuditLogRetention = new(req.AuditLogRetention.AsDuration())
 	}
 	setLimits.Block = req.Block
 	return setLimits

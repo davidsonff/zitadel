@@ -97,7 +97,7 @@ func (l *Login) renderLogin(w http.ResponseWriter, r *http.Request, authReq *dom
 	}
 	translator := l.getTranslator(r.Context(), authReq)
 	data := l.getUserData(r, authReq, translator, "Login.Title", "Login.Description", err)
-	funcs := map[string]interface{}{
+	funcs := map[string]any{
 		"hasUsernamePasswordLogin": func() bool {
 			return authReq != nil && authReq.LoginPolicy != nil && authReq.LoginPolicy.AllowUsernamePassword
 		},

@@ -306,23 +306,23 @@ func (s *Server) userinfoFlows(ctx context.Context, qu *query.OIDCUserInfo, user
 	ctxFields := actions.SetContextFields(
 		actions.SetFields("v1",
 			actions.SetFields("claims", userinfoClaims(userInfo)),
-			actions.SetFields("getUser", func(c *actions.FieldConfig) interface{} {
+			actions.SetFields("getUser", func(c *actions.FieldConfig) any {
 				return func(call goja.FunctionCall) goja.Value {
 					return object.UserFromQuery(c, qu.User)
 				}
 			}),
 			actions.SetFields("user",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						return object.UserMetadataListFromSlice(c, qu.Metadata)
 					}
 				}),
-				actions.SetFields("grants", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("grants", func(c *actions.FieldConfig) any {
 					return object.UserGrantsFromSlice(ctx, s.query, c, qu.UserGrants)
 				}),
 			),
 			actions.SetFields("org",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						return object.GetOrganizationMetadata(ctx, s.query, c, qu.User.ResourceOwner)
 					}
@@ -338,7 +338,7 @@ func (s *Server) userinfoFlows(ctx context.Context, qu *query.OIDCUserInfo, user
 		apiFields := actions.WithAPIFields(
 			actions.SetFields("v1",
 				actions.SetFields("userinfo",
-					actions.SetFields("setClaim", func(key string, value interface{}) {
+					actions.SetFields("setClaim", func(key string, value any) {
 						if strings.HasPrefix(key, ClaimPrefix) {
 							return
 						}
@@ -353,7 +353,7 @@ func (s *Server) userinfoFlows(ctx context.Context, qu *query.OIDCUserInfo, user
 					}),
 				),
 				actions.SetFields("claims",
-					actions.SetFields("setClaim", func(key string, value interface{}) {
+					actions.SetFields("setClaim", func(key string, value any) {
 						if strings.HasPrefix(key, ClaimPrefix) {
 							return
 						}

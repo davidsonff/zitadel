@@ -14,7 +14,6 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/zitadel/logging"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/protobuf/proto"
 
 	http_util "github.com/zitadel/zitadel/internal/api/http"
 	"github.com/zitadel/zitadel/internal/webauthn"
@@ -139,11 +138,11 @@ func (i *Instance) awaitFirstUser(ctx context.Context) {
 	var allErrs []error
 	for {
 		resp, err := i.Client.UserV2.AddHumanUser(ctx, &user_v2.AddHumanUserRequest{
-			Username: proto.String("zitadel-admin@zitadel.localhost"),
+			Username: new("zitadel-admin@zitadel.localhost"),
 			Profile: &user_v2.SetHumanProfile{
 				GivenName:  "hodor",
 				FamilyName: "hodor",
-				NickName:   proto.String("hodor"),
+				NickName:   new("hodor"),
 			},
 			Email: &user_v2.SetHumanEmail{
 				Email: "zitadel-admin@zitadel.localhost",

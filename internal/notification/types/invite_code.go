@@ -24,7 +24,7 @@ func (notify Notify) SendInviteCode(ctx context.Context, user *query.NotifyUser,
 		}
 		url = buf.String()
 	}
-	args := make(map[string]interface{})
+	args := make(map[string]any)
 	args["Code"] = code
 	args["ApplicationName"] = applicationName
 	return notify(url, args, domain.InviteUserMessageType, true)

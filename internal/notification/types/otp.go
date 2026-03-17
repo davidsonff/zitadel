@@ -18,9 +18,9 @@ func (notify Notify) SendOTPEmailCode(ctx context.Context, url, code string, exp
 	return notify(url, args, domain.VerifyEmailOTPMessageType, false)
 }
 
-func otpArgs(ctx context.Context, code string, expiry time.Duration) map[string]interface{} {
+func otpArgs(ctx context.Context, code string, expiry time.Duration) map[string]any {
 	domainCtx := http_utils.DomainContext(ctx)
-	args := make(map[string]interface{})
+	args := make(map[string]any)
 	args["OTP"] = code
 	args["Origin"] = domainCtx.Origin()
 	args["Domain"] = domainCtx.RequestedDomain()

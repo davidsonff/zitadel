@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"slices"
 	"time"
 
 	"google.golang.org/protobuf/types/known/durationpb"
@@ -417,13 +418,7 @@ func (s *Server) getLoginPolicy(ctx context.Context, orgID string, orgIDPs []str
 		}
 		idpLinks := make([]*management_pb.AddCustomLoginPolicyRequest_IDP, 0)
 		for _, idpLink := range idpLinksQuery.Links {
-			found := false
-			for _, orgIDP := range orgIDPs {
-				if orgIDP == idpLink.IDPID {
-					found = true
-					break
-				}
-			}
+			found := slices.Contains(orgIDPs, idpLink.IDPID)
 			ownerType := idp_pb.IDPOwnerType_IDP_OWNER_TYPE_UNSPECIFIED
 			if found {
 				ownerType = idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG
@@ -926,14 +921,11 @@ func (s *Server) getNecessaryOrgMembersForOrg(ctx context.Context, org string, p
 	}
 	orgMembers := make([]*management_pb.AddOrgMemberRequest, 0, len(queriedOrgMembers.Members))
 	for _, orgMember := range queriedOrgMembers.Members {
-		for _, userID := range processedUsers {
-			if userID == orgMember.UserID {
-				orgMembers = append(orgMembers, &management_pb.AddOrgMemberRequest{
-					UserId: orgMember.UserID,
-					Roles:  orgMember.Roles,
-				})
-				break
-			}
+		if slices.Contains(processedUsers, orgMember.UserID) {
+			orgMembers = append(orgMembers, &management_pb.AddOrgMemberRequest{
+				UserId: orgMember.UserID,
+				Roles:  orgMember.Roles,
+			})
 		}
 	}
 	return orgMembers, nil
@@ -954,19 +946,16 @@ func (s *Server) getNecessaryProjectGrantsForOrg(ctx context.Context, org string
 		for _, projectID := range processedProjects {
 			if projectID == projectGrant.ProjectID {
 				foundOrg := false
-				for _, orgID := range processedOrgs {
-					if orgID == projectGrant.GrantedOrgID {
-						projectGrants = append(projectGrants, &v1_pb.DataProjectGrant{
-							GrantId: projectGrant.GrantID,
-							ProjectGrant: &management_pb.AddProjectGrantRequest{
-								ProjectId:    projectGrant.ProjectID,
-								GrantedOrgId: projectGrant.GrantedOrgID,
-								RoleKeys:     projectGrant.GrantedRoleKeys,
-							},
-						})
-						foundOrg = true
-						break
-					}
+				if slices.Contains(processedOrgs, projectGrant.GrantedOrgID) {
+					projectGrants = append(projectGrants, &v1_pb.DataProjectGrant{
+						GrantId: projectGrant.GrantID,
+						ProjectGrant: &management_pb.AddProjectGrantRequest{
+							ProjectId:    projectGrant.ProjectID,
+							GrantedOrgId: projectGrant.GrantedOrgID,
+							RoleKeys:     projectGrant.GrantedRoleKeys,
+						},
+					})
+					foundOrg = true
 				}
 				if foundOrg {
 					break

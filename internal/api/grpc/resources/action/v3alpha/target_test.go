@@ -129,12 +129,12 @@ func Test_updateTargetToCommand(t *testing.T) {
 		{
 			name: "all fields empty",
 			args: args{&action.PatchTarget{
-				Name:       gu.Ptr(""),
+				Name:       new(""),
 				TargetType: nil,
 				Timeout:    durationpb.New(0),
 			}},
 			want: &command.ChangeTarget{
-				Name:             gu.Ptr(""),
+				Name:             new(""),
 				TargetType:       nil,
 				Endpoint:         nil,
 				Timeout:          gu.Ptr(0 * time.Second),
@@ -144,8 +144,8 @@ func Test_updateTargetToCommand(t *testing.T) {
 		{
 			name: "all fields (webhook)",
 			args: args{&action.PatchTarget{
-				Name:     gu.Ptr("target 1"),
-				Endpoint: gu.Ptr("https://example.com/hooks/1"),
+				Name:     new("target 1"),
+				Endpoint: new("https://example.com/hooks/1"),
 				TargetType: &action.PatchTarget_RestWebhook{
 					RestWebhook: &action.SetRESTWebhook{
 						InterruptOnError: false,
@@ -154,18 +154,18 @@ func Test_updateTargetToCommand(t *testing.T) {
 				Timeout: durationpb.New(10 * time.Second),
 			}},
 			want: &command.ChangeTarget{
-				Name:             gu.Ptr("target 1"),
+				Name:             new("target 1"),
 				TargetType:       gu.Ptr(domain.TargetTypeWebhook),
-				Endpoint:         gu.Ptr("https://example.com/hooks/1"),
+				Endpoint:         new("https://example.com/hooks/1"),
 				Timeout:          gu.Ptr(10 * time.Second),
-				InterruptOnError: gu.Ptr(false),
+				InterruptOnError: new(false),
 			},
 		},
 		{
 			name: "all fields (webhook interrupt)",
 			args: args{&action.PatchTarget{
-				Name:     gu.Ptr("target 1"),
-				Endpoint: gu.Ptr("https://example.com/hooks/1"),
+				Name:     new("target 1"),
+				Endpoint: new("https://example.com/hooks/1"),
 				TargetType: &action.PatchTarget_RestWebhook{
 					RestWebhook: &action.SetRESTWebhook{
 						InterruptOnError: true,
@@ -174,36 +174,36 @@ func Test_updateTargetToCommand(t *testing.T) {
 				Timeout: durationpb.New(10 * time.Second),
 			}},
 			want: &command.ChangeTarget{
-				Name:             gu.Ptr("target 1"),
+				Name:             new("target 1"),
 				TargetType:       gu.Ptr(domain.TargetTypeWebhook),
-				Endpoint:         gu.Ptr("https://example.com/hooks/1"),
+				Endpoint:         new("https://example.com/hooks/1"),
 				Timeout:          gu.Ptr(10 * time.Second),
-				InterruptOnError: gu.Ptr(true),
+				InterruptOnError: new(true),
 			},
 		},
 		{
 			name: "all fields (async)",
 			args: args{&action.PatchTarget{
-				Name:     gu.Ptr("target 1"),
-				Endpoint: gu.Ptr("https://example.com/hooks/1"),
+				Name:     new("target 1"),
+				Endpoint: new("https://example.com/hooks/1"),
 				TargetType: &action.PatchTarget_RestAsync{
 					RestAsync: &action.SetRESTAsync{},
 				},
 				Timeout: durationpb.New(10 * time.Second),
 			}},
 			want: &command.ChangeTarget{
-				Name:             gu.Ptr("target 1"),
+				Name:             new("target 1"),
 				TargetType:       gu.Ptr(domain.TargetTypeAsync),
-				Endpoint:         gu.Ptr("https://example.com/hooks/1"),
+				Endpoint:         new("https://example.com/hooks/1"),
 				Timeout:          gu.Ptr(10 * time.Second),
-				InterruptOnError: gu.Ptr(false),
+				InterruptOnError: new(false),
 			},
 		},
 		{
 			name: "all fields (interrupting response)",
 			args: args{&action.PatchTarget{
-				Name:     gu.Ptr("target 1"),
-				Endpoint: gu.Ptr("https://example.com/hooks/1"),
+				Name:     new("target 1"),
+				Endpoint: new("https://example.com/hooks/1"),
 				TargetType: &action.PatchTarget_RestCall{
 					RestCall: &action.SetRESTCall{
 						InterruptOnError: true,
@@ -212,11 +212,11 @@ func Test_updateTargetToCommand(t *testing.T) {
 				Timeout: durationpb.New(10 * time.Second),
 			}},
 			want: &command.ChangeTarget{
-				Name:             gu.Ptr("target 1"),
+				Name:             new("target 1"),
 				TargetType:       gu.Ptr(domain.TargetTypeCall),
-				Endpoint:         gu.Ptr("https://example.com/hooks/1"),
+				Endpoint:         new("https://example.com/hooks/1"),
 				Timeout:          gu.Ptr(10 * time.Second),
-				InterruptOnError: gu.Ptr(true),
+				InterruptOnError: new(true),
 			},
 		},
 	}

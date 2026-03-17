@@ -199,12 +199,7 @@ func (repo *TokenVerifierRepo) checkAuthentication(ctx context.Context, authMeth
 }
 
 func hasIDPAuthentication(authMethods []domain.UserAuthMethodType) bool {
-	for _, method := range authMethods {
-		if method == domain.UserAuthMethodTypeIDP {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(authMethods, domain.UserAuthMethodTypeIDP)
 }
 
 func authMethodsFromSession(session *query.Session) []domain.UserAuthMethodType {

@@ -11,7 +11,7 @@ import (
 
 func (notify Notify) SendUserInitCode(ctx context.Context, user *query.NotifyUser, code, authRequestID string) error {
 	url := login.InitUserLink(http_utils.DomainContext(ctx).Origin(), user.ID, user.PreferredLoginName, code, user.ResourceOwner, user.PasswordSet, authRequestID)
-	args := make(map[string]interface{})
+	args := make(map[string]any)
 	args["Code"] = code
 	return notify(url, args, domain.InitCodeMessageType, true)
 }

@@ -23,6 +23,6 @@ func (mig *RiverMigrateRepeatable) String() string {
 	return "repeatable_migrate_river"
 }
 
-func (f *RiverMigrateRepeatable) Check(lastRun map[string]interface{}) bool {
+func (f *RiverMigrateRepeatable) Check(lastRun map[string]any) bool {
 	return true
 }

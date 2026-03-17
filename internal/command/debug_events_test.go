@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -43,7 +42,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventAdded{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 				},
 			}},
@@ -57,7 +56,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 						eventFromEventPusher(
 							debug_events.NewAddedEvent(
 								ctx, debug_events.NewAggregate("dbg1", "instance1"),
-								time.Millisecond, gu.Ptr("a"),
+								time.Millisecond, new("a"),
 							),
 						),
 					),
@@ -68,7 +67,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventAdded{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 				},
 			}},
@@ -86,11 +85,11 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventAdded{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 					DebugEventAdded{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 				},
 			}},
@@ -108,7 +107,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventChanged{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 				},
 			}},
@@ -139,7 +138,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 						eventFromEventPusher(
 							debug_events.NewAddedEvent(
 								ctx, debug_events.NewAggregate("dbg1", "instance1"),
-								time.Millisecond, gu.Ptr("a"),
+								time.Millisecond, new("a"),
 							),
 						),
 					),
@@ -153,7 +152,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 					},
 					DebugEventChanged{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 				},
 			}},
@@ -167,7 +166,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 						eventFromEventPusher(
 							debug_events.NewAddedEvent(
 								ctx, debug_events.NewAggregate("dbg1", "instance1"),
-								time.Millisecond, gu.Ptr("a"),
+								time.Millisecond, new("a"),
 							),
 						),
 					),
@@ -194,7 +193,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 					expectPush(
 						debug_events.NewAddedEvent(
 							ctx, debug_events.NewAggregate("dbg1", "instance1"),
-							time.Millisecond, gu.Ptr("a"),
+							time.Millisecond, new("a"),
 						),
 					),
 				),
@@ -204,7 +203,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventAdded{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 				},
 			}},
@@ -220,14 +219,14 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 						eventFromEventPusher(
 							debug_events.NewAddedEvent(
 								ctx, debug_events.NewAggregate("dbg1", "instance1"),
-								time.Millisecond, gu.Ptr("a"),
+								time.Millisecond, new("a"),
 							),
 						),
 					),
 					expectPush(
 						debug_events.NewChangedEvent(
 							ctx, debug_events.NewAggregate("dbg1", "instance1"),
-							time.Millisecond, gu.Ptr("b"),
+							time.Millisecond, new("b"),
 						),
 					),
 				),
@@ -237,7 +236,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventChanged{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("b"),
+						Blob:            new("b"),
 					},
 				},
 			}},
@@ -253,7 +252,7 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 						eventFromEventPusher(
 							debug_events.NewAddedEvent(
 								ctx, debug_events.NewAggregate("dbg1", "instance1"),
-								time.Millisecond, gu.Ptr("a"),
+								time.Millisecond, new("a"),
 							),
 						),
 					),
@@ -285,15 +284,15 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 					expectPush(
 						debug_events.NewAddedEvent(
 							ctx, debug_events.NewAggregate("dbg1", "instance1"),
-							time.Millisecond, gu.Ptr("a"),
+							time.Millisecond, new("a"),
 						),
 						debug_events.NewChangedEvent(
 							ctx, debug_events.NewAggregate("dbg1", "instance1"),
-							time.Millisecond, gu.Ptr("b"),
+							time.Millisecond, new("b"),
 						),
 						debug_events.NewChangedEvent(
 							ctx, debug_events.NewAggregate("dbg1", "instance1"),
-							time.Millisecond, gu.Ptr("c"),
+							time.Millisecond, new("c"),
 						),
 						debug_events.NewRemovedEvent(
 							ctx, debug_events.NewAggregate("dbg1", "instance1"),
@@ -307,15 +306,15 @@ func TestCommands_CreateDebugEvents(t *testing.T) {
 				Events: []DebugEvent{
 					DebugEventAdded{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("a"),
+						Blob:            new("a"),
 					},
 					DebugEventChanged{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("b"),
+						Blob:            new("b"),
 					},
 					DebugEventChanged{
 						ProjectionSleep: time.Millisecond,
-						Blob:            gu.Ptr("c"),
+						Blob:            new("c"),
 					},
 					DebugEventRemoved{
 						ProjectionSleep: time.Millisecond,

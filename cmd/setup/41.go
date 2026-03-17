@@ -39,6 +39,6 @@ func (mig *FillFieldsForInstanceDomains) String() string {
 	return "repeatable_fill_fields_for_instance_domains"
 }
 
-func (f *FillFieldsForInstanceDomains) Check(lastRun map[string]interface{}) bool {
+func (f *FillFieldsForInstanceDomains) Check(lastRun map[string]any) bool {
 	return true
 }

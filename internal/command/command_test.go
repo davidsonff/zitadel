@@ -34,7 +34,7 @@ func TestMain(m *testing.M) {
 func TestCommands_pushChunked(t *testing.T) {
 	aggregate := permission.NewAggregate("instanceID")
 	cmds := make([]eventstore.Command, 100)
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		cmds[i] = permission.NewAddedEvent(context.Background(), aggregate, "role", fmt.Sprintf("permission%d", i))
 	}
 	type args struct {

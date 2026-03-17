@@ -4,15 +4,13 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-
-	"github.com/muhlemmer/gu"
 )
 
 var longString = ""
 
 func init() {
 	var sb strings.Builder
-	for i := 0; i < maxInputLength+1; i++ {
+	for range maxInputLength + 1 {
 		sb.WriteRune('x')
 	}
 
@@ -100,7 +98,7 @@ func TestParseFilter(t *testing.T) {
 											GreaterThan: true,
 										},
 										Right: CompValue{
-											Int: gu.Ptr(10),
+											Int: new(10),
 										},
 									},
 								},
@@ -127,7 +125,7 @@ func TestParseFilter(t *testing.T) {
 											GreaterThan: true,
 										},
 										Right: CompValue{
-											Float: gu.Ptr(10.5),
+											Float: new(10.5),
 										},
 									},
 								},
@@ -181,7 +179,7 @@ func TestParseFilter(t *testing.T) {
 											Equal: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("bjensen"),
+											StringValue: new("bjensen"),
 										},
 									},
 								},
@@ -208,7 +206,7 @@ func TestParseFilter(t *testing.T) {
 											Equal: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("bjensen"),
+											StringValue: new("bjensen"),
 										},
 									},
 								},
@@ -262,7 +260,7 @@ func TestParseFilter(t *testing.T) {
 											Equal: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("bjensen"),
+											StringValue: new("bjensen"),
 										},
 									},
 								},
@@ -284,13 +282,13 @@ func TestParseFilter(t *testing.T) {
 									BinaryCondition: &BinaryCondition{
 										Left: AttrPath{
 											AttrName: "name",
-											SubAttr:  gu.Ptr("familyName"),
+											SubAttr:  new("familyName"),
 										},
 										Operator: CompareOp{
 											Contains: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("O'Malley"),
+											StringValue: new("O'Malley"),
 										},
 									},
 								},
@@ -311,14 +309,14 @@ func TestParseFilter(t *testing.T) {
 								AttrExp: &AttrExp{
 									BinaryCondition: &BinaryCondition{
 										Left: AttrPath{
-											UrnAttributePrefix: gu.Ptr("urn:ietf:params:scim:schemas:core:2.0:User:"),
+											UrnAttributePrefix: new("urn:ietf:params:scim:schemas:core:2.0:User:"),
 											AttrName:           "userName",
 										},
 										Operator: CompareOp{
 											StartsWith: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("J"),
+											StringValue: new("J"),
 										},
 									},
 								},
@@ -339,14 +337,14 @@ func TestParseFilter(t *testing.T) {
 								AttrExp: &AttrExp{
 									BinaryCondition: &BinaryCondition{
 										Left: AttrPath{
-											UrnAttributePrefix: gu.Ptr("urn:ietf:params:scim:schemas:core:2.0:User:"),
+											UrnAttributePrefix: new("urn:ietf:params:scim:schemas:core:2.0:User:"),
 											AttrName:           "userName",
 										},
 										Operator: CompareOp{
 											StartsWith: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("J"),
+											StringValue: new("J"),
 										},
 									},
 								},
@@ -356,15 +354,15 @@ func TestParseFilter(t *testing.T) {
 									AttrExp: &AttrExp{
 										BinaryCondition: &BinaryCondition{
 											Left: AttrPath{
-												UrnAttributePrefix: gu.Ptr("urn:ietf:params:scim:schemas:core:2.0:User:"),
+												UrnAttributePrefix: new("urn:ietf:params:scim:schemas:core:2.0:User:"),
 												AttrName:           "emails",
-												SubAttr:            gu.Ptr("value"),
+												SubAttr:            new("value"),
 											},
 											Operator: CompareOp{
 												EndsWith: true,
 											},
 											Right: CompValue{
-												StringValue: gu.Ptr("@example.com"),
+												StringValue: new("@example.com"),
 											},
 										},
 									},
@@ -411,13 +409,13 @@ func TestParseFilter(t *testing.T) {
 									BinaryCondition: &BinaryCondition{
 										Left: AttrPath{
 											AttrName: "meta",
-											SubAttr:  gu.Ptr("lastModified"),
+											SubAttr:  new("lastModified"),
 										},
 										Operator: CompareOp{
 											GreaterThan: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("2011-05-13T04:42:34Z"),
+											StringValue: new("2011-05-13T04:42:34Z"),
 										},
 									},
 								},
@@ -457,7 +455,7 @@ func TestParseFilter(t *testing.T) {
 												Equal: true,
 											},
 											Right: CompValue{
-												StringValue: gu.Ptr("Employee"),
+												StringValue: new("Employee"),
 											},
 										},
 									},
@@ -485,7 +483,7 @@ func TestParseFilter(t *testing.T) {
 											Equal: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("Employee"),
+											StringValue: new("Employee"),
 										},
 									},
 								},
@@ -505,7 +503,7 @@ func TestParseFilter(t *testing.T) {
 																Contains: true,
 															},
 															Right: CompValue{
-																StringValue: gu.Ptr("example.com"),
+																StringValue: new("example.com"),
 															},
 														},
 													},
@@ -518,13 +516,13 @@ func TestParseFilter(t *testing.T) {
 															BinaryCondition: &BinaryCondition{
 																Left: AttrPath{
 																	AttrName: "emails",
-																	SubAttr:  gu.Ptr("value"),
+																	SubAttr:  new("value"),
 																},
 																Operator: CompareOp{
 																	Contains: true,
 																},
 																Right: CompValue{
-																	StringValue: gu.Ptr("example.org"),
+																	StringValue: new("example.org"),
 																},
 															},
 														},
@@ -557,7 +555,7 @@ func TestParseFilter(t *testing.T) {
 											Equal: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("Employee"),
+											StringValue: new("Employee"),
 										},
 									},
 								},
@@ -573,7 +571,7 @@ func TestParseFilter(t *testing.T) {
 												Contains: true,
 											},
 											Right: CompValue{
-												StringValue: gu.Ptr("example.com"),
+												StringValue: new("example.com"),
 											},
 										},
 									},
@@ -587,13 +585,13 @@ func TestParseFilter(t *testing.T) {
 										BinaryCondition: &BinaryCondition{
 											Left: AttrPath{
 												AttrName: "emails",
-												SubAttr:  gu.Ptr("value"),
+												SubAttr:  new("value"),
 											},
 											Operator: CompareOp{
 												Contains: true,
 											},
 											Right: CompValue{
-												StringValue: gu.Ptr("example2.org"),
+												StringValue: new("example2.org"),
 											},
 										},
 									},
@@ -621,7 +619,7 @@ func TestParseFilter(t *testing.T) {
 											NotEqual: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("Employee"),
+											StringValue: new("Employee"),
 										},
 									},
 								},
@@ -641,7 +639,7 @@ func TestParseFilter(t *testing.T) {
 																Contains: true,
 															},
 															Right: CompValue{
-																StringValue: gu.Ptr("example.com"),
+																StringValue: new("example.com"),
 															},
 														},
 													},
@@ -654,13 +652,13 @@ func TestParseFilter(t *testing.T) {
 															BinaryCondition: &BinaryCondition{
 																Left: AttrPath{
 																	AttrName: "emails",
-																	SubAttr:  gu.Ptr("value"),
+																	SubAttr:  new("value"),
 																},
 																Operator: CompareOp{
 																	Contains: true,
 																},
 																Right: CompValue{
-																	StringValue: gu.Ptr("example.org"),
+																	StringValue: new("example.org"),
 																},
 															},
 														},
@@ -693,7 +691,7 @@ func TestParseFilter(t *testing.T) {
 											Equal: true,
 										},
 										Right: CompValue{
-											StringValue: gu.Ptr("Employee"),
+											StringValue: new("Employee"),
 										},
 									},
 								},
@@ -716,7 +714,7 @@ func TestParseFilter(t *testing.T) {
 																Equal: true,
 															},
 															Right: CompValue{
-																StringValue: gu.Ptr("work"),
+																StringValue: new("work"),
 															},
 														},
 													},
@@ -732,7 +730,7 @@ func TestParseFilter(t *testing.T) {
 																	Contains: true,
 																},
 																Right: CompValue{
-																	StringValue: gu.Ptr("@example.com"),
+																	StringValue: new("@example.com"),
 																},
 															},
 														},
@@ -772,7 +770,7 @@ func TestParseFilter(t *testing.T) {
 															Equal: true,
 														},
 														Right: CompValue{
-															StringValue: gu.Ptr("work"),
+															StringValue: new("work"),
 														},
 													},
 												},
@@ -788,7 +786,7 @@ func TestParseFilter(t *testing.T) {
 																Contains: true,
 															},
 															Right: CompValue{
-																StringValue: gu.Ptr("@example.com"),
+																StringValue: new("@example.com"),
 															},
 														},
 													},
@@ -818,7 +816,7 @@ func TestParseFilter(t *testing.T) {
 																Equal: true,
 															},
 															Right: CompValue{
-																StringValue: gu.Ptr("xmpp"),
+																StringValue: new("xmpp"),
 															},
 														},
 													},
@@ -834,7 +832,7 @@ func TestParseFilter(t *testing.T) {
 																	Contains: true,
 																},
 																Right: CompValue{
-																	StringValue: gu.Ptr("@foo.com"),
+																	StringValue: new("@foo.com"),
 																},
 															},
 														},

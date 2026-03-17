@@ -271,7 +271,7 @@ func TestCommandSide_BulkAddUserIDPLinks(t *testing.T) {
 									&org.NewAggregate("org1").Aggregate,
 									"config1",
 									[]idp.OIDCIDPChanges{
-										idp.ChangeOIDCOptions(idp.OptionChanges{IsLinkingAllowed: gu.Ptr(false)}),
+										idp.ChangeOIDCOptions(idp.OptionChanges{IsLinkingAllowed: new(false)}),
 									},
 								)
 								return e
@@ -376,7 +376,7 @@ func TestCommandSide_BulkAddUserIDPLinks(t *testing.T) {
 									"config1",
 									[]idp.OIDCIDPChanges{
 										idp.ChangeOIDCOptions(idp.OptionChanges{
-											IsLinkingAllowed:  gu.Ptr(true),
+											IsLinkingAllowed:  new(true),
 											AutoLinkingOption: gu.Ptr(domain.AutoLinkingOptionUnspecified),
 										}),
 									},
@@ -489,7 +489,7 @@ func TestCommandSide_BulkAddUserIDPLinks(t *testing.T) {
 									"config1",
 									[]idp.OIDCIDPChanges{
 										idp.ChangeOIDCOptions(idp.OptionChanges{
-											IsLinkingAllowed:  gu.Ptr(false),
+											IsLinkingAllowed:  new(false),
 											AutoLinkingOption: gu.Ptr(domain.AutoLinkingOptionEmail),
 										}),
 									},

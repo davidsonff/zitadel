@@ -21,7 +21,7 @@ func generateEmail(
 	user *query.NotifyUser,
 	template string,
 	data templates.TemplateData,
-	args map[string]interface{},
+	args map[string]any,
 	lastEmail bool,
 	triggeringEventType eventstore.EventType,
 ) error {
@@ -46,11 +46,11 @@ func generateEmail(
 		return emailChannels.HandleMessage(message)
 	}
 	if config.WebhookConfig != nil {
-		caseArgs := make(map[string]interface{}, len(args))
+		caseArgs := make(map[string]any, len(args))
 		for k, v := range args {
 			caseArgs[strings.ToLower(string(k[0]))+k[1:]] = v
 		}
-		contextInfo := map[string]interface{}{
+		contextInfo := map[string]any{
 			"recipientEmailAddress": recipient,
 			"eventType":             triggeringEventType,
 			"provider":              config.ProviderConfig,
@@ -75,9 +75,9 @@ func generateEmail(
 	)
 }
 
-func mapNotifyUserToArgs(user *query.NotifyUser, args map[string]interface{}) map[string]interface{} {
+func mapNotifyUserToArgs(user *query.NotifyUser, args map[string]any) map[string]any {
 	if args == nil {
-		args = make(map[string]interface{})
+		args = make(map[string]any)
 	}
 	args["UserID"] = user.ID
 	args["OrgID"] = user.ResourceOwner

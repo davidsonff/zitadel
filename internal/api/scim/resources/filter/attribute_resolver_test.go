@@ -4,8 +4,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/api/scim/schemas"
 )
 
@@ -20,10 +18,10 @@ func TestAttributeResolver_resolveAttrPath(t *testing.T) {
 	tests := []struct {
 		name         string
 		schema       schemas.ScimSchemaType
-		item         interface{}
+		item         any
 		attrPath     *AttrPath
 		wantSegments []string
-		wantValue    interface{}
+		wantValue    any
 		wantErr      bool
 	}{
 		{
@@ -61,7 +59,7 @@ func TestAttributeResolver_resolveAttrPath(t *testing.T) {
 			item:   &attributeResolverTestType{Nested: struct{ IntValue int }{IntValue: 42}},
 			attrPath: &AttrPath{
 				AttrName: "Nested",
-				SubAttr:  gu.Ptr("IntValue"),
+				SubAttr:  new("IntValue"),
 			},
 			wantSegments: []string{"nested", "intvalue"},
 			wantValue:    42,
@@ -72,7 +70,7 @@ func TestAttributeResolver_resolveAttrPath(t *testing.T) {
 			item:   &attributeResolverTestType{Nested: struct{ IntValue int }{IntValue: 42}},
 			attrPath: &AttrPath{
 				AttrName: "NESTED",
-				SubAttr:  gu.Ptr("intvalue"),
+				SubAttr:  new("intvalue"),
 			},
 			wantSegments: []string{"nested", "intvalue"},
 			wantValue:    42,
@@ -83,7 +81,7 @@ func TestAttributeResolver_resolveAttrPath(t *testing.T) {
 			item:   &attributeResolverTestType{Nested: struct{ IntValue int }{IntValue: 42}},
 			attrPath: &AttrPath{
 				AttrName: "NESTED",
-				SubAttr:  gu.Ptr("xxxxx"),
+				SubAttr:  new("xxxxx"),
 			},
 			wantErr: true,
 		},
@@ -92,9 +90,9 @@ func TestAttributeResolver_resolveAttrPath(t *testing.T) {
 			schema: "fooBar",
 			item:   &attributeResolverTestType{Nested: struct{ IntValue int }{IntValue: 42}},
 			attrPath: &AttrPath{
-				UrnAttributePrefix: gu.Ptr("fooBar:"),
+				UrnAttributePrefix: new("fooBar:"),
 				AttrName:           "Nested",
-				SubAttr:            gu.Ptr("IntValue"),
+				SubAttr:            new("IntValue"),
 			},
 			wantSegments: []string{"nested", "intvalue"},
 			wantValue:    42,
@@ -104,9 +102,9 @@ func TestAttributeResolver_resolveAttrPath(t *testing.T) {
 			schema: "fooBar",
 			item:   &attributeResolverTestType{Nested: struct{ IntValue int }{IntValue: 42}},
 			attrPath: &AttrPath{
-				UrnAttributePrefix: gu.Ptr("fooBaz:"),
+				UrnAttributePrefix: new("fooBaz:"),
 				AttrName:           "Nested",
-				SubAttr:            gu.Ptr("IntValue"),
+				SubAttr:            new("IntValue"),
 			},
 			wantErr: true,
 		},

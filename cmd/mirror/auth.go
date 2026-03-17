@@ -55,7 +55,7 @@ func copyAuthRequests(ctx context.Context, source, dest *database.DB) {
 	errs := make(chan error, 1)
 
 	go func() {
-		err = sourceConn.Raw(func(driverConn interface{}) error {
+		err = sourceConn.Raw(func(driverConn any) error {
 			conn := driverConn.(*stdlib.Conn).Conn()
 			_, err := conn.PgConn().CopyTo(ctx, w, "COPY (SELECT id, regexp_replace(request::TEXT, '\\\\u0000', '', 'g')::JSON request, code, request_type, creation_date, change_date, instance_id FROM auth.auth_requests "+instanceClause()+") TO STDOUT")
 			w.Close()
@@ -69,7 +69,7 @@ func copyAuthRequests(ctx context.Context, source, dest *database.DB) {
 	defer destConn.Close()
 
 	var affected int64
-	err = destConn.Raw(func(driverConn interface{}) error {
+	err = destConn.Raw(func(driverConn any) error {
 		conn := driverConn.(*stdlib.Conn).Conn()
 
 		if shouldReplace {

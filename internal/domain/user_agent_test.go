@@ -3,7 +3,6 @@ package domain
 import (
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -28,7 +27,7 @@ func TestUserAgent_GetFingerprintID(t *testing.T) {
 		{
 			name: "value",
 			fields: &UserAgent{
-				FingerprintID: gu.Ptr("fp"),
+				FingerprintID: new("fp"),
 			},
 			want: "fp",
 		},

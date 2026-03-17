@@ -8,7 +8,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
@@ -186,9 +185,9 @@ func TestCommands_CreateSAMLSessionFromSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							),
@@ -268,9 +267,9 @@ func TestCommands_CreateSAMLSessionFromSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							),
@@ -304,9 +303,9 @@ func TestCommands_CreateSAMLSessionFromSAMLRequest(t *testing.T) {
 							"userID", "org1", "sessionID", "issuer", []string{"issuer"},
 							[]domain.UserAuthMethodType{domain.UserAuthMethodTypePassword}, testNow, &language.Afrikaans,
 							&domain.UserAgent{
-								FingerprintID: gu.Ptr("fp1"),
+								FingerprintID: new("fp1"),
 								IP:            net.ParseIP("1.2.3.4"),
-								Description:   gu.Ptr("firefox"),
+								Description:   new("firefox"),
 								Header:        http.Header{"foo": []string{"bar"}},
 							},
 						),

@@ -294,7 +294,7 @@ func (wm *UserV3WriteModel) validateData(ctx context.Context, data []byte, schem
 	if data == nil {
 		data = wm.Data
 	}
-	var v interface{}
+	var v any
 	if err := json.Unmarshal(data, &v); err != nil {
 		return "", 0, zerrors.ThrowInvalidArgument(nil, "COMMAND-7o3ZGxtXUz", "Errors.User.Invalid")
 	}

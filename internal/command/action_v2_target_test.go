@@ -336,7 +336,7 @@ func TestCommands_ChangeTarget(t *testing.T) {
 			args{
 				ctx: context.Background(),
 				change: &ChangeTarget{
-					Name: gu.Ptr(""),
+					Name: new(""),
 				},
 				resourceOwner: "instance",
 			},
@@ -368,7 +368,7 @@ func TestCommands_ChangeTarget(t *testing.T) {
 			args{
 				ctx: context.Background(),
 				change: &ChangeTarget{
-					Endpoint: gu.Ptr(""),
+					Endpoint: new(""),
 				},
 				resourceOwner: "instance",
 			},
@@ -384,7 +384,7 @@ func TestCommands_ChangeTarget(t *testing.T) {
 			args{
 				ctx: context.Background(),
 				change: &ChangeTarget{
-					Endpoint: gu.Ptr("://"),
+					Endpoint: new("://"),
 				},
 				resourceOwner: "instance",
 			},
@@ -405,7 +405,7 @@ func TestCommands_ChangeTarget(t *testing.T) {
 					ObjectRoot: models.ObjectRoot{
 						AggregateID: "id1",
 					},
-					Name: gu.Ptr("name"),
+					Name: new("name"),
 				},
 				resourceOwner: "instance",
 			},
@@ -467,7 +467,7 @@ func TestCommands_ChangeTarget(t *testing.T) {
 					ObjectRoot: models.ObjectRoot{
 						AggregateID: "id1",
 					},
-					Name: gu.Ptr("name2"),
+					Name: new("name2"),
 				},
 				resourceOwner: "instance",
 			},
@@ -500,7 +500,7 @@ func TestCommands_ChangeTarget(t *testing.T) {
 					ObjectRoot: models.ObjectRoot{
 						AggregateID: "id1",
 					},
-					Name: gu.Ptr("name2"),
+					Name: new("name2"),
 				},
 				resourceOwner: "instance",
 			},
@@ -548,11 +548,11 @@ func TestCommands_ChangeTarget(t *testing.T) {
 					ObjectRoot: models.ObjectRoot{
 						AggregateID: "id1",
 					},
-					Name:                 gu.Ptr("name2"),
-					Endpoint:             gu.Ptr("https://example2.com"),
+					Name:                 new("name2"),
+					Endpoint:             new("https://example2.com"),
 					TargetType:           gu.Ptr(domain.TargetTypeCall),
 					Timeout:              gu.Ptr(10 * time.Second),
-					InterruptOnError:     gu.Ptr(true),
+					InterruptOnError:     new(true),
 					ExpirationSigningKey: true,
 				},
 				resourceOwner: "instance",

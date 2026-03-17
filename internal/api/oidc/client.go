@@ -312,8 +312,8 @@ func (o *OPStorage) checkOrgScopes(ctx context.Context, user *query.User, scopes
 				scopes = scopes[:len(scopes)-1]
 			}
 		}
-		if strings.HasPrefix(scope, domain.OrgIDScope) {
-			if strings.TrimPrefix(scope, domain.OrgIDScope) != user.ResourceOwner {
+		if after, ok := strings.CutPrefix(scope, domain.OrgIDScope); ok {
+			if after != user.ResourceOwner {
 				scopes[i] = scopes[len(scopes)-1]
 				scopes[len(scopes)-1] = ""
 				scopes = scopes[:len(scopes)-1]
@@ -358,14 +358,14 @@ func (o *OPStorage) setUserinfo(ctx context.Context, userInfo *oidc.UserInfo, us
 		case ScopeProjectsRoles:
 			allRoles = true
 		default:
-			if strings.HasPrefix(scope, ScopeProjectRolePrefix) {
-				roles = append(roles, strings.TrimPrefix(scope, ScopeProjectRolePrefix))
+			if after, ok := strings.CutPrefix(scope, ScopeProjectRolePrefix); ok {
+				roles = append(roles, after)
 			}
-			if strings.HasPrefix(scope, domain.OrgDomainPrimaryScope) {
-				userInfo.AppendClaims(domain.OrgDomainPrimaryClaim, strings.TrimPrefix(scope, domain.OrgDomainPrimaryScope))
+			if after, ok := strings.CutPrefix(scope, domain.OrgDomainPrimaryScope); ok {
+				userInfo.AppendClaims(domain.OrgDomainPrimaryClaim, after)
 			}
-			if strings.HasPrefix(scope, domain.OrgIDScope) {
-				userInfo.AppendClaims(domain.OrgIDClaim, strings.TrimPrefix(scope, domain.OrgIDScope))
+			if after, ok := strings.CutPrefix(scope, domain.OrgIDScope); ok {
+				userInfo.AppendClaims(domain.OrgIDClaim, after)
 				if err := o.setUserInfoResourceOwner(ctx, userInfo, userID); err != nil {
 					return err
 				}
@@ -464,13 +464,13 @@ func (o *OPStorage) userinfoFlows(ctx context.Context, user *query.User, userGra
 	ctxFields := actions.SetContextFields(
 		actions.SetFields("v1",
 			actions.SetFields("claims", userinfoClaims(userInfo)),
-			actions.SetFields("getUser", func(c *actions.FieldConfig) interface{} {
+			actions.SetFields("getUser", func(c *actions.FieldConfig) any {
 				return func(call goja.FunctionCall) goja.Value {
 					return object.UserFromQuery(c, user)
 				}
 			}),
 			actions.SetFields("user",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						resourceOwnerQuery, err := query.NewUserMetadataResourceOwnerSearchQuery(user.ResourceOwner)
 						if err != nil {
@@ -492,13 +492,13 @@ func (o *OPStorage) userinfoFlows(ctx context.Context, user *query.User, userGra
 					}
 				}),
 				actions.SetFields("grants",
-					func(c *actions.FieldConfig) interface{} {
+					func(c *actions.FieldConfig) any {
 						return object.UserGrantsFromQuery(ctx, o.query, c, userGrants)
 					},
 				),
 			),
 			actions.SetFields("org",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						return object.GetOrganizationMetadata(ctx, o.query, c, user.ResourceOwner)
 					}
@@ -514,7 +514,7 @@ func (o *OPStorage) userinfoFlows(ctx context.Context, user *query.User, userGra
 		apiFields := actions.WithAPIFields(
 			actions.SetFields("v1",
 				actions.SetFields("userinfo",
-					actions.SetFields("setClaim", func(key string, value interface{}) {
+					actions.SetFields("setClaim", func(key string, value any) {
 						if strings.HasPrefix(key, ClaimPrefix) {
 							return
 						}
@@ -529,7 +529,7 @@ func (o *OPStorage) userinfoFlows(ctx context.Context, user *query.User, userGra
 					}),
 				),
 				actions.SetFields("claims",
-					actions.SetFields("setClaim", func(key string, value interface{}) {
+					actions.SetFields("setClaim", func(key string, value any) {
 						if strings.HasPrefix(key, ClaimPrefix) {
 							return
 						}
@@ -591,7 +591,7 @@ func (o *OPStorage) userinfoFlows(ctx context.Context, user *query.User, userGra
 	return nil
 }
 
-func (o *OPStorage) GetPrivateClaimsFromScopes(ctx context.Context, userID, clientID string, scopes []string) (claims map[string]interface{}, err error) {
+func (o *OPStorage) GetPrivateClaimsFromScopes(ctx context.Context, userID, clientID string, scopes []string) (claims map[string]any, err error) {
 	ctx, span := tracing.NewSpan(ctx)
 	defer func() {
 		err = oidcError(err)
@@ -621,14 +621,14 @@ func (o *OPStorage) GetPrivateClaimsFromScopes(ctx context.Context, userID, clie
 		case ScopeProjectsRoles:
 			allRoles = true
 		}
-		if strings.HasPrefix(scope, ScopeProjectRolePrefix) {
-			roles = append(roles, strings.TrimPrefix(scope, ScopeProjectRolePrefix))
+		if after, ok := strings.CutPrefix(scope, ScopeProjectRolePrefix); ok {
+			roles = append(roles, after)
 		}
-		if strings.HasPrefix(scope, domain.OrgDomainPrimaryScope) {
-			claims = appendClaim(claims, domain.OrgDomainPrimaryClaim, strings.TrimPrefix(scope, domain.OrgDomainPrimaryScope))
+		if after, ok := strings.CutPrefix(scope, domain.OrgDomainPrimaryScope); ok {
+			claims = appendClaim(claims, domain.OrgDomainPrimaryClaim, after)
 		}
-		if strings.HasPrefix(scope, domain.OrgIDScope) {
-			claims = appendClaim(claims, domain.OrgIDClaim, strings.TrimPrefix(scope, domain.OrgIDScope))
+		if after, ok := strings.CutPrefix(scope, domain.OrgIDScope); ok {
+			claims = appendClaim(claims, domain.OrgIDClaim, after)
 			resourceOwnerClaims, err := o.assertUserResourceOwner(ctx, userID)
 			if err != nil {
 				return nil, err
@@ -663,7 +663,7 @@ func (o *OPStorage) GetPrivateClaimsFromScopes(ctx context.Context, userID, clie
 	return o.privateClaimsFlows(ctx, userID, userGrants, claims)
 }
 
-func (o *OPStorage) privateClaimsFlows(ctx context.Context, userID string, userGrants *query.UserGrants, claims map[string]interface{}) (map[string]interface{}, error) {
+func (o *OPStorage) privateClaimsFlows(ctx context.Context, userID string, userGrants *query.UserGrants, claims map[string]any) (map[string]any, error) {
 	user, err := o.query.GetUserByID(ctx, true, userID)
 	if err != nil {
 		return nil, err
@@ -675,16 +675,16 @@ func (o *OPStorage) privateClaimsFlows(ctx context.Context, userID string, userG
 
 	ctxFields := actions.SetContextFields(
 		actions.SetFields("v1",
-			actions.SetFields("claims", func(c *actions.FieldConfig) interface{} {
+			actions.SetFields("claims", func(c *actions.FieldConfig) any {
 				return c.Runtime.ToValue(claims)
 			}),
-			actions.SetFields("getUser", func(c *actions.FieldConfig) interface{} {
+			actions.SetFields("getUser", func(c *actions.FieldConfig) any {
 				return func(call goja.FunctionCall) goja.Value {
 					return object.UserFromQuery(c, user)
 				}
 			}),
 			actions.SetFields("user",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						resourceOwnerQuery, err := query.NewUserMetadataResourceOwnerSearchQuery(user.ResourceOwner)
 						if err != nil {
@@ -705,12 +705,12 @@ func (o *OPStorage) privateClaimsFlows(ctx context.Context, userID string, userG
 						return object.UserMetadataListFromQuery(c, metadata)
 					}
 				}),
-				actions.SetFields("grants", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("grants", func(c *actions.FieldConfig) any {
 					return object.UserGrantsFromQuery(ctx, o.query, c, userGrants)
 				}),
 			),
 			actions.SetFields("org",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						return object.GetOrganizationMetadata(ctx, o.query, c, user.ResourceOwner)
 					}
@@ -726,7 +726,7 @@ func (o *OPStorage) privateClaimsFlows(ctx context.Context, userID string, userG
 		apiFields := actions.WithAPIFields(
 			actions.SetFields("v1",
 				actions.SetFields("claims",
-					actions.SetFields("setClaim", func(key string, value interface{}) {
+					actions.SetFields("setClaim", func(key string, value any) {
 						if strings.HasPrefix(key, ClaimPrefix) {
 							return
 						}
@@ -946,22 +946,22 @@ func getGender(gender domain.Gender) oidc.Gender {
 	return ""
 }
 
-func appendClaim(claims map[string]interface{}, claim string, value interface{}) map[string]interface{} {
+func appendClaim(claims map[string]any, claim string, value any) map[string]any {
 	if claims == nil {
-		claims = make(map[string]interface{})
+		claims = make(map[string]any)
 	}
 	claims[claim] = value
 	return claims
 }
 
-func userinfoClaims(userInfo *oidc.UserInfo) func(c *actions.FieldConfig) interface{} {
-	return func(c *actions.FieldConfig) interface{} {
+func userinfoClaims(userInfo *oidc.UserInfo) func(c *actions.FieldConfig) any {
+	return func(c *actions.FieldConfig) any {
 		marshalled, err := json.Marshal(userInfo)
 		if err != nil {
 			panic(err)
 		}
 
-		claims := make(map[string]interface{}, 10)
+		claims := make(map[string]any, 10)
 		if err = json.Unmarshal(marshalled, &claims); err != nil {
 			panic(err)
 		}

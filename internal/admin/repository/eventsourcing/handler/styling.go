@@ -261,73 +261,73 @@ func (m *Styling) generateStylingFile(policy *iam_model.LabelPolicyView) error {
 }
 
 func (m *Styling) writeFile(policy *iam_model.LabelPolicyView) (io.Reader, int64, error) {
-	cssContent := ""
-	cssContent += ":root {"
+	var cssContent strings.Builder
+	cssContent.WriteString(":root {")
 	if policy.PrimaryColor != "" {
 		palette := m.generateColorPaletteRGBA255(policy.PrimaryColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-primary-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-primary-%v: %s;", i, color))
 		}
 	}
 
 	if policy.BackgroundColor != "" {
 		palette := m.generateColorPaletteRGBA255(policy.BackgroundColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-background-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-background-%v: %s;", i, color))
 		}
 	}
 	if policy.WarnColor != "" {
 		palette := m.generateColorPaletteRGBA255(policy.WarnColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-warn-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-warn-%v: %s;", i, color))
 		}
 	}
 	if policy.FontColor != "" {
-		cssContent += fmt.Sprintf("--zitadel-color-label: %s;", policy.FontColor)
+		cssContent.WriteString(fmt.Sprintf("--zitadel-color-label: %s;", policy.FontColor))
 		palette := m.generateColorPaletteRGBA255(policy.FontColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-text-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-text-%v: %s;", i, color))
 		}
 	}
 	var fontname string
 	if policy.FontURL != "" {
 		split := strings.Split(policy.FontURL, "/")
 		fontname = split[len(split)-1]
-		cssContent += fmt.Sprintf("--zitadel-font-family: %s;", fontname)
+		cssContent.WriteString(fmt.Sprintf("--zitadel-font-family: %s;", fontname))
 	}
-	cssContent += "}"
+	cssContent.WriteString("}")
 	if policy.FontURL != "" {
-		cssContent += fmt.Sprintf(fontFaceTemplate, fontname, login.HandlerPrefix+login.EndpointDynamicResources, policy.AggregateID, policy.FontURL)
+		cssContent.WriteString(fmt.Sprintf(fontFaceTemplate, fontname, login.HandlerPrefix+login.EndpointDynamicResources, policy.AggregateID, policy.FontURL))
 	}
-	cssContent += ".lgn-dark-theme {"
+	cssContent.WriteString(".lgn-dark-theme {")
 	if policy.PrimaryColorDark != "" {
 		palette := m.generateColorPaletteRGBA255(policy.PrimaryColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-primary-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-primary-%v: %s;", i, color))
 		}
 	}
 	if policy.BackgroundColorDark != "" {
 		palette := m.generateColorPaletteRGBA255(policy.BackgroundColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-background-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-background-%v: %s;", i, color))
 		}
 	}
 	if policy.WarnColorDark != "" {
 		palette := m.generateColorPaletteRGBA255(policy.WarnColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-warn-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-warn-%v: %s;", i, color))
 		}
 	}
 	if policy.FontColorDark != "" {
-		cssContent += fmt.Sprintf("--zitadel-color-label: %s;", policy.FontColorDark)
+		cssContent.WriteString(fmt.Sprintf("--zitadel-color-label: %s;", policy.FontColorDark))
 		palette := m.generateColorPaletteRGBA255(policy.FontColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-text-%v: %s;", i, color)
+			cssContent.WriteString(fmt.Sprintf("--zitadel-color-text-%v: %s;", i, color))
 		}
 	}
-	cssContent += "}"
+	cssContent.WriteString("}")
 
-	data := []byte(cssContent)
+	data := []byte(cssContent.String())
 	buffer := bytes.NewBuffer(data)
 	return buffer, int64(buffer.Len()), nil
 }

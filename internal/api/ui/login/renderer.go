@@ -86,7 +86,7 @@ func CreateRenderer(pathPrefix string, staticStorage static.Storage, cookieName 
 		tmplDeviceAuthUserCode:           "device_usercode.html",
 		tmplDeviceAuthAction:             "device_action.html",
 	}
-	funcs := map[string]interface{}{
+	funcs := map[string]any{
 		"resourceUrl": func(file string) string {
 			return path.Join(r.pathPrefix, EndpointResources, file) + "?v=" + build.Date().Format(time.RFC3339)
 		},
@@ -493,7 +493,7 @@ func (l *Login) getErrorMessage(r *http.Request, err error) (errID, errMsg strin
 	}
 	caosErr := new(zerrors.ZitadelError)
 	if errors.As(err, &caosErr) {
-		localized := l.renderer.LocalizeFromRequest(l.getTranslator(r.Context(), nil), r, caosErr.Message, map[string]interface{}{"Details": caosErr.Parent})
+		localized := l.renderer.LocalizeFromRequest(l.getTranslator(r.Context(), nil), r, caosErr.Message, map[string]any{"Details": caosErr.Parent})
 		return caosErr.ID, localized, popup
 	}
 	return "", err.Error(), popup

@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/domain"
 	"github.com/zitadel/zitadel/internal/eventstore"
 )
@@ -47,7 +45,7 @@ func (e *CreatedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = event
 }
 
-func (e *CreatedEvent) Payload() interface{} {
+func (e *CreatedEvent) Payload() any {
 	return e
 }
 
@@ -90,7 +88,7 @@ func (e *UpdatedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = event
 }
 
-func (e *UpdatedEvent) Payload() interface{} {
+func (e *UpdatedEvent) Payload() any {
 	return e
 }
 
@@ -145,7 +143,7 @@ func ChangePossibleAuthenticators(possibleAuthenticators []domain.AuthenticatorT
 
 func IncreaseRevision(oldRevision uint64) func(event *UpdatedEvent) {
 	return func(e *UpdatedEvent) {
-		e.SchemaRevision = gu.Ptr(oldRevision + 1)
+		e.SchemaRevision = new(oldRevision + 1)
 		e.oldRevision = oldRevision
 	}
 }
@@ -158,7 +156,7 @@ func (e *DeactivatedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = event
 }
 
-func (e *DeactivatedEvent) Payload() interface{} {
+func (e *DeactivatedEvent) Payload() any {
 	return e
 }
 
@@ -187,7 +185,7 @@ func (e *ReactivatedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = event
 }
 
-func (e *ReactivatedEvent) Payload() interface{} {
+func (e *ReactivatedEvent) Payload() any {
 	return e
 }
 
@@ -218,7 +216,7 @@ func (e *DeletedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = event
 }
 
-func (e *DeletedEvent) Payload() interface{} {
+func (e *DeletedEvent) Payload() any {
 	return e
 }
 

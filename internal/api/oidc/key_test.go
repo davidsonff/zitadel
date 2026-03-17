@@ -9,7 +9,6 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 	"github.com/jonboulle/clockwork"
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -64,7 +63,7 @@ var (
 				Algorithm: "alg",
 				Use:       "sig",
 			},
-			expiry: gu.Ptr(clock.Now().Add(time.Minute)),
+			expiry: new(clock.Now().Add(time.Minute)),
 		},
 		"key2": {
 			webKey: &jose.JSONWebKey{
@@ -73,7 +72,7 @@ var (
 				Algorithm: "alg",
 				Use:       "sig",
 			},
-			expiry: gu.Ptr(clock.Now().Add(10 * time.Hour)),
+			expiry: new(clock.Now().Add(10 * time.Hour)),
 		},
 		"exp1": {
 			webKey: &jose.JSONWebKey{
@@ -82,7 +81,7 @@ var (
 				Algorithm: "alg",
 				Use:       "sig",
 			},
-			expiry: gu.Ptr(clock.Now().Add(-time.Hour)),
+			expiry: new(clock.Now().Add(-time.Hour)),
 		},
 	}
 )
@@ -164,8 +163,7 @@ func Test_publicKeyCache(t *testing.T) {
 }
 
 func Test_oidcKeySet_VerifySignature(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := t.Context()
 	cache := newPublicKeyCache(ctx, time.Second, queryKeyDB)
 
 	tests := []struct {

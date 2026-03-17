@@ -232,10 +232,7 @@ func (c *Commands) pushChunked(ctx context.Context, size uint16, cmds ...eventst
 
 	events := make([]eventstore.Event, 0, len(cmds))
 	for i := 0; i < len(cmds); i += int(size) {
-		end := i + int(size)
-		if end > len(cmds) {
-			end = len(cmds)
-		}
+		end := min(i+int(size), len(cmds))
 		chunk, err := c.eventstore.Push(ctx, cmds[i:end]...)
 		if err != nil {
 			return events, err
@@ -359,10 +356,7 @@ func (c *Commands) asyncPush(ctx context.Context, cmds ...eventstore.Command) {
 	// so we don't need to have a context with timeout here.
 	ctx = context.WithoutCancel(ctx)
 
-	c.jobs.Add(1)
-
-	go func() {
-		defer c.jobs.Done()
+	c.jobs.Go(func() {
 		localCtx, span := tracing.NewSpan(ctx)
 
 		_, err := c.eventstore.Push(localCtx, cmds...)
@@ -373,5 +367,5 @@ func (c *Commands) asyncPush(ctx context.Context, cmds ...eventstore.Command) {
 		}
 
 		span.EndWithError(err)
-	}()
+	})
 }

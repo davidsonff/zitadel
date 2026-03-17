@@ -65,7 +65,7 @@ func CloseTransaction(tx Tx, err error) error {
 }
 
 type Config struct {
-	Dialects  map[string]interface{} `mapstructure:",remain"`
+	Dialects  map[string]any `mapstructure:",remain"`
 	connector dialect.Connector
 }
 
@@ -149,8 +149,8 @@ func Connect(config Config, useAdmin bool) (*DB, error) {
 	}, nil
 }
 
-func DecodeHook(from, to reflect.Value) (_ interface{}, err error) {
-	if to.Type() != reflect.TypeOf(Config{}) {
+func DecodeHook(from, to reflect.Value) (_ any, err error) {
+	if to.Type() != reflect.TypeFor[Config]() {
 		return from.Interface(), nil
 	}
 
@@ -160,7 +160,7 @@ func DecodeHook(from, to reflect.Value) (_ interface{}, err error) {
 	}
 
 	configuredDialect := dialect.SelectByConfig(config.Dialects)
-	configs := make([]interface{}, 0, len(config.Dialects)-1)
+	configs := make([]any, 0, len(config.Dialects)-1)
 
 	for name, dialectConfig := range config.Dialects {
 		if !configuredDialect.Matcher.MatchName(name) {

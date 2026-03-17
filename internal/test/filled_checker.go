@@ -10,11 +10,11 @@ import (
 //
 // this wrapper is needed for internal testing
 type testingT interface {
-	Errorf(format string, args ...interface{})
+	Errorf(format string, args ...any)
 	Helper()
 }
 
-func AssertFieldsMapped(t testingT, object interface{}, ignoreFields ...string) (failed bool) {
+func AssertFieldsMapped(t testingT, object any, ignoreFields ...string) (failed bool) {
 	t.Helper()
 	val := reflect.ValueOf(object)
 
@@ -36,7 +36,7 @@ func AssertFieldsMapped(t testingT, object interface{}, ignoreFields ...string) 
 }
 
 func BuildList(val reflect.Value) map[string]bool {
-	if val.Kind() == reflect.Ptr {
+	if val.Kind() == reflect.Pointer {
 		if val.IsNil() {
 			return nil
 		}
@@ -50,7 +50,7 @@ func BuildList(val reflect.Value) map[string]bool {
 			continue
 		}
 
-		if val.Field(i).Kind() == reflect.Struct || val.Field(i).Kind() == reflect.Ptr {
+		if val.Field(i).Kind() == reflect.Struct || val.Field(i).Kind() == reflect.Pointer {
 			fieldName := val.Type().Field(i).Name
 			fields[fieldName] = false
 			subFields := BuildList(val.Field(i))
@@ -59,7 +59,7 @@ func BuildList(val reflect.Value) map[string]bool {
 				fields[fieldName] = fields[val.Type().Field(i).Name] || v
 			}
 			if len(subFields) == 0 &&
-				((val.Field(i).Kind() == reflect.Ptr && !val.Field(i).IsNil()) ||
+				((val.Field(i).Kind() == reflect.Pointer && !val.Field(i).IsNil()) ||
 					val.Field(i).Kind() == reflect.Struct && !val.Field(i).IsZero()) {
 
 				fields[fieldName] = true

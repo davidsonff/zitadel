@@ -508,7 +508,7 @@ func (c *OIDCSessionEvents) generateRefreshToken(userID string) (refreshTokenID,
 		return "", "", err
 	}
 	refreshTokenID = RefreshTokenPrefix + refreshTokenID
-	token, err := c.encryptionAlg.Encrypt([]byte(fmt.Sprintf(oidcTokenFormat, c.oidcSessionWriteModel.OIDCRefreshTokenID(refreshTokenID), userID)))
+	token, err := c.encryptionAlg.Encrypt(fmt.Appendf(nil, oidcTokenFormat, c.oidcSessionWriteModel.OIDCRefreshTokenID(refreshTokenID), userID))
 	if err != nil {
 		return "", "", err
 	}

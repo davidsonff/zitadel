@@ -33,9 +33,9 @@ func Test_authRequestToPb(t *testing.T) {
 			999,
 		},
 		UiLocales:  []string{"en", "fi"},
-		LoginHint:  gu.Ptr("foo@bar.com"),
+		LoginHint:  new("foo@bar.com"),
 		MaxAge:     gu.Ptr(time.Minute),
-		HintUserID: gu.Ptr("userID"),
+		HintUserID: new("userID"),
 	}
 	want := &oidc_pb.AuthRequest{
 		Id:           "authID",
@@ -53,9 +53,9 @@ func Test_authRequestToPb(t *testing.T) {
 		},
 		UiLocales:  []string{"en", "fi"},
 		Scope:      []string{"a", "b", "c"},
-		LoginHint:  gu.Ptr("foo@bar.com"),
+		LoginHint:  new("foo@bar.com"),
 		MaxAge:     durationpb.New(time.Minute),
-		HintUserId: gu.Ptr("userID"),
+		HintUserId: new("userID"),
 	}
 	got := authRequestToPb(arg)
 	if !proto.Equal(want, got) {

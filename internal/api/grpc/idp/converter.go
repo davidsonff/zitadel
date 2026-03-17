@@ -2,7 +2,6 @@ package idp
 
 import (
 	"github.com/crewjam/saml"
-	"github.com/muhlemmer/gu"
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	obj_grpc "github.com/zitadel/zitadel/internal/api/grpc/object"
@@ -668,7 +667,7 @@ func samlConfigToPb(providerConfig *idp_pb.ProviderConfig, template *query.SAMLI
 			Binding:                       bindingToPb(template.Binding),
 			WithSignedRequest:             template.WithSignedRequest,
 			NameIdFormat:                  nameIDFormat,
-			TransientMappingAttributeName: gu.Ptr(template.TransientMappingAttributeName),
+			TransientMappingAttributeName: new(template.TransientMappingAttributeName),
 		},
 	}
 }

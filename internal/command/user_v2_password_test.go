@@ -7,7 +7,6 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -704,7 +703,7 @@ func TestCommands_requestPasswordReset(t *testing.T) {
 				details: &domain.ObjectDetails{
 					ResourceOwner: "org1",
 				},
-				code: gu.Ptr("code"),
+				code: new("code"),
 			},
 		},
 	}

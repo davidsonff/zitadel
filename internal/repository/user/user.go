@@ -52,7 +52,7 @@ type UserLockedEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *UserLockedEvent) Payload() interface{} {
+func (e *UserLockedEvent) Payload() any {
 	return nil
 }
 
@@ -80,7 +80,7 @@ type UserUnlockedEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *UserUnlockedEvent) Payload() interface{} {
+func (e *UserUnlockedEvent) Payload() any {
 	return nil
 }
 
@@ -108,7 +108,7 @@ type UserDeactivatedEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *UserDeactivatedEvent) Payload() interface{} {
+func (e *UserDeactivatedEvent) Payload() any {
 	return nil
 }
 
@@ -136,7 +136,7 @@ type UserReactivatedEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *UserReactivatedEvent) Payload() interface{} {
+func (e *UserReactivatedEvent) Payload() any {
 	return nil
 }
 
@@ -168,7 +168,7 @@ type UserRemovedEvent struct {
 	loginMustBeDomain bool
 }
 
-func (e *UserRemovedEvent) Payload() interface{} {
+func (e *UserRemovedEvent) Payload() any {
 	return nil
 }
 
@@ -218,14 +218,14 @@ type UserTokenAddedEvent struct {
 	Audience              []string           `json:"audience,omitempty"`
 	Scopes                []string           `json:"scopes,omitempty"`
 	AuthMethodsReferences []string           `json:"authMethodsReferences,omitempty"`
-	AuthTime              time.Time          `json:"authTime,omitempty"`
-	Expiration            time.Time          `json:"expiration,omitempty"`
+	AuthTime              time.Time          `json:"authTime"`
+	Expiration            time.Time          `json:"expiration"`
 	PreferredLanguage     string             `json:"preferredLanguage,omitempty"`
 	Reason                domain.TokenReason `json:"reason,omitempty"`
 	Actor                 *domain.TokenActor `json:"actor,omitempty"`
 }
 
-func (e *UserTokenAddedEvent) Payload() interface{} {
+func (e *UserTokenAddedEvent) Payload() any {
 	return e
 }
 
@@ -286,7 +286,7 @@ type UserTokenV2AddedEvent struct {
 	TokenID string `json:"tokenId,omitempty"`
 }
 
-func (e *UserTokenV2AddedEvent) Payload() interface{} {
+func (e *UserTokenV2AddedEvent) Payload() any {
 	return e
 }
 
@@ -320,7 +320,7 @@ type UserImpersonatedEvent struct {
 	Actor         *domain.TokenActor `json:"actor,omitempty"`
 }
 
-func (e *UserImpersonatedEvent) Payload() interface{} {
+func (e *UserImpersonatedEvent) Payload() any {
 	return e
 }
 
@@ -355,7 +355,7 @@ type UserTokenRemovedEvent struct {
 	TokenID string `json:"tokenId"`
 }
 
-func (e *UserTokenRemovedEvent) Payload() interface{} {
+func (e *UserTokenRemovedEvent) Payload() any {
 	return e
 }
 
@@ -399,7 +399,7 @@ type DomainClaimedEvent struct {
 	userLoginMustBeDomain bool
 }
 
-func (e *DomainClaimedEvent) Payload() interface{} {
+func (e *DomainClaimedEvent) Payload() any {
 	return e
 }
 
@@ -450,7 +450,7 @@ type DomainClaimedSentEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *DomainClaimedSentEvent) Payload() interface{} {
+func (e *DomainClaimedSentEvent) Payload() any {
 	return nil
 }
 
@@ -486,7 +486,7 @@ type UsernameChangedEvent struct {
 	oldUserLoginMustBeDomain bool
 }
 
-func (e *UsernameChangedEvent) Payload() interface{} {
+func (e *UsernameChangedEvent) Payload() any {
 	return e
 }
 

@@ -22,10 +22,10 @@ type testEvent struct {
 
 	description         string
 	shouldCheckPrevious bool
-	data                func() interface{}
+	data                func() any
 }
 
-func newTestEvent(id, description string, data func() interface{}, checkPrevious bool) *testEvent {
+func newTestEvent(id, description string, data func() any, checkPrevious bool) *testEvent {
 	return &testEvent{
 		description:         description,
 		data:                data,
@@ -38,7 +38,7 @@ func newTestEvent(id, description string, data func() interface{}, checkPrevious
 	}
 }
 
-func (e *testEvent) Payload() interface{} {
+func (e *testEvent) Payload() any {
 	return e.data()
 }
 
@@ -186,7 +186,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return []byte(`{"piff":"paff"}`)
 					},
 					false),
@@ -202,7 +202,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return []byte(`{"piffpaff"}`)
 					},
 					false),
@@ -218,7 +218,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return struct {
 							Piff string `json:"piff"`
 						}{Piff: "paff"}
@@ -236,7 +236,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return &struct {
 							Piff string `json:"piff"`
 						}{Piff: "paff"}
@@ -254,7 +254,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return nil
 					},
 					false),
@@ -270,7 +270,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return ""
 					},
 					false),
@@ -286,7 +286,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						var s string
 						return &s
 					},
@@ -303,7 +303,7 @@ func Test_eventData(t *testing.T) {
 				event: newTestEvent(
 					"id",
 					"hodor",
-					func() interface{} {
+					func() any {
 						return struct {
 							Field chan string `json:"field"`
 						}{}
@@ -473,7 +473,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -518,7 +518,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -563,14 +563,14 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -630,21 +630,21 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
 					newTestEvent(
 						"2",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						true),
@@ -720,7 +720,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -744,7 +744,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return `{"data":""`
 						},
 						false),
@@ -768,7 +768,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -819,7 +819,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -875,7 +875,7 @@ func TestEventstore_Push(t *testing.T) {
 					newTestEvent(
 						"1",
 						"",
-						func() interface{} {
+						func() any {
 							return []byte(nil)
 						},
 						false),
@@ -1408,7 +1408,7 @@ func compareEvents(t *testing.T, want Event, got Command) {
 		t.Errorf("wrong event type got %q want %q", got.Type(), want.Type())
 	}
 	if want.Revision() != got.Revision() {
-		t.Errorf("wrong version got %q want %q", got.Revision(), want.Revision())
+		t.Errorf("wrong version got %d want %d", got.Revision(), want.Revision())
 	}
 }
 

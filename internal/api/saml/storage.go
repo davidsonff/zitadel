@@ -45,7 +45,7 @@ const (
 )
 
 type Storage struct {
-	certChan                   <-chan interface{}
+	certChan                   <-chan any
 	defaultCertificateLifetime time.Duration
 
 	currentCACertificate       query.Certificate
@@ -291,13 +291,13 @@ func (p *Storage) getCustomAttributes(ctx context.Context, user *query.User, use
 	}
 	ctxFields := actions.SetContextFields(
 		actions.SetFields("v1",
-			actions.SetFields("getUser", func(c *actions.FieldConfig) interface{} {
+			actions.SetFields("getUser", func(c *actions.FieldConfig) any {
 				return func(call goja.FunctionCall) goja.Value {
 					return object.UserFromQuery(c, user)
 				}
 			}),
 			actions.SetFields("user",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						resourceOwnerQuery, err := query.NewUserMetadataResourceOwnerSearchQuery(user.ResourceOwner)
 						if err != nil {
@@ -318,12 +318,12 @@ func (p *Storage) getCustomAttributes(ctx context.Context, user *query.User, use
 						return object.UserMetadataListFromQuery(c, metadata)
 					}
 				}),
-				actions.SetFields("grants", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("grants", func(c *actions.FieldConfig) any {
 					return object.UserGrantsFromQuery(ctx, p.query, c, userGrants)
 				}),
 			),
 			actions.SetFields("org",
-				actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 					return func(goja.FunctionCall) goja.Value {
 						return object.GetOrganizationMetadata(ctx, p.query, c, user.ResourceOwner)
 					}
@@ -462,7 +462,7 @@ func (c *ContextInfo) SetHTTPResponseBody(resp []byte) error {
 	return json.Unmarshal(resp, c.Response)
 }
 
-func (c *ContextInfo) GetContent() interface{} {
+func (c *ContextInfo) GetContent() any {
 	return c.Response
 }
 

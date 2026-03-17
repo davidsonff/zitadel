@@ -61,7 +61,7 @@ func (s *Server) ListAppChanges(ctx context.Context, req *mgmt_pb.ListAppChanges
 		AddQuery().
 		AggregateTypes(project.AggregateType).
 		AggregateIDs(req.ProjectId).
-		EventData(map[string]interface{}{
+		EventData(map[string]any{
 			"appId": req.AppId,
 		}).
 		Builder()

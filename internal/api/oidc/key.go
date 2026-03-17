@@ -10,7 +10,6 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 	"github.com/jonboulle/clockwork"
-	"github.com/muhlemmer/gu"
 	"github.com/zitadel/logging"
 	"github.com/zitadel/oidc/v3/pkg/op"
 
@@ -263,14 +262,14 @@ const (
 type SigningKey struct {
 	algorithm jose.SignatureAlgorithm
 	id        string
-	key       interface{}
+	key       any
 }
 
 func (s *SigningKey) SignatureAlgorithm() jose.SignatureAlgorithm {
 	return s.algorithm
 }
 
-func (s *SigningKey) Key() interface{} {
+func (s *SigningKey) Key() any {
 	return s.key
 }
 
@@ -291,7 +290,7 @@ func (s *PublicKey) Use() string {
 	return s.key.Use().String()
 }
 
-func (s *PublicKey) Key() interface{} {
+func (s *PublicKey) Key() any {
 	return s.key.Key()
 }
 
@@ -440,7 +439,7 @@ func setOIDCCtx(ctx context.Context) context.Context {
 }
 
 func retry(retryable func() error) (err error) {
-	for i := 0; i < retryCount; i++ {
+	for range retryCount {
 		err = retryable()
 		if err == nil {
 			return nil
@@ -511,6 +510,6 @@ func queryKeyFunc(q *query.Queries) func(ctx context.Context, keyID string) (*jo
 		if err != nil {
 			return nil, nil, err
 		}
-		return jsonWebkey(pubKey), gu.Ptr(pubKey.Expiry()), nil
+		return jsonWebkey(pubKey), new(pubKey.Expiry()), nil
 	}
 }

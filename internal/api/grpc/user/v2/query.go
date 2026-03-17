@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 
-	"github.com/muhlemmer/gu"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/zitadel/zitadel/internal/api/grpc/object/v2"
@@ -95,10 +94,10 @@ func humanToPb(userQ *query.Human, assetPrefix, owner string) *user.HumanUser {
 		Profile: &user.HumanProfile{
 			GivenName:         userQ.FirstName,
 			FamilyName:        userQ.LastName,
-			NickName:          gu.Ptr(userQ.NickName),
-			DisplayName:       gu.Ptr(userQ.DisplayName),
-			PreferredLanguage: gu.Ptr(userQ.PreferredLanguage.String()),
-			Gender:            gu.Ptr(genderToPb(userQ.Gender)),
+			NickName:          new(userQ.NickName),
+			DisplayName:       new(userQ.DisplayName),
+			PreferredLanguage: new(userQ.PreferredLanguage.String()),
+			Gender:            new(genderToPb(userQ.Gender)),
 			AvatarUrl:         domain.AvatarURL(assetPrefix, owner, userQ.AvatarKey),
 		},
 		Email: &user.HumanEmail{

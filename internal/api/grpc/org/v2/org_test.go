@@ -4,7 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
@@ -138,8 +137,8 @@ func Test_createdOrganizationToPb(t *testing.T) {
 					CreatedAdmins: []*command.CreatedOrgAdmin{
 						{
 							ID:        "id",
-							EmailCode: gu.Ptr("emailCode"),
-							PhoneCode: gu.Ptr("phoneCode"),
+							EmailCode: new("emailCode"),
+							PhoneCode: new("phoneCode"),
 						},
 					},
 				},
@@ -154,8 +153,8 @@ func Test_createdOrganizationToPb(t *testing.T) {
 				CreatedAdmins: []*org.AddOrganizationResponse_CreatedAdmin{
 					{
 						UserId:    "id",
-						EmailCode: gu.Ptr("emailCode"),
-						PhoneCode: gu.Ptr("phoneCode"),
+						EmailCode: new("emailCode"),
+						PhoneCode: new("phoneCode"),
 					},
 				},
 			},

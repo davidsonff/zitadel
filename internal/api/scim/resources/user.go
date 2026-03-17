@@ -36,7 +36,7 @@ type ScimUser struct {
 	NickName               string                        `json:"nickName,omitempty"`
 	ProfileUrl             *scim_schemas.HttpURL         `json:"profileUrl,omitempty"`
 	Title                  string                        `json:"title,omitempty"`
-	PreferredLanguage      language.Tag                  `json:"preferredLanguage,omitempty"`
+	PreferredLanguage      language.Tag                  `json:"preferredLanguage"`
 	Locale                 string                        `json:"locale,omitempty"`
 	Timezone               string                        `json:"timezone,omitempty"`
 	Active                 *scim_schemas.RelaxedBool     `json:"active,omitempty"`

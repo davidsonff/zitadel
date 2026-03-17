@@ -108,17 +108,17 @@ func patchTargetToCommand(req *action.PatchTargetRequest) *command.ChangeTarget 
 		switch t := reqTarget.GetTargetType().(type) {
 		case *action.PatchTarget_RestWebhook:
 			target.TargetType = gu.Ptr(domain.TargetTypeWebhook)
-			target.InterruptOnError = gu.Ptr(t.RestWebhook.InterruptOnError)
+			target.InterruptOnError = new(t.RestWebhook.InterruptOnError)
 		case *action.PatchTarget_RestCall:
 			target.TargetType = gu.Ptr(domain.TargetTypeCall)
-			target.InterruptOnError = gu.Ptr(t.RestCall.InterruptOnError)
+			target.InterruptOnError = new(t.RestCall.InterruptOnError)
 		case *action.PatchTarget_RestAsync:
 			target.TargetType = gu.Ptr(domain.TargetTypeAsync)
-			target.InterruptOnError = gu.Ptr(false)
+			target.InterruptOnError = new(false)
 		}
 	}
 	if reqTarget.Timeout != nil {
-		target.Timeout = gu.Ptr(reqTarget.GetTimeout().AsDuration())
+		target.Timeout = new(reqTarget.GetTimeout().AsDuration())
 	}
 	return target
 }

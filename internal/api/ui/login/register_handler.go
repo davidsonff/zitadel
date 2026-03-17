@@ -188,7 +188,7 @@ func (l *Login) renderRegister(w http.ResponseWriter, r *http.Request, authReque
 	}
 	data.ShowUsernameSuffix = !labelPolicy.HideLoginNameSuffix
 
-	funcs := map[string]interface{}{
+	funcs := map[string]any{
 		"selectedLanguage": func(l string) bool {
 			if formData == nil {
 				return false

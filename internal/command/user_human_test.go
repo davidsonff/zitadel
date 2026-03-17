@@ -2556,8 +2556,8 @@ func TestCommandSide_ImportHuman(t *testing.T) {
 											"config1",
 											[]idp.OIDCIDPChanges{
 												idp.ChangeOIDCOptions(idp.OptionChanges{
-													IsCreationAllowed: gu.Ptr(false),
-													IsAutoCreation:    gu.Ptr(false),
+													IsCreationAllowed: new(false),
+													IsAutoCreation:    new(false),
 												}),
 											},
 										)
@@ -2595,7 +2595,7 @@ func TestCommandSide_ImportHuman(t *testing.T) {
 											&org.NewAggregate("org1").Aggregate,
 											"config1",
 											[]idp.OIDCIDPChanges{
-												idp.ChangeOIDCOptions(idp.OptionChanges{IsCreationAllowed: gu.Ptr(false)}),
+												idp.ChangeOIDCOptions(idp.OptionChanges{IsCreationAllowed: new(false)}),
 											},
 										)
 										return e
@@ -2698,7 +2698,7 @@ func TestCommandSide_ImportHuman(t *testing.T) {
 											&org.NewAggregate("org1").Aggregate,
 											"config1",
 											[]idp.OIDCIDPChanges{
-												idp.ChangeOIDCOptions(idp.OptionChanges{IsCreationAllowed: gu.Ptr(false)}),
+												idp.ChangeOIDCOptions(idp.OptionChanges{IsCreationAllowed: new(false)}),
 											},
 										)
 										return e
@@ -2736,8 +2736,8 @@ func TestCommandSide_ImportHuman(t *testing.T) {
 											"config1",
 											[]idp.OIDCIDPChanges{
 												idp.ChangeOIDCOptions(idp.OptionChanges{
-													IsCreationAllowed: gu.Ptr(false),
-													IsAutoCreation:    gu.Ptr(true),
+													IsCreationAllowed: new(false),
+													IsAutoCreation:    new(true),
 												}),
 											},
 										)
@@ -2870,7 +2870,7 @@ func TestCommandSide_ImportHuman(t *testing.T) {
 											&org.NewAggregate("org1").Aggregate,
 											"config1",
 											[]idp.OIDCIDPChanges{
-												idp.ChangeOIDCOptions(idp.OptionChanges{IsCreationAllowed: gu.Ptr(false)}),
+												idp.ChangeOIDCOptions(idp.OptionChanges{IsCreationAllowed: new(false)}),
 											},
 										)
 										return e
@@ -2908,8 +2908,8 @@ func TestCommandSide_ImportHuman(t *testing.T) {
 											"config1",
 											[]idp.OIDCIDPChanges{
 												idp.ChangeOIDCOptions(idp.OptionChanges{
-													IsCreationAllowed: gu.Ptr(true),
-													IsAutoCreation:    gu.Ptr(false),
+													IsCreationAllowed: new(true),
+													IsAutoCreation:    new(false),
 												}),
 											},
 										)

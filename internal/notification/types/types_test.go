@@ -2,7 +2,7 @@ package types
 
 type notifyResult struct {
 	url                                string
-	args                               map[string]interface{}
+	args                               map[string]any
 	messageType                        string
 	allowUnverifiedNotificationChannel bool
 }
@@ -11,7 +11,7 @@ type notifyResult struct {
 // The notifyResult will only be populated after Notify is called.
 func mockNotify() (*notifyResult, Notify) {
 	dst := new(notifyResult)
-	return dst, func(url string, args map[string]interface{}, messageType string, allowUnverifiedNotificationChannel bool) error {
+	return dst, func(url string, args map[string]any, messageType string, allowUnverifiedNotificationChannel bool) error {
 		*dst = notifyResult{
 			url:                                url,
 			args:                               args,

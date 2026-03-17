@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"slices"
 
 	"github.com/zitadel/zitadel/internal/domain"
 	domain_schema "github.com/zitadel/zitadel/internal/domain/schema"
@@ -27,10 +28,8 @@ func (s *CreateUserSchema) Valid() error {
 	if err := validateUserSchema(s.Schema); err != nil {
 		return err
 	}
-	for _, authenticator := range s.PossibleAuthenticators {
-		if authenticator == domain.AuthenticatorTypeUnspecified {
-			return zerrors.ThrowInvalidArgument(nil, "COMMA-Gh652", "Errors.UserSchema.Authenticator.Invalid")
-		}
+	if slices.Contains(s.PossibleAuthenticators, domain.AuthenticatorTypeUnspecified) {
+		return zerrors.ThrowInvalidArgument(nil, "COMMA-Gh652", "Errors.UserSchema.Authenticator.Invalid")
 	}
 	return nil
 }
@@ -55,10 +54,8 @@ func (s *ChangeUserSchema) Valid() error {
 	if err := validateUserSchema(s.Schema); err != nil {
 		return err
 	}
-	for _, authenticator := range s.PossibleAuthenticators {
-		if authenticator == domain.AuthenticatorTypeUnspecified {
-			return zerrors.ThrowInvalidArgument(nil, "COMMA-WF4hg", "Errors.UserSchema.Authenticator.Invalid")
-		}
+	if slices.Contains(s.PossibleAuthenticators, domain.AuthenticatorTypeUnspecified) {
+		return zerrors.ThrowInvalidArgument(nil, "COMMA-WF4hg", "Errors.UserSchema.Authenticator.Invalid")
 	}
 	return nil
 }

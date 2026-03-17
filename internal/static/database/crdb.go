@@ -33,7 +33,7 @@ type crdbStorage struct {
 	client *sql.DB
 }
 
-func NewStorage(client *sql.DB, _ map[string]interface{}) (static.Storage, error) {
+func NewStorage(client *sql.DB, _ map[string]any) (static.Storage, error) {
 	return &crdbStorage{client: client}, nil
 }
 

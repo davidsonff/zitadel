@@ -4,7 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
@@ -118,14 +117,14 @@ func Test_idpIntentToIDPIntentPb(t *testing.T) {
 						Access: &user.IDPInformation_Oauth{
 							Oauth: &user.IDPOAuthAccessInformation{
 								AccessToken: "accessToken",
-								IdToken:     gu.Ptr("idToken"),
+								IdToken:     new("idToken"),
 							},
 						},
 						IdpId:    "idpID",
 						UserId:   "idpUserID",
 						UserName: "username",
 						RawInformation: func() *structpb.Struct {
-							s, err := structpb.NewStruct(map[string]interface{}{
+							s, err := structpb.NewStruct(map[string]any{
 								"userID":   "idpUserID",
 								"username": "username",
 							})
@@ -175,14 +174,14 @@ func Test_idpIntentToIDPIntentPb(t *testing.T) {
 						Access: &user.IDPInformation_Oauth{
 							Oauth: &user.IDPOAuthAccessInformation{
 								AccessToken: "accessToken",
-								IdToken:     gu.Ptr("idToken"),
+								IdToken:     new("idToken"),
 							},
 						},
 						IdpId:    "idpID",
 						UserId:   "idpUserID",
 						UserName: "username",
 						RawInformation: func() *structpb.Struct {
-							s, err := structpb.NewStruct(map[string]interface{}{
+							s, err := structpb.NewStruct(map[string]any{
 								"userID":   "idpUserID",
 								"username": "username",
 							})
@@ -229,10 +228,10 @@ func Test_idpIntentToIDPIntentPb(t *testing.T) {
 						Access: &user.IDPInformation_Ldap{
 							Ldap: &user.IDPLDAPAccessInformation{
 								Attributes: func() *structpb.Struct {
-									s, err := structpb.NewStruct(map[string]interface{}{
-										"id":        []interface{}{"idpUserID"},
-										"firstName": []interface{}{"firstname1", "firstname2"},
-										"lastName":  []interface{}{"lastname"},
+									s, err := structpb.NewStruct(map[string]any{
+										"id":        []any{"idpUserID"},
+										"firstName": []any{"firstname1", "firstname2"},
+										"lastName":  []any{"lastname"},
 									})
 									require.NoError(t, err)
 									return s
@@ -243,7 +242,7 @@ func Test_idpIntentToIDPIntentPb(t *testing.T) {
 						UserId:   "idpUserID",
 						UserName: "username",
 						RawInformation: func() *structpb.Struct {
-							s, err := structpb.NewStruct(map[string]interface{}{
+							s, err := structpb.NewStruct(map[string]any{
 								"userID":   "idpUserID",
 								"username": "username",
 							})
@@ -289,10 +288,10 @@ func Test_idpIntentToIDPIntentPb(t *testing.T) {
 						Access: &user.IDPInformation_Ldap{
 							Ldap: &user.IDPLDAPAccessInformation{
 								Attributes: func() *structpb.Struct {
-									s, err := structpb.NewStruct(map[string]interface{}{
-										"id":        []interface{}{"idpUserID"},
-										"firstName": []interface{}{"firstname1", "firstname2"},
-										"lastName":  []interface{}{"lastname"},
+									s, err := structpb.NewStruct(map[string]any{
+										"id":        []any{"idpUserID"},
+										"firstName": []any{"firstname1", "firstname2"},
+										"lastName":  []any{"lastname"},
 									})
 									require.NoError(t, err)
 									return s
@@ -303,7 +302,7 @@ func Test_idpIntentToIDPIntentPb(t *testing.T) {
 						UserId:   "idpUserID",
 						UserName: "username",
 						RawInformation: func() *structpb.Struct {
-							s, err := structpb.NewStruct(map[string]interface{}{
+							s, err := structpb.NewStruct(map[string]any{
 								"userID":   "idpUserID",
 								"username": "username",
 							})

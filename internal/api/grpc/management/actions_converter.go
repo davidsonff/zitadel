@@ -54,7 +54,7 @@ func listActionsToQuery(orgID string, req *mgmt_pb.ListActionsRequest) (_ *query
 	}, nil
 }
 
-func ActionQueryToQuery(query interface{}) (query.SearchQuery, error) {
+func ActionQueryToQuery(query any) (query.SearchQuery, error) {
 	switch q := query.(type) {
 	case *mgmt_pb.ActionQuery_ActionNameQuery:
 		return action_grpc.ActionNameQuery(q.ActionNameQuery)

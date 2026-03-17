@@ -18,7 +18,7 @@ func AssertMapContains[M ~map[K]V, K comparable, V any](t assert.TestingT, m M, 
 
 // PartiallyDeepEqual is similar to reflect.DeepEqual,
 // but only compares exported non-zero fields of the expectedValue
-func PartiallyDeepEqual(expected, actual interface{}) bool {
+func PartiallyDeepEqual(expected, actual any) bool {
 	if expected == nil {
 		return actual == nil
 	}
@@ -32,7 +32,7 @@ func PartiallyDeepEqual(expected, actual interface{}) bool {
 
 func partiallyDeepEqual(expected, actual reflect.Value) bool {
 	// Dereference pointers if needed
-	if expected.Kind() == reflect.Ptr {
+	if expected.Kind() == reflect.Pointer {
 		if expected.IsNil() {
 			return true
 		}
@@ -40,7 +40,7 @@ func partiallyDeepEqual(expected, actual reflect.Value) bool {
 		expected = expected.Elem()
 	}
 
-	if actual.Kind() == reflect.Ptr {
+	if actual.Kind() == reflect.Pointer {
 		if actual.IsNil() {
 			return false
 		}

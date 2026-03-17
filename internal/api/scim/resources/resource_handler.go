@@ -4,8 +4,6 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/api/scim/resources/patch"
 	"github.com/zitadel/zitadel/internal/api/scim/schemas"
 	"github.com/zitadel/zitadel/internal/domain"
@@ -45,7 +43,7 @@ func buildResource[T ResourceHolder](ctx context.Context, handler ResourceHandle
 		Meta: &schemas.ResourceMeta{
 			ResourceType: schema.Name,
 			Created:      &created,
-			LastModified: gu.Ptr(details.EventDate.UTC()),
+			LastModified: new(details.EventDate.UTC()),
 			Version:      strconv.FormatUint(details.Sequence, 10),
 			Location:     schemas.BuildLocationForResource(ctx, schema.PluralName, details.ID),
 		},

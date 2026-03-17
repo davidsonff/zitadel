@@ -53,7 +53,7 @@ func (wm *OrgOAuthIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.OAuthIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -153,7 +153,7 @@ func (wm *OrgOIDCIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.OIDCIDPMigratedGoogleEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Or(). // old events
 		AggregateTypes(org.AggregateType).
 		AggregateIDs(wm.AggregateID).
@@ -164,7 +164,7 @@ func (wm *OrgOIDCIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.IDPOIDCConfigChangedEventType,
 			org.IDPConfigRemovedEventType,
 		).
-		EventData(map[string]interface{}{"idpConfigId": wm.ID}).
+		EventData(map[string]any{"idpConfigId": wm.ID}).
 		Builder()
 }
 
@@ -253,7 +253,7 @@ func (wm *OrgJWTIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.JWTIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Or(). // old events
 		AggregateTypes(org.AggregateType).
 		AggregateIDs(wm.AggregateID).
@@ -264,7 +264,7 @@ func (wm *OrgJWTIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.IDPJWTConfigChangedEventType,
 			org.IDPConfigRemovedEventType,
 		).
-		EventData(map[string]interface{}{"idpConfigId": wm.ID}).
+		EventData(map[string]any{"idpConfigId": wm.ID}).
 		Builder()
 }
 
@@ -343,7 +343,7 @@ func (wm *OrgAzureADIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.OIDCIDPMigratedAzureADEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -419,7 +419,7 @@ func (wm *OrgGitHubIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.GitHubIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -485,7 +485,7 @@ func (wm *OrgGitHubEnterpriseIDPWriteModel) Query() *eventstore.SearchQueryBuild
 			org.GitHubEnterpriseIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -564,7 +564,7 @@ func (wm *OrgGitLabIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.GitLabIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -629,7 +629,7 @@ func (wm *OrgGitLabSelfHostedIDPWriteModel) Query() *eventstore.SearchQueryBuild
 			org.GitLabSelfHostedIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -698,7 +698,7 @@ func (wm *OrgGoogleIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.OIDCIDPMigratedGoogleEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -763,7 +763,7 @@ func (wm *OrgLDAPIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.LDAPIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -851,7 +851,7 @@ func (wm *OrgAppleIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.AppleIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -918,7 +918,7 @@ func (wm *OrgSAMLIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.SAMLIDPChangedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Builder()
 }
 
@@ -1031,7 +1031,7 @@ func (wm *OrgIDPRemoveWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.SAMLIDPAddedEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Or(). // old events
 		AggregateTypes(org.AggregateType).
 		AggregateIDs(wm.AggregateID).
@@ -1039,6 +1039,6 @@ func (wm *OrgIDPRemoveWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.IDPConfigAddedEventType,
 			org.IDPConfigRemovedEventType,
 		).
-		EventData(map[string]interface{}{"idpConfigId": wm.ID}).
+		EventData(map[string]any{"idpConfigId": wm.ID}).
 		Builder()
 }

@@ -186,7 +186,7 @@ func validateValueForMetadataKey(v string, key metadata.Key) error {
 	return nil
 }
 
-func getRawValueForMetadataKey(user *ScimUser, key metadata.Key) interface{} {
+func getRawValueForMetadataKey(user *ScimUser, key metadata.Key) any {
 	switch key {
 	case metadata.KeyIms:
 		return user.Ims
@@ -255,7 +255,7 @@ func extractHttpURLMetadata(ctx context.Context, md map[metadata.ScopedKey][]byt
 	return url
 }
 
-func extractJsonMetadata(ctx context.Context, md map[metadata.ScopedKey][]byte, key metadata.Key, v interface{}) error {
+func extractJsonMetadata(ctx context.Context, md map[metadata.ScopedKey][]byte, key metadata.Key, v any) error {
 	val, ok := md[metadata.ScopeKey(ctx, key)]
 	if !ok {
 		return nil

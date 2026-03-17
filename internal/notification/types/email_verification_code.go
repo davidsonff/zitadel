@@ -22,7 +22,7 @@ func (notify Notify) SendEmailVerificationCode(ctx context.Context, user *query.
 		url = buf.String()
 	}
 
-	args := make(map[string]interface{})
+	args := make(map[string]any)
 	args["Code"] = code
 	return notify(url, args, domain.VerifyEmailMessageType, true)
 }

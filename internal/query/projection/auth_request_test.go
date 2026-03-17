@@ -40,7 +40,7 @@ func TestAuthRequestProjection_reduces(t *testing.T) {
 					executions: []execution{
 						{
 							expectedStmt: "INSERT INTO projections.auth_requests (id, instance_id, creation_date, change_date, resource_owner, sequence, login_client, client_id, redirect_uri, scope, prompt, ui_locales, max_age, login_hint, hint_user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)",
-							expectedArgs: []interface{}{
+							expectedArgs: []any{
 								"agg-id",
 								"instance-id",
 								anyArg{},
@@ -54,8 +54,8 @@ func TestAuthRequestProjection_reduces(t *testing.T) {
 								[]domain.Prompt{domain.PromptNone},
 								[]string{"en", "de"},
 								gu.Ptr(time.Duration(0)),
-								gu.Ptr("loginHint"),
-								gu.Ptr("hintUserID"),
+								new("loginHint"),
+								new("hintUserID"),
 							},
 						},
 					},
@@ -79,7 +79,7 @@ func TestAuthRequestProjection_reduces(t *testing.T) {
 					executions: []execution{
 						{
 							expectedStmt: "DELETE FROM projections.auth_requests WHERE (id = $1) AND (instance_id = $2)",
-							expectedArgs: []interface{}{
+							expectedArgs: []any{
 								"agg-id",
 								"instance-id",
 							},
@@ -105,7 +105,7 @@ func TestAuthRequestProjection_reduces(t *testing.T) {
 					executions: []execution{
 						{
 							expectedStmt: "DELETE FROM projections.auth_requests WHERE (id = $1) AND (instance_id = $2)",
-							expectedArgs: []interface{}{
+							expectedArgs: []any{
 								"agg-id",
 								"instance-id",
 							},

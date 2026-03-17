@@ -52,7 +52,7 @@ func (l *Login) renderRegisterOption(w http.ResponseWriter, r *http.Request, aut
 	data := registerOptionData{
 		baseData: l.getBaseData(r, authReq, translator, "RegisterOption.Title", "RegisterOption.Description", err),
 	}
-	funcs := map[string]interface{}{
+	funcs := map[string]any{
 		"hasRegistration": func() bool {
 			return allowed
 		},

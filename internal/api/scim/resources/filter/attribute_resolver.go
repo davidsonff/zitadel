@@ -71,7 +71,7 @@ func (r *AttributeResolver) resolveAttrPath(item reflect.Value, attrPath *AttrPa
 }
 
 func (r *AttributeResolver) resolveField(item reflect.Value, fieldName string) (reflect.Value, error) {
-	if item.Kind() == reflect.Ptr {
+	if item.Kind() == reflect.Pointer {
 		item = item.Elem()
 	}
 
@@ -100,8 +100,8 @@ func (r *AttributeResolver) getOrBuildFieldMap(t reflect.Type) (structFieldCache
 
 	// cache miss, build json name field map
 	fieldMap := make(structFieldCache, t.NumField())
-	for i := 0; i < t.NumField(); i++ {
-		fieldMap.set(t.Field(i))
+	for field := range t.Fields() {
+		fieldMap.set(field)
 	}
 
 	// Cache the result for future use.

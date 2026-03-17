@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 	"unicode/utf8"
 
@@ -228,11 +229,12 @@ func queriesAndToSearchQuery(queries ...string) string {
 	if len(queries) == 1 {
 		return queries[0]
 	}
-	joinQueries := "(&"
+	var joinQueries strings.Builder
+	joinQueries.WriteString("(&")
 	for _, s := range queries {
-		joinQueries += s
+		joinQueries.WriteString(s)
 	}
-	return joinQueries + ")"
+	return joinQueries.String() + ")"
 }
 
 func queriesOrToSearchQuery(queries ...string) string {
@@ -242,27 +244,28 @@ func queriesOrToSearchQuery(queries ...string) string {
 	if len(queries) == 1 {
 		return queries[0]
 	}
-	joinQueries := "(|"
+	var joinQueries strings.Builder
+	joinQueries.WriteString("(|")
 	for _, s := range queries {
-		joinQueries += s
+		joinQueries.WriteString(s)
 	}
-	return joinQueries + ")"
+	return joinQueries.String() + ")"
 }
 
 func objectClassesToSearchQuery(classes []string) string {
-	searchQuery := ""
+	var searchQuery strings.Builder
 	for _, class := range classes {
-		searchQuery += "(objectClass=" + class + ")"
+		searchQuery.WriteString("(objectClass=" + class + ")")
 	}
-	return searchQuery
+	return searchQuery.String()
 }
 
 func userFiltersToSearchQuery(filters []string, username string) string {
-	searchQuery := ""
+	var searchQuery strings.Builder
 	for _, filter := range filters {
-		searchQuery += "(" + filter + "=" + ldap.EscapeFilter(username) + ")"
+		searchQuery.WriteString("(" + filter + "=" + ldap.EscapeFilter(username) + ")")
 	}
-	return searchQuery
+	return searchQuery.String()
 }
 
 func mapLDAPEntryToUser(

@@ -232,7 +232,7 @@ func (c *ResourceClient[T]) do(ctx context.Context, method, orgID, url string) e
 	return doReq(c.client, req, nil)
 }
 
-func (c *ResourceClient[T]) doWithResponse(ctx context.Context, method, orgID, url string, body io.Reader, response interface{}) error {
+func (c *ResourceClient[T]) doWithResponse(ctx context.Context, method, orgID, url string, body io.Reader, response any) error {
 	req, err := http.NewRequestWithContext(ctx, method, c.buildResourceURL(orgID, url), body)
 	if err != nil {
 		return err
@@ -276,7 +276,7 @@ func (c *Client) getWithRawResponse(ctx context.Context, orgID, url string) ([]b
 	return io.ReadAll(resp.Body)
 }
 
-func doReq(client *http.Client, req *http.Request, responseEntity interface{}) error {
+func doReq(client *http.Client, req *http.Request, responseEntity any) error {
 	addTokenAsHeader(req)
 
 	resp, err := client.Do(req)
@@ -311,7 +311,7 @@ func addTokenAsHeader(req *http.Request) {
 	req.Header.Set("Authorization", md.Get("Authorization")[0])
 }
 
-func readJson(entity interface{}, resp *http.Response) error {
+func readJson(entity any, resp *http.Response) error {
 	defer func(body io.ReadCloser) {
 		err := body.Close()
 		logging.OnError(err).Panic("Failed to close response body")

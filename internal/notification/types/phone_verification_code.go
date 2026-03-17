@@ -8,7 +8,7 @@ import (
 )
 
 func (notify Notify) SendPhoneVerificationCode(ctx context.Context, code string) error {
-	args := make(map[string]interface{})
+	args := make(map[string]any)
 	args["Code"] = code
 	args["Domain"] = http_util.DomainContext(ctx).RequestedDomain()
 	return notify("", args, domain.VerifyPhoneMessageType, true)

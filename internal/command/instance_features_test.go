@@ -5,7 +5,6 @@ import (
 	"io"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -38,7 +37,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				expectFilterError(io.ErrClosedPipe),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LoginDefaultOrg: gu.Ptr(true),
+				LoginDefaultOrg: new(true),
 			}},
 			wantErr: io.ErrClosedPipe,
 		},
@@ -60,7 +59,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LoginDefaultOrg: gu.Ptr(true),
+				LoginDefaultOrg: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -89,7 +88,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LoginDefaultOrg: gu.Ptr(true),
+				LoginDefaultOrg: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -107,7 +106,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				TriggerIntrospectionProjections: gu.Ptr(true),
+				TriggerIntrospectionProjections: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -125,7 +124,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LegacyIntrospection: gu.Ptr(true),
+				LegacyIntrospection: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -143,7 +142,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				UserSchema: gu.Ptr(true),
+				UserSchema: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -161,7 +160,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				Actions: gu.Ptr(true),
+				Actions: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -179,7 +178,7 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LegacyIntrospection: gu.Ptr(true),
+				LegacyIntrospection: new(true),
 			}},
 			wantErr: io.ErrClosedPipe,
 		},
@@ -215,12 +214,12 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LoginDefaultOrg:                 gu.Ptr(true),
-				TriggerIntrospectionProjections: gu.Ptr(false),
-				LegacyIntrospection:             gu.Ptr(true),
-				UserSchema:                      gu.Ptr(true),
-				Actions:                         gu.Ptr(true),
-				OIDCSingleV1SessionTermination:  gu.Ptr(true),
+				LoginDefaultOrg:                 new(true),
+				TriggerIntrospectionProjections: new(false),
+				LegacyIntrospection:             new(true),
+				UserSchema:                      new(true),
+				Actions:                         new(true),
+				OIDCSingleV1SessionTermination:  new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",
@@ -268,10 +267,10 @@ func TestCommands_SetInstanceFeatures(t *testing.T) {
 				),
 			),
 			args: args{ctx, &InstanceFeatures{
-				LoginDefaultOrg:                 gu.Ptr(true),
-				TriggerIntrospectionProjections: gu.Ptr(false),
-				LegacyIntrospection:             gu.Ptr(true),
-				OIDCSingleV1SessionTermination:  gu.Ptr(false),
+				LoginDefaultOrg:                 new(true),
+				TriggerIntrospectionProjections: new(false),
+				LegacyIntrospection:             new(true),
+				OIDCSingleV1SessionTermination:  new(false),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "instance1",

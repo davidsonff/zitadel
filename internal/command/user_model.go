@@ -2,6 +2,7 @@ package command
 
 import (
 	"context"
+	"slices"
 
 	"github.com/zitadel/zitadel/internal/domain"
 	"github.com/zitadel/zitadel/internal/eventstore"
@@ -146,12 +147,7 @@ func isUserStateInitial(state domain.UserState) bool {
 }
 
 func hasUserState(check domain.UserState, states ...domain.UserState) bool {
-	for _, state := range states {
-		if check == state {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(states, check)
 }
 
 func (wm *UserWriteModel) IDPLinkByID(idpID, externalUserID string) (idx int, idp *domain.UserIDPLink) {

@@ -21,7 +21,7 @@ type externalConfigChange struct {
 	defaults              systemdefaults.SystemDefaults
 }
 
-func (mig *externalConfigChange) Check(lastRun map[string]interface{}) bool {
+func (mig *externalConfigChange) Check(lastRun map[string]any) bool {
 	mig.currentExternalDomain, _ = lastRun["externalDomain"].(string)
 	externalPort, _ := lastRun["externalPort"].(float64)
 	mig.currentExternalPort = uint16(externalPort)

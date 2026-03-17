@@ -38,7 +38,7 @@ type HumanAddedEvent struct {
 	LastName          string        `json:"lastName,omitempty"`
 	NickName          string        `json:"nickName,omitempty"`
 	DisplayName       string        `json:"displayName,omitempty"`
-	PreferredLanguage language.Tag  `json:"preferredLanguage,omitempty"`
+	PreferredLanguage language.Tag  `json:"preferredLanguage"`
 	Gender            domain.Gender `json:"gender,omitempty"`
 
 	EmailAddress domain.EmailAddress `json:"email,omitempty"`
@@ -58,7 +58,7 @@ type HumanAddedEvent struct {
 	ChangeRequired bool                `json:"changeRequired,omitempty"`
 }
 
-func (e *HumanAddedEvent) Payload() interface{} {
+func (e *HumanAddedEvent) Payload() any {
 	return e
 }
 
@@ -146,7 +146,7 @@ type HumanRegisteredEvent struct {
 	LastName              string              `json:"lastName,omitempty"`
 	NickName              string              `json:"nickName,omitempty"`
 	DisplayName           string              `json:"displayName,omitempty"`
-	PreferredLanguage     language.Tag        `json:"preferredLanguage,omitempty"`
+	PreferredLanguage     language.Tag        `json:"preferredLanguage"`
 	Gender                domain.Gender       `json:"gender,omitempty"`
 	EmailAddress          domain.EmailAddress `json:"email,omitempty"`
 	PhoneNumber           domain.PhoneNumber  `json:"phone,omitempty"`
@@ -165,7 +165,7 @@ type HumanRegisteredEvent struct {
 	UserAgentID string `json:"userAgentID,omitempty"`
 }
 
-func (e *HumanRegisteredEvent) Payload() interface{} {
+func (e *HumanRegisteredEvent) Payload() any {
 	return e
 }
 
@@ -255,7 +255,7 @@ type HumanInitialCodeAddedEvent struct {
 	AuthRequestID        string              `json:"authRequestID,omitempty"`
 }
 
-func (e *HumanInitialCodeAddedEvent) Payload() interface{} {
+func (e *HumanInitialCodeAddedEvent) Payload() any {
 	return e
 }
 
@@ -303,7 +303,7 @@ type HumanInitialCodeSentEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *HumanInitialCodeSentEvent) Payload() interface{} {
+func (e *HumanInitialCodeSentEvent) Payload() any {
 	return nil
 }
 
@@ -331,7 +331,7 @@ type HumanInitializedCheckSucceededEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *HumanInitializedCheckSucceededEvent) Payload() interface{} {
+func (e *HumanInitializedCheckSucceededEvent) Payload() any {
 	return nil
 }
 
@@ -359,7 +359,7 @@ type HumanInitializedCheckFailedEvent struct {
 	eventstore.BaseEvent `json:"-"`
 }
 
-func (e *HumanInitializedCheckFailedEvent) Payload() interface{} {
+func (e *HumanInitializedCheckFailedEvent) Payload() any {
 	return nil
 }
 
@@ -398,7 +398,7 @@ func (e *HumanInviteCodeAddedEvent) SetBaseEvent(b *eventstore.BaseEvent) {
 	e.BaseEvent = b
 }
 
-func (e *HumanInviteCodeAddedEvent) Payload() interface{} {
+func (e *HumanInviteCodeAddedEvent) Payload() any {
 	return e
 }
 
@@ -444,7 +444,7 @@ func (e *HumanInviteCodeSentEvent) SetBaseEvent(b *eventstore.BaseEvent) {
 	e.BaseEvent = b
 }
 
-func (e *HumanInviteCodeSentEvent) Payload() interface{} {
+func (e *HumanInviteCodeSentEvent) Payload() any {
 	return nil
 }
 
@@ -470,7 +470,7 @@ func (e *HumanInviteCheckSucceededEvent) SetBaseEvent(b *eventstore.BaseEvent) {
 	e.BaseEvent = b
 }
 
-func (e *HumanInviteCheckSucceededEvent) Payload() interface{} {
+func (e *HumanInviteCheckSucceededEvent) Payload() any {
 	return nil
 }
 
@@ -496,7 +496,7 @@ func (e *HumanInviteCheckFailedEvent) SetBaseEvent(b *eventstore.BaseEvent) {
 	e.BaseEvent = b
 }
 
-func (e *HumanInviteCheckFailedEvent) Payload() interface{} {
+func (e *HumanInviteCheckFailedEvent) Payload() any {
 	return nil
 }
 
@@ -522,7 +522,7 @@ type HumanSignedOutEvent struct {
 	TriggeredAtOrigin string `json:"triggerOrigin,omitempty"`
 }
 
-func (e *HumanSignedOutEvent) Payload() interface{} {
+func (e *HumanSignedOutEvent) Payload() any {
 	return e
 }
 

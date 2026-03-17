@@ -16,9 +16,9 @@ import (
 )
 
 type serializableData struct {
-	ContextInfo  map[string]interface{} `json:"contextInfo,omitempty"`
-	TemplateData templates.TemplateData `json:"templateData,omitempty"`
-	Args         map[string]interface{} `json:"args,omitempty"`
+	ContextInfo  map[string]any         `json:"contextInfo,omitempty"`
+	TemplateData templates.TemplateData `json:"templateData"`
+	Args         map[string]any         `json:"args,omitempty"`
 }
 
 func generateSms(
@@ -26,7 +26,7 @@ func generateSms(
 	channels ChannelChains,
 	user *query.NotifyUser,
 	data templates.TemplateData,
-	args map[string]interface{},
+	args map[string]any,
 	lastPhone bool,
 	triggeringEventType eventstore.EventType,
 	instanceID string,
@@ -69,11 +69,11 @@ func generateSms(
 		return nil
 	}
 	if config.WebhookConfig != nil {
-		caseArgs := make(map[string]interface{}, len(args))
+		caseArgs := make(map[string]any, len(args))
 		for k, v := range args {
 			caseArgs[strings.ToLower(string(k[0]))+k[1:]] = v
 		}
-		contextInfo := map[string]interface{}{
+		contextInfo := map[string]any{
 			"recipientPhoneNumber": recipient,
 			"eventType":            triggeringEventType,
 			"provider":             config.ProviderConfig,

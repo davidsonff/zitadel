@@ -5,7 +5,6 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
@@ -219,10 +218,10 @@ func TestCommandSide_ChangeSMSConfigTwilio(t *testing.T) {
 				sms: &ChangeTwilioConfig{
 					ResourceOwner:    "INSTANCE",
 					ID:               "providerid",
-					SID:              gu.Ptr("sid"),
-					Token:            gu.Ptr("token"),
-					SenderNumber:     gu.Ptr("senderName"),
-					VerifyServiceSID: gu.Ptr(""),
+					SID:              new("sid"),
+					Token:            new("token"),
+					SenderNumber:     new("senderName"),
+					VerifyServiceSID: new(""),
 				},
 			},
 			res: res{
@@ -271,11 +270,11 @@ func TestCommandSide_ChangeSMSConfigTwilio(t *testing.T) {
 				sms: &ChangeTwilioConfig{
 					ResourceOwner:    "INSTANCE",
 					ID:               "providerid",
-					Description:      gu.Ptr("description2"),
-					SID:              gu.Ptr("sid2"),
-					Token:            gu.Ptr("token2"),
-					SenderNumber:     gu.Ptr("senderName2"),
-					VerifyServiceSID: gu.Ptr("verifyServiceSid2"),
+					Description:      new("description2"),
+					SID:              new("sid2"),
+					Token:            new("token2"),
+					SenderNumber:     new("senderName2"),
+					VerifyServiceSID: new("verifyServiceSid2"),
 				},
 			},
 			res: res{
@@ -484,7 +483,7 @@ func TestCommandSide_ChangeSMSConfigHTTP(t *testing.T) {
 				http: &ChangeSMSHTTP{
 					ResourceOwner: "INSTANCE",
 					ID:            "providerid",
-					Endpoint:      gu.Ptr("endpoint"),
+					Endpoint:      new("endpoint"),
 				},
 			},
 			res: res{
@@ -523,8 +522,8 @@ func TestCommandSide_ChangeSMSConfigHTTP(t *testing.T) {
 				http: &ChangeSMSHTTP{
 					ResourceOwner: "INSTANCE",
 					ID:            "providerid",
-					Description:   gu.Ptr("description2"),
-					Endpoint:      gu.Ptr("endpoint2"),
+					Description:   new("description2"),
+					Endpoint:      new("endpoint2"),
 				},
 			},
 			res: res{

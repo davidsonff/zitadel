@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/rivertype"
 	"github.com/stretchr/testify/assert"
@@ -89,7 +88,7 @@ func Test_userNotifier_reduceNotificationRequested(t *testing.T) {
 						},
 					},
 					wantWorker{
-						err: func(tt assert.TestingT, err error, i ...interface{}) bool {
+						err: func(tt assert.TestingT, err error, i ...any) bool {
 							return errors.Is(err, new(river.JobCancelError))
 						},
 					}
@@ -280,7 +279,7 @@ func Test_userNotifier_reduceNotificationRequested(t *testing.T) {
 					TriggeringEventType: user.HumanInviteCodeAddedType,
 				}
 				w.sendError = sendError
-				w.err = func(tt assert.TestingT, err error, i ...interface{}) bool {
+				w.err = func(tt assert.TestingT, err error, i ...any) bool {
 					return errors.Is(err, sendError)
 				}
 				codeAlg, code := cryptoValue(t, ctrl, "testcode")
@@ -340,7 +339,7 @@ func Test_userNotifier_reduceNotificationRequested(t *testing.T) {
 					TriggeringEventType: user.HumanInviteCodeAddedType,
 				}
 				w.sendError = sendError
-				w.err = func(tt assert.TestingT, err error, i ...interface{}) bool {
+				w.err = func(tt assert.TestingT, err error, i ...any) bool {
 					return err != nil
 				}
 
@@ -417,7 +416,7 @@ func newNotificationWorker(t *testing.T, ctrl *gomock.Controller, queries *mock.
 	}
 	if w.messageSMS != nil {
 		channel.EXPECT().HandleMessage(w.messageSMS).DoAndReturn(func(message *messages.SMS) error {
-			message.VerificationID = gu.Ptr(verificationID)
+			message.VerificationID = new(verificationID)
 			return w.sendError
 		})
 	}

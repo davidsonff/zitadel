@@ -11,13 +11,13 @@ func Base64ToBytesHookFunc() mapstructure.DecodeHookFuncType {
 	return func(
 		f reflect.Type,
 		t reflect.Type,
-		data interface{},
-	) (interface{}, error) {
+		data any,
+	) (any, error) {
 		if f.Kind() != reflect.String {
 			return data, nil
 		}
 
-		if t != reflect.TypeOf([]byte{}) {
+		if t != reflect.TypeFor[[]byte]() {
 			return data, nil
 		}
 

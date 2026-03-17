@@ -5,7 +5,6 @@ import (
 	"io"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -35,7 +34,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				expectFilterError(io.ErrClosedPipe),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				LoginDefaultOrg: gu.Ptr(true),
+				LoginDefaultOrg: new(true),
 			}},
 			wantErr: io.ErrClosedPipe,
 		},
@@ -57,7 +56,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				LoginDefaultOrg: gu.Ptr(true),
+				LoginDefaultOrg: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",
@@ -75,7 +74,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				TriggerIntrospectionProjections: gu.Ptr(true),
+				TriggerIntrospectionProjections: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",
@@ -93,7 +92,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				LegacyIntrospection: gu.Ptr(true),
+				LegacyIntrospection: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",
@@ -111,7 +110,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				UserSchema: gu.Ptr(true),
+				UserSchema: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",
@@ -129,7 +128,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				Actions: gu.Ptr(true),
+				Actions: new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",
@@ -147,7 +146,7 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				LegacyIntrospection: gu.Ptr(true),
+				LegacyIntrospection: new(true),
 			}},
 			wantErr: io.ErrClosedPipe,
 		},
@@ -183,12 +182,12 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				LoginDefaultOrg:                 gu.Ptr(true),
-				TriggerIntrospectionProjections: gu.Ptr(false),
-				LegacyIntrospection:             gu.Ptr(true),
-				UserSchema:                      gu.Ptr(true),
-				Actions:                         gu.Ptr(true),
-				OIDCSingleV1SessionTermination:  gu.Ptr(true),
+				LoginDefaultOrg:                 new(true),
+				TriggerIntrospectionProjections: new(false),
+				LegacyIntrospection:             new(true),
+				UserSchema:                      new(true),
+				Actions:                         new(true),
+				OIDCSingleV1SessionTermination:  new(true),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",
@@ -244,12 +243,12 @@ func TestCommands_SetSystemFeatures(t *testing.T) {
 				),
 			),
 			args: args{context.Background(), &SystemFeatures{
-				LoginDefaultOrg:                 gu.Ptr(true),
-				TriggerIntrospectionProjections: gu.Ptr(false),
-				LegacyIntrospection:             gu.Ptr(true),
-				UserSchema:                      gu.Ptr(true),
-				Actions:                         gu.Ptr(false),
-				OIDCSingleV1SessionTermination:  gu.Ptr(false),
+				LoginDefaultOrg:                 new(true),
+				TriggerIntrospectionProjections: new(false),
+				LegacyIntrospection:             new(true),
+				UserSchema:                      new(true),
+				Actions:                         new(false),
+				OIDCSingleV1SessionTermination:  new(false),
 			}},
 			want: &domain.ObjectDetails{
 				ResourceOwner: "SYSTEM",

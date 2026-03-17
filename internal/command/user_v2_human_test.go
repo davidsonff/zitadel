@@ -2136,7 +2136,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				ctx:   context.Background(),
 				orgID: "org1",
 				human: &ChangeHuman{
-					Username: gu.Ptr("changed"),
+					Username: new("changed"),
 				},
 			},
 			res: res{
@@ -2161,7 +2161,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				ctx:   context.Background(),
 				orgID: "org1",
 				human: &ChangeHuman{
-					Username: gu.Ptr("changed"),
+					Username: new("changed"),
 				},
 			},
 			res: res{
@@ -2182,7 +2182,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				ctx:   context.Background(),
 				orgID: "org1",
 				human: &ChangeHuman{
-					Username: gu.Ptr("changed"),
+					Username: new("changed"),
 				},
 			},
 			res: res{
@@ -2225,7 +2225,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				ctx:   context.Background(),
 				orgID: "org1",
 				human: &ChangeHuman{
-					Username: gu.Ptr("changed"),
+					Username: new("changed"),
 				},
 			},
 			res: res{
@@ -2252,7 +2252,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				ctx:   context.Background(),
 				orgID: "org1",
 				human: &ChangeHuman{
-					Username: gu.Ptr("username"),
+					Username: new("username"),
 				},
 			},
 			res: res{
@@ -2280,11 +2280,11 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				orgID: "org1",
 				human: &ChangeHuman{
 					Profile: &Profile{
-						FirstName:         gu.Ptr("changedfn"),
-						LastName:          gu.Ptr("changedln"),
-						NickName:          gu.Ptr("changednn"),
-						DisplayName:       gu.Ptr("changeddn"),
-						PreferredLanguage: gu.Ptr(language.Afrikaans),
+						FirstName:         new("changedfn"),
+						LastName:          new("changedln"),
+						NickName:          new("changednn"),
+						DisplayName:       new("changeddn"),
+						PreferredLanguage: new(language.Afrikaans),
 						Gender:            gu.Ptr(domain.GenderDiverse),
 					},
 				},
@@ -2328,11 +2328,11 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				orgID: "org1",
 				human: &ChangeHuman{
 					Profile: &Profile{
-						FirstName:         gu.Ptr("changedfn"),
-						LastName:          gu.Ptr("changedln"),
-						NickName:          gu.Ptr("changednn"),
-						DisplayName:       gu.Ptr("changeddn"),
-						PreferredLanguage: gu.Ptr(language.Afrikaans),
+						FirstName:         new("changedfn"),
+						LastName:          new("changedln"),
+						NickName:          new("changednn"),
+						DisplayName:       new("changeddn"),
+						PreferredLanguage: new(language.Afrikaans),
 						Gender:            gu.Ptr(domain.GenderDiverse),
 					},
 				},
@@ -2362,11 +2362,11 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 				orgID: "org1",
 				human: &ChangeHuman{
 					Profile: &Profile{
-						FirstName:         gu.Ptr("firstname"),
-						LastName:          gu.Ptr("lastname"),
-						NickName:          gu.Ptr(""),
-						DisplayName:       gu.Ptr("firstname lastname"),
-						PreferredLanguage: gu.Ptr(language.English),
+						FirstName:         new("firstname"),
+						LastName:          new("lastname"),
+						NickName:          new(""),
+						DisplayName:       new("firstname lastname"),
+						PreferredLanguage: new(language.English),
 						Gender:            gu.Ptr(domain.GenderUnspecified),
 					},
 				},
@@ -2608,7 +2608,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 					EventDate:     time.Time{},
 					ResourceOwner: "org1",
 				},
-				wantEmailCode: gu.Ptr("emailCode"),
+				wantEmailCode: new("emailCode"),
 			},
 		},
 		{
@@ -2946,7 +2946,7 @@ func TestCommandSide_ChangeUserHuman(t *testing.T) {
 					EventDate:     time.Time{},
 					ResourceOwner: "org1",
 				},
-				wantPhoneCode: gu.Ptr("phoneCode"),
+				wantPhoneCode: new("phoneCode"),
 			},
 		},
 		{

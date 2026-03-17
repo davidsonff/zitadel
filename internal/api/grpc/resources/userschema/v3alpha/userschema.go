@@ -3,8 +3,6 @@ package userschema
 import (
 	"context"
 
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/api/authz"
 	resource_object "github.com/zitadel/zitadel/internal/api/grpc/resources/object/v3alpha"
 	"github.com/zitadel/zitadel/internal/command"
@@ -111,7 +109,7 @@ func patchUserSchemaToCommand(req *schema.PatchUserSchemaRequest, resourceOwner 
 
 	var ty *string
 	if req.GetUserSchema() != nil && req.GetUserSchema().GetType() != "" {
-		ty = gu.Ptr(req.GetUserSchema().GetType())
+		ty = new(req.GetUserSchema().GetType())
 	}
 	return &command.ChangeUserSchema{
 		ID:                     req.GetId(),

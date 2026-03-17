@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/crewjam/saml"
-	"github.com/muhlemmer/gu"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
 	idp_grpc "github.com/zitadel/zitadel/internal/api/grpc/idp"
@@ -471,7 +470,7 @@ func updateAppleProviderToCommand(req *mgmt_pb.UpdateAppleProviderRequest) comma
 func addSAMLProviderToCommand(req *mgmt_pb.AddSAMLProviderRequest) *command.SAMLProvider {
 	var nameIDFormat *domain.SAMLNameIDFormat
 	if req.NameIdFormat != nil {
-		nameIDFormat = gu.Ptr(idp_grpc.SAMLNameIDFormatToDomain(req.GetNameIdFormat()))
+		nameIDFormat = new(idp_grpc.SAMLNameIDFormatToDomain(req.GetNameIdFormat()))
 	}
 	return &command.SAMLProvider{
 		Name:                          req.Name,
@@ -488,7 +487,7 @@ func addSAMLProviderToCommand(req *mgmt_pb.AddSAMLProviderRequest) *command.SAML
 func updateSAMLProviderToCommand(req *mgmt_pb.UpdateSAMLProviderRequest) *command.SAMLProvider {
 	var nameIDFormat *domain.SAMLNameIDFormat
 	if req.NameIdFormat != nil {
-		nameIDFormat = gu.Ptr(idp_grpc.SAMLNameIDFormatToDomain(req.GetNameIdFormat()))
+		nameIDFormat = new(idp_grpc.SAMLNameIDFormatToDomain(req.GetNameIdFormat()))
 	}
 	return &command.SAMLProvider{
 		Name:                          req.Name,

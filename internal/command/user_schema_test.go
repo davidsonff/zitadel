@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
@@ -328,7 +327,7 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 				ctx: authz.NewMockContext("instanceID", "", ""),
 				userSchema: &ChangeUserSchema{
 					ID:   "id1",
-					Type: gu.Ptr(""),
+					Type: new(""),
 				},
 			},
 			res{
@@ -403,7 +402,7 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 				ctx: authz.NewMockContext("instanceID", "", ""),
 				userSchema: &ChangeUserSchema{
 					ID:     "id1",
-					Type:   gu.Ptr("type"),
+					Type:   new("type"),
 					Schema: json.RawMessage(`{}`),
 					PossibleAuthenticators: []domain.AuthenticatorType{
 						domain.AuthenticatorTypeUsername,
@@ -435,7 +434,7 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 				ctx: authz.NewMockContext("instanceID", "", ""),
 				userSchema: &ChangeUserSchema{
 					ID:     "id1",
-					Type:   gu.Ptr("type"),
+					Type:   new("type"),
 					Schema: json.RawMessage(`{}`),
 					PossibleAuthenticators: []domain.AuthenticatorType{
 						domain.AuthenticatorTypeUsername,
@@ -477,7 +476,7 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 				userSchema: &ChangeUserSchema{
 					ID:     "id1",
 					Schema: json.RawMessage(`{}`),
-					Type:   gu.Ptr("newType"),
+					Type:   new("newType"),
 				},
 			},
 			res{

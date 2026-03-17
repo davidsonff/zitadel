@@ -54,7 +54,7 @@ func (p *Provider) CreateResponse(ctx context.Context, authReq models.AuthReques
 	return createResponse(samlResponse, authReq.GetBindingType(), authReq.GetAccessConsumerServiceURL(), resp.RelayState, resp.SigAlg, resp.Signature)
 }
 
-func createResponse(samlResponse interface{}, binding, acs, relayState, sigAlg, sig string) (string, string, error) {
+func createResponse(samlResponse any, binding, acs, relayState, sigAlg, sig string) (string, string, error) {
 	respData, err := xml.Marshal(samlResponse)
 	if err != nil {
 		return "", "", err

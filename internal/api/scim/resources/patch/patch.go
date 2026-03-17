@@ -78,7 +78,7 @@ func (op *Operation) validate() error {
 	return nil
 }
 
-func (ops OperationCollection) Apply(patcher ResourcePatcher, value interface{}) error {
+func (ops OperationCollection) Apply(patcher ResourcePatcher, value any) error {
 	for _, op := range ops {
 		if err := op.validate(); err != nil {
 			return err
@@ -92,7 +92,7 @@ func (ops OperationCollection) Apply(patcher ResourcePatcher, value interface{})
 	return nil
 }
 
-func (op *Operation) apply(patcher ResourcePatcher, value interface{}) error {
+func (op *Operation) apply(patcher ResourcePatcher, value any) error {
 	switch op.Operation {
 	case OperationTypeRemove:
 		return applyRemovePatch(patcher, op, value)
@@ -114,7 +114,7 @@ func (o OperationType) isValid() bool {
 	}
 }
 
-func flattenAndApplyPatchOperations(patcher ResourcePatcher, op *Operation, value interface{}) error {
+func flattenAndApplyPatchOperations(patcher ResourcePatcher, op *Operation, value any) error {
 	ops, err := flattenPatchOperations(op)
 	if err != nil {
 		return err
@@ -162,7 +162,7 @@ func flattenPatchOperations(op *Operation) ([]*Operation, error) {
 
 // unmarshalPatchValuesSlice unmarshal the raw json value (a scalar value, object or array) into a new slice
 func unmarshalPatchValuesSlice(elementTypePtr reflect.Type, value json.RawMessage, valueIsArray bool) (reflect.Value, error) {
-	if elementTypePtr.Kind() != reflect.Ptr {
+	if elementTypePtr.Kind() != reflect.Pointer {
 		logging.Panicf("elementType must be a pointer to a struct, but is %s", elementTypePtr.Name())
 		return reflect.Value{}, nil
 	}
@@ -188,7 +188,7 @@ func unmarshalPatchValuesSlice(elementTypePtr reflect.Type, value json.RawMessag
 }
 
 func unmarshalPatchValue(newValue json.RawMessage, targetElement reflect.Value) error {
-	if targetElement.Kind() != reflect.Ptr {
+	if targetElement.Kind() != reflect.Pointer {
 		targetElement = targetElement.Addr()
 	}
 
@@ -225,7 +225,7 @@ func ensureSinglePrimary(modifiedSlice reflect.Value, modifiedElementsSlice []re
 		}
 
 		sliceElement := modifiedSlice.Index(i)
-		if sliceElement.Kind() == reflect.Ptr {
+		if sliceElement.Kind() == reflect.Pointer {
 			sliceElement = sliceElement.Elem()
 		}
 
@@ -262,7 +262,7 @@ func isAnyPrimary(elements []reflect.Value) (bool, error) {
 }
 
 func isPrimary(element reflect.Value) bool {
-	if element.Kind() == reflect.Ptr {
+	if element.Kind() == reflect.Pointer {
 		element = element.Elem()
 	}
 

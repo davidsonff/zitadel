@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/zerrors"
 )
 
@@ -16,7 +14,7 @@ import (
 type RelaxedBool bool
 
 func NewRelaxedBool(value bool) *RelaxedBool {
-	return gu.Ptr(RelaxedBool(value))
+	return new(RelaxedBool(value))
 }
 
 func (b *RelaxedBool) MarshalJSON() ([]byte, error) {

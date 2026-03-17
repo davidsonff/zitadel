@@ -71,6 +71,6 @@ func (*SyncRolePermissions) String() string {
 	return "repeatable_sync_role_permissions"
 }
 
-func (*SyncRolePermissions) Check(lastRun map[string]interface{}) bool {
+func (*SyncRolePermissions) Check(lastRun map[string]any) bool {
 	return true
 }

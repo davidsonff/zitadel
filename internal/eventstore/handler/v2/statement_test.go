@@ -21,7 +21,7 @@ type wantExecuter struct {
 
 type params struct {
 	query string
-	args  []interface{}
+	args  []any
 }
 
 var errTest = errors.New("some error")
@@ -63,7 +63,7 @@ func (ex *wantExecuter) check(t *testing.T) {
 	}
 }
 
-func (ex *wantExecuter) Exec(query string, args ...interface{}) (sql.Result, error) {
+func (ex *wantExecuter) Exec(query string, args ...any) (sql.Result, error) {
 	ex.t.Helper()
 	if strings.Contains(query, "SAVEPOINT") {
 		return nil, nil
@@ -181,7 +181,7 @@ func TestNewCreateStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (col1) VALUES ($1)",
-							args:  []interface{}{"val"},
+							args:  []any{"val"},
 						},
 					},
 					shouldExecute: true,
@@ -347,7 +347,7 @@ func TestNewUpsertStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (col1, col2, col3) VALUES ($1, $2, $3) ON CONFLICT (col1) DO UPDATE SET (col2, col3) = (EXCLUDED.col2, EXCLUDED.col3)",
-							args:  []interface{}{"val", "val", "val"},
+							args:  []any{"val", "val", "val"},
 						},
 					},
 					shouldExecute: true,
@@ -396,7 +396,7 @@ func TestNewUpsertStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (col1, col2, col3) VALUES ($1, $2, $3) ON CONFLICT (col1) DO UPDATE SET (col2, col3) = (EXCLUDED.col2, some.table.col3)",
-							args:  []interface{}{"val1", "val2", "val3"},
+							args:  []any{"val1", "val2", "val3"},
 						},
 					},
 					shouldExecute: true,
@@ -441,7 +441,7 @@ func TestNewUpsertStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (col1, col2) VALUES ($1, $2) ON CONFLICT (col1) DO UPDATE SET col2 = some.table.col2",
-							args:  []interface{}{"val1", "val2"},
+							args:  []any{"val1", "val2"},
 						},
 					},
 					shouldExecute: true,
@@ -490,7 +490,7 @@ func TestNewUpsertStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (col1, col2) VALUES ($1, $2) ON CONFLICT (col1) DO UPDATE SET col2 = CASE WHEN some.table.val3 = $3 AND EXCLUDED.val3 = $4 OR some.table.val3 IS NULL THEN EXCLUDED.col2 ELSE some.table.col2 END",
-							args:  []interface{}{"val1", "val2", 0, 1},
+							args:  []any{"val1", "val2", 0, 1},
 						},
 					},
 					shouldExecute: true,
@@ -652,7 +652,7 @@ func TestNewUpdateStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "UPDATE my_table SET col1 = $1 WHERE (col2 = $2)",
-							args:  []interface{}{"val", 1},
+							args:  []any{"val", 1},
 						},
 					},
 					shouldExecute: true,
@@ -694,7 +694,7 @@ func TestNewUpdateStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "UPDATE my_table SET (col1, col3) = ($1, $2) WHERE (col2 = $3)",
-							args:  []interface{}{"val", "val5", 1},
+							args:  []any{"val", "val5", 1},
 						},
 					},
 					shouldExecute: true,
@@ -811,7 +811,7 @@ func TestNewDeleteStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "DELETE FROM my_table WHERE (col1 = $1)",
-							args:  []interface{}{1},
+							args:  []any{1},
 						},
 					},
 					shouldExecute: true,
@@ -1020,19 +1020,19 @@ func TestNewMultiStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "DELETE FROM my_table WHERE (col1 = $1)",
-							args:  []interface{}{1},
+							args:  []any{1},
 						},
 						{
 							query: "INSERT INTO my_table (col1) VALUES ($1)",
-							args:  []interface{}{1},
+							args:  []any{1},
 						},
 						{
 							query: "INSERT INTO my_table (col1, col2) VALUES ($1, $2) ON CONFLICT (col1) DO UPDATE SET col2 = EXCLUDED.col2",
-							args:  []interface{}{1, 2},
+							args:  []any{1, 2},
 						},
 						{
 							query: "UPDATE my_table SET col1 = $1 WHERE (col1 = $2)",
-							args:  []interface{}{1, 1},
+							args:  []any{1, 1},
 						},
 					},
 					shouldExecute: true,
@@ -1261,7 +1261,7 @@ func TestNewCopyStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (state, id, col_a, col_b) SELECT $1, id, col_a, col_b FROM my_table AS copy_table WHERE (copy_table.id = $2) AND (copy_table.state = $3) ON CONFLICT () DO UPDATE SET (state, id, col_a, col_b) = ($1, EXCLUDED.id, EXCLUDED.col_a, EXCLUDED.col_b)",
-							args:  []interface{}{1, 2, 3},
+							args:  []any{1, 2, 3},
 						},
 					},
 					shouldExecute: true,
@@ -1322,7 +1322,7 @@ func TestNewCopyStatement(t *testing.T) {
 					params: []params{
 						{
 							query: "INSERT INTO my_table (state, id, col_c, col_d) SELECT $1, id, col_a, col_b FROM my_table AS copy_table WHERE (copy_table.id = $2) AND (copy_table.state = $3) ON CONFLICT () DO UPDATE SET (state, id, col_c, col_d) = ($1, EXCLUDED.id, EXCLUDED.col_a, EXCLUDED.col_b)",
-							args:  []interface{}{1, 2, 3},
+							args:  []any{1, 2, 3},
 						},
 					},
 					shouldExecute: true,
@@ -1411,7 +1411,7 @@ func Test_columnsToQuery(t *testing.T) {
 	type want struct {
 		names  []string
 		params []string
-		values []interface{}
+		values []any
 	}
 	tests := []struct {
 		name string
@@ -1424,7 +1424,7 @@ func Test_columnsToQuery(t *testing.T) {
 			want: want{
 				names:  []string{},
 				params: []string{},
-				values: []interface{}{},
+				values: []any{},
 			},
 		},
 		{
@@ -1440,7 +1440,7 @@ func Test_columnsToQuery(t *testing.T) {
 			want: want{
 				names:  []string{"col1"},
 				params: []string{"$1"},
-				values: []interface{}{1},
+				values: []any{1},
 			},
 		},
 		{
@@ -1460,7 +1460,7 @@ func Test_columnsToQuery(t *testing.T) {
 			want: want{
 				names:  []string{"col1", "col2"},
 				params: []string{"$1", "$2"},
-				values: []interface{}{1, 3.14},
+				values: []any{1, 3.14},
 			},
 		},
 		{
@@ -1486,7 +1486,7 @@ func Test_columnsToQuery(t *testing.T) {
 			want: want{
 				names:  []string{"col1", "col2", "col3"},
 				params: []string{"$1", "col1", "$2"},
-				values: []interface{}{1, "something"},
+				values: []any{1, "something"},
 			},
 		},
 	}
@@ -1513,7 +1513,7 @@ func Test_columnsToWhere(t *testing.T) {
 	}
 	type want struct {
 		wheres []string
-		values []interface{}
+		values []any
 	}
 	tests := []struct {
 		name string
@@ -1525,7 +1525,7 @@ func Test_columnsToWhere(t *testing.T) {
 			args: args{},
 			want: want{
 				wheres: []string{},
-				values: []interface{}{},
+				values: []any{},
 			},
 		},
 		{
@@ -1538,7 +1538,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(col1 = $1)"},
-				values: []interface{}{"val1"},
+				values: []any{"val1"},
 			},
 		},
 		{
@@ -1552,7 +1552,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(col1 = $1)", "(col2 = $2)"},
-				values: []interface{}{"val1", "val2"},
+				values: []any{"val1", "val2"},
 			},
 		},
 		{
@@ -1565,7 +1565,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(col1 = $3)"},
-				values: []interface{}{"val1"},
+				values: []any{"val1"},
 			},
 		},
 		{
@@ -1578,7 +1578,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(col1 < $1)"},
-				values: []interface{}{"val1"},
+				values: []any{"val1"},
 			},
 		},
 		{
@@ -1590,7 +1590,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(col1 IS NULL)"},
-				values: []interface{}{},
+				values: []any{},
 			},
 		},
 		{
@@ -1603,7 +1603,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(col1 @> $1)"},
-				values: []interface{}{database.TextArray[string]{"val1"}},
+				values: []any{database.TextArray[string]{"val1"}},
 			},
 		},
 		{
@@ -1616,7 +1616,7 @@ func Test_columnsToWhere(t *testing.T) {
 			},
 			want: want{
 				wheres: []string{"(NOT (col1 = $1))"},
-				values: []interface{}{"val1"},
+				values: []any{"val1"},
 			},
 		},
 	}
@@ -1636,13 +1636,13 @@ func Test_columnsToWhere(t *testing.T) {
 func TestParameterOpts(t *testing.T) {
 	type args struct {
 		column      string
-		value       interface{}
+		value       any
 		placeholder string
 	}
 	tests := []struct {
 		name        string
 		args        args
-		constructor func(column string, value interface{}) Column
+		constructor func(column string, value any) Column
 		want        string
 	}{
 		{

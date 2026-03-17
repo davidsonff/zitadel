@@ -22,7 +22,7 @@ var (
 
 type Matcher interface {
 	MatchName(string) bool
-	Decode([]interface{}) (Connector, error)
+	Decode([]any) (Connector, error)
 }
 
 const (
@@ -56,7 +56,7 @@ func Register(matcher Matcher, config Connector, isDefault bool) {
 	dialects = append(dialects, d)
 }
 
-func SelectByConfig(config map[string]interface{}) *Dialect {
+func SelectByConfig(config map[string]any) *Dialect {
 	for key := range config {
 		for _, d := range dialects {
 			if d.Matcher.MatchName(key) {

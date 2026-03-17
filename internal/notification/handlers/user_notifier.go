@@ -621,7 +621,7 @@ func (u *userNotifier) reducePasswordlessCodeRequested(event eventstore.Event) (
 
 	return handler.NewStatement(event, func(ex handler.Executer, projectionName string) error {
 		ctx := HandlerContext(event.Aggregate())
-		alreadyHandled, err := u.checkIfCodeAlreadyHandledOrExpired(ctx, event, e.Expiry, map[string]interface{}{"id": e.ID}, user.HumanPasswordlessInitCodeSentType)
+		alreadyHandled, err := u.checkIfCodeAlreadyHandledOrExpired(ctx, event, e.Expiry, map[string]any{"id": e.ID}, user.HumanPasswordlessInitCodeSentType)
 		if err != nil {
 			return err
 		}
@@ -820,7 +820,7 @@ func (u *userNotifier) inviteCodeTemplate(origin string, e *user.HumanInviteCode
 	return login.InviteUserLinkTemplate(origin, e.Aggregate().ID, e.Aggregate().ResourceOwner, e.AuthRequestID)
 }
 
-func (u *userNotifier) checkIfCodeAlreadyHandledOrExpired(ctx context.Context, event eventstore.Event, expiry time.Duration, data map[string]interface{}, eventTypes ...eventstore.EventType) (bool, error) {
+func (u *userNotifier) checkIfCodeAlreadyHandledOrExpired(ctx context.Context, event eventstore.Event, expiry time.Duration, data map[string]any, eventTypes ...eventstore.EventType) (bool, error) {
 	if expiry > 0 && event.CreatedAt().Add(expiry).Before(time.Now().UTC()) {
 		return true, nil
 	}

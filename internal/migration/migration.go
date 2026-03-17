@@ -36,7 +36,7 @@ type errCheckerMigration interface {
 
 type RepeatableMigration interface {
 	Migration
-	Check(lastRun map[string]interface{}) bool
+	Check(lastRun map[string]any) bool
 }
 
 func Migrate(ctx context.Context, es *eventstore.Eventstore, migration Migration) (err error) {
@@ -157,6 +157,6 @@ func shouldExec(ctx context.Context, es *eventstore.Eventstore, migration Migrat
 	if !ok {
 		return step.state != StepDone, nil
 	}
-	lastRun, _ := step.LastRun.(map[string]interface{})
+	lastRun, _ := step.LastRun.(map[string]any)
 	return repeatable.Check(lastRun), nil
 }

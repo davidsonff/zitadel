@@ -24,7 +24,7 @@ func (c *Commands) ReportQuotaUsage(ctx context.Context, dueNotifications []*quo
 				AggregateTypes(quota.AggregateType).
 				AggregateIDs(notification.Aggregate().ID).
 				EventTypes(quota.NotificationDueEventType).
-				EventData(map[string]interface{}{
+				EventData(map[string]any{
 					"id":          notification.ID,
 					"periodStart": notification.PeriodStart,
 					"threshold":   notification.Threshold,

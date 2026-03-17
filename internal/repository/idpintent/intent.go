@@ -106,7 +106,7 @@ func NewSucceededEvent(
 	}
 }
 
-func (e *SucceededEvent) Payload() interface{} {
+func (e *SucceededEvent) Payload() any {
 	return e
 }
 
@@ -161,7 +161,7 @@ func NewSAMLSucceededEvent(
 	}
 }
 
-func (e *SAMLSucceededEvent) Payload() interface{} {
+func (e *SAMLSucceededEvent) Payload() any {
 	return e
 }
 
@@ -203,7 +203,7 @@ func NewSAMLRequestEvent(
 	}
 }
 
-func (e *SAMLRequestEvent) Payload() interface{} {
+func (e *SAMLRequestEvent) Payload() any {
 	return e
 }
 
@@ -258,7 +258,7 @@ func NewLDAPSucceededEvent(
 	}
 }
 
-func (e *LDAPSucceededEvent) Payload() interface{} {
+func (e *LDAPSucceededEvent) Payload() any {
 	return e
 }
 
@@ -300,7 +300,7 @@ func NewFailedEvent(
 	}
 }
 
-func (e *FailedEvent) Payload() interface{} {
+func (e *FailedEvent) Payload() any {
 	return e
 }
 

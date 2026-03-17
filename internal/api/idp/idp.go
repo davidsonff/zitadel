@@ -12,7 +12,6 @@ import (
 
 	"github.com/crewjam/saml"
 	"github.com/gorilla/mux"
-	"github.com/muhlemmer/gu"
 	"github.com/zitadel/logging"
 
 	http_utils "github.com/zitadel/zitadel/internal/api/http"
@@ -228,7 +227,7 @@ func (h *Handler) assertionConsumerServices(ctx context.Context, metadata *saml.
 				Binding:   saml.HTTPPostBinding,
 				Location:  h.loginSAMLRootURL(ctx),
 				Index:     0,
-				IsDefault: gu.Ptr(true),
+				IsDefault: new(true),
 			},
 			saml.IndexedEndpoint{
 				Binding:  saml.HTTPArtifactBinding,

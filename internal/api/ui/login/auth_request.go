@@ -32,7 +32,7 @@ func (l *Login) ensureAuthRequest(r *http.Request) (*domain.AuthRequest, error) 
 	return nil, zerrors.ThrowInvalidArgument(nil, "LOGIN-OLah9", "invalid or missing auth request")
 }
 
-func (l *Login) getAuthRequestAndParseData(r *http.Request, data interface{}) (*domain.AuthRequest, error) {
+func (l *Login) getAuthRequestAndParseData(r *http.Request, data any) (*domain.AuthRequest, error) {
 	authReq, err := l.getAuthRequest(r)
 	if err != nil {
 		return authReq, err
@@ -41,7 +41,7 @@ func (l *Login) getAuthRequestAndParseData(r *http.Request, data interface{}) (*
 	return authReq, err
 }
 
-func (l *Login) ensureAuthRequestAndParseData(r *http.Request, data interface{}) (*domain.AuthRequest, error) {
+func (l *Login) ensureAuthRequestAndParseData(r *http.Request, data any) (*domain.AuthRequest, error) {
 	authReq, err := l.ensureAuthRequest(r)
 	if err != nil {
 		return authReq, err
@@ -50,7 +50,7 @@ func (l *Login) ensureAuthRequestAndParseData(r *http.Request, data interface{})
 	return authReq, err
 }
 
-func (l *Login) getParseData(r *http.Request, data interface{}) error {
+func (l *Login) getParseData(r *http.Request, data any) error {
 	return l.parser.Parse(r, data)
 }
 

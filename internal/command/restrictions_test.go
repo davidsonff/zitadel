@@ -4,7 +4,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
@@ -56,7 +55,7 @@ func TestSetRestrictions(t *testing.T) {
 			},
 			args: args{
 				setRestrictions: &SetRestrictions{
-					DisallowPublicOrgRegistration: gu.Ptr(true),
+					DisallowPublicOrgRegistration: new(true),
 				},
 			},
 			res: res{
@@ -100,7 +99,7 @@ func TestSetRestrictions(t *testing.T) {
 			},
 			args: args{
 				setRestrictions: &SetRestrictions{
-					DisallowPublicOrgRegistration: gu.Ptr(false),
+					DisallowPublicOrgRegistration: new(false),
 				},
 			},
 			res: res{
@@ -131,7 +130,7 @@ func TestSetRestrictions(t *testing.T) {
 			},
 			args: args{
 				setRestrictions: &SetRestrictions{
-					DisallowPublicOrgRegistration: gu.Ptr(true),
+					DisallowPublicOrgRegistration: new(true),
 				},
 			},
 			res: res{

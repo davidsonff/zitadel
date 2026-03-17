@@ -44,7 +44,7 @@ func (wm *quotaWriteModel) Query() *eventstore.SearchQueryBuilder {
 			quota.AddedEventType,
 			quota.SetEventType,
 			quota.RemovedEventType,
-		).EventData(map[string]interface{}{"unit": wm.unit})
+		).EventData(map[string]any{"unit": wm.unit})
 
 	return query.Builder()
 }

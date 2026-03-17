@@ -1,6 +1,7 @@
 package command
 
 import (
+	"slices"
 	"time"
 
 	"golang.org/x/text/language"
@@ -168,10 +169,8 @@ func (wm *OIDCSessionWriteModel) CheckAccessToken(accessTokenID string) error {
 }
 
 func (wm *OIDCSessionWriteModel) CheckClient(clientID string) error {
-	for _, aud := range wm.Audience {
-		if aud == clientID {
-			return nil
-		}
+	if slices.Contains(wm.Audience, clientID) {
+		return nil
 	}
 	return zerrors.ThrowPreconditionFailed(nil, "OIDCS-SKjl3", "Errors.OIDCSession.InvalidClient")
 }

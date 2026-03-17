@@ -3,8 +3,6 @@ package feature
 import (
 	"net/url"
 
-	"github.com/muhlemmer/gu"
-
 	"github.com/zitadel/zitadel/internal/api/grpc/object/v2"
 	"github.com/zitadel/zitadel/internal/command"
 	"github.com/zitadel/zitadel/internal/feature"
@@ -126,7 +124,7 @@ func loginV2ToLoginV2FlagPb(f query.FeatureSource[*feature.LoginV2]) *feature_pb
 	if f.Value != nil {
 		required = f.Value.Required
 		if f.Value.BaseURI != nil && f.Value.BaseURI.String() != "" {
-			baseURI = gu.Ptr(f.Value.BaseURI.String())
+			baseURI = new(f.Value.BaseURI.String())
 		}
 	}
 	return &feature_pb.LoginV2FeatureFlag{

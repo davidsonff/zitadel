@@ -558,9 +558,9 @@ func intentToDetailsPb(intent *command.IDPIntentWriteModel) *object_pb.Details {
 }
 
 func IDPEntryAttributesToPb(entryAttributes map[string][]string) (*user.IDPInformation_Ldap, error) {
-	values := make(map[string]interface{}, 0)
+	values := make(map[string]any, 0)
 	for k, v := range entryAttributes {
-		intValues := make([]interface{}, len(v))
+		intValues := make([]any, len(v))
 		for i, value := range v {
 			intValues[i] = value
 		}

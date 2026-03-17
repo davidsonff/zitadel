@@ -79,7 +79,7 @@ func (s *Server) ListProjectGrantChanges(ctx context.Context, req *mgmt_pb.ListP
 		AddQuery().
 		AggregateTypes(project.AggregateType).
 		AggregateIDs(req.ProjectId).
-		EventData(map[string]interface{}{
+		EventData(map[string]any{
 			"grantId": req.GrantId,
 		}).
 		Builder()

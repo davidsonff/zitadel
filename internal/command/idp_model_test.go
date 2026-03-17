@@ -18,8 +18,8 @@ func TestCommands_AllIDPWriteModel(t *testing.T) {
 		idpType       domain.IDPType
 	}
 	type res struct {
-		writeModelType     interface{}
-		samlWriteModelType interface{}
+		writeModelType     any
+		samlWriteModelType any
 		err                error
 	}
 	tests := []struct {

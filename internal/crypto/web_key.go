@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 
 	"github.com/go-jose/go-jose/v4"
-	"github.com/muhlemmer/gu"
 
 	"github.com/zitadel/zitadel/internal/zerrors"
 )
@@ -225,7 +224,7 @@ func generateWebKey(keyID string, genConfig WebKeyConfig) (private, public *jose
 	}
 
 	private = newJSONWebkey(key, keyID, genConfig.Alg())
-	return private, gu.Ptr(private.Public()), err
+	return private, new(private.Public()), err
 }
 
 func newJSONWebkey(key any, keyID string, algorithm jose.SignatureAlgorithm) *jose.JSONWebKey {

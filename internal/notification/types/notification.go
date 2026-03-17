@@ -20,7 +20,7 @@ import (
 
 type Notify func(
 	url string,
-	args map[string]interface{},
+	args map[string]any,
 	messageType string,
 	allowUnverifiedNotificationChannel bool,
 ) error
@@ -43,7 +43,7 @@ func SendEmail(
 ) Notify {
 	return func(
 		urlTmpl string,
-		args map[string]interface{},
+		args map[string]any,
 		messageType string,
 		allowUnverifiedNotificationChannel bool,
 	) error {
@@ -88,7 +88,7 @@ func sanitizeArgsForHTML(args map[string]any) {
 	}
 }
 
-func urlFromTemplate(urlTmpl string, args map[string]interface{}) (string, error) {
+func urlFromTemplate(urlTmpl string, args map[string]any) (string, error) {
 	var buf strings.Builder
 	if err := domain.RenderURLTemplate(&buf, urlTmpl, args); err != nil {
 		return "", err
@@ -109,7 +109,7 @@ func SendSMS(
 ) Notify {
 	return func(
 		urlTmpl string,
-		args map[string]interface{},
+		args map[string]any,
 		messageType string,
 		allowUnverifiedNotificationChannel bool,
 	) error {
@@ -138,10 +138,10 @@ func SendJSON(
 	ctx context.Context,
 	webhookConfig webhook.Config,
 	channels ChannelChains,
-	serializable interface{},
+	serializable any,
 	triggeringEventType eventstore.EventType,
 ) Notify {
-	return func(_ string, _ map[string]interface{}, _ string, _ bool) error {
+	return func(_ string, _ map[string]any, _ string, _ bool) error {
 		return handleWebhook(
 			ctx,
 			webhookConfig,
@@ -159,7 +159,7 @@ func SendSecurityTokenEvent(
 	token any,
 	triggeringEventType eventstore.EventType,
 ) Notify {
-	return func(_ string, _ map[string]interface{}, _ string, _ bool) error {
+	return func(_ string, _ map[string]any, _ string, _ bool) error {
 		return handleSecurityTokenEvent(
 			ctx,
 			setConfig,

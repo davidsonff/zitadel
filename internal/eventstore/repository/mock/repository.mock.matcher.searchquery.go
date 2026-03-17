@@ -12,17 +12,17 @@ type filterQueryMatcher repository.SearchQuery
 func (f *filterQueryMatcher) String() string {
 	var filterLists []string
 	for _, filterSlice := range f.SubQueries {
-		var str string
+		var str strings.Builder
 		for _, filter := range filterSlice {
-			str += "," + (*filterMatcher)(filter).String()
+			str.WriteString("," + (*filterMatcher)(filter).String())
 		}
-		filterLists = append(filterLists, fmt.Sprintf("[%s]", strings.TrimPrefix(str, ",")))
+		filterLists = append(filterLists, fmt.Sprintf("[%s]", strings.TrimPrefix(str.String(), ",")))
 
 	}
 	return fmt.Sprintf("Filters: %s", strings.Join(filterLists, " "))
 }
 
-func (f *filterQueryMatcher) Matches(x interface{}) bool {
+func (f *filterQueryMatcher) Matches(x any) bool {
 	other := x.(*repository.SearchQuery)
 	if len(f.SubQueries) != len(other.SubQueries) {
 		return false
@@ -40,6 +40,6 @@ func (f *filterQueryMatcher) Matches(x interface{}) bool {
 	return true
 }
 
-func (f *filterQueryMatcher) Got(got interface{}) string {
+func (f *filterQueryMatcher) Got(got any) string {
 	return (*filterQueryMatcher)(got.(*repository.SearchQuery)).String()
 }

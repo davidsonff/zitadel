@@ -127,15 +127,16 @@ func alias(col, alias string) string {
 }
 
 func coalesce(values ...string) string {
-	str := "COALESCE("
+	var str strings.Builder
+	str.WriteString("COALESCE(")
 	for i, value := range values {
 		if i > 0 {
-			str += ", "
+			str.WriteString(", ")
 		}
-		str += value
+		str.WriteString(value)
 	}
-	str += ")"
-	return str
+	str.WriteString(")")
+	return str.String()
 }
 
 func eq(first, second string) string {
@@ -143,11 +144,12 @@ func eq(first, second string) string {
 }
 
 func leftJoin(table, alias, on string, and ...string) string {
-	st := table + " " + alias + " ON " + on
+	var st strings.Builder
+	st.WriteString(table + " " + alias + " ON " + on)
 	for _, a := range and {
-		st += " AND " + a
+		st.WriteString(" AND " + a)
 	}
-	return st
+	return st.String()
 }
 
 func concat(strs ...string) string {

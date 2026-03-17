@@ -2,6 +2,7 @@ package command
 
 import (
 	"context"
+	"slices"
 	"strings"
 
 	"github.com/zitadel/zitadel/internal/domain"
@@ -342,10 +343,8 @@ func checkForIncludeCircularRecur(ctx context.Context, ids []string, resourceOwn
 		if include == includedInclude {
 			return zerrors.ThrowPreconditionFailed(nil, "COMMAND-iuch02i656", "Errors.Execution.CircularInclude")
 		}
-		for _, id := range ids {
-			if includedInclude == id {
-				return zerrors.ThrowPreconditionFailed(nil, "COMMAND-819opvhgjv", "Errors.Execution.CircularInclude")
-			}
+		if slices.Contains(ids, includedInclude) {
+			return zerrors.ThrowPreconditionFailed(nil, "COMMAND-819opvhgjv", "Errors.Execution.CircularInclude")
 		}
 		if err := checkForIncludeCircularRecur(ctx, append(ids, include), resourceOwner, includedInclude, cache, maxLevels, currentLevel); err != nil {
 			return err

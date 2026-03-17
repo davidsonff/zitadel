@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -47,10 +46,10 @@ Actions:
 `},
 		want: func(t *testing.T, config *Config) {
 			assert.Equal(t, config.DefaultInstance.Features, &command.InstanceFeatures{
-				LoginDefaultOrg:                 gu.Ptr(true),
-				LegacyIntrospection:             gu.Ptr(true),
-				TriggerIntrospectionProjections: gu.Ptr(true),
-				UserSchema:                      gu.Ptr(true),
+				LoginDefaultOrg:                 new(true),
+				LegacyIntrospection:             new(true),
+				TriggerIntrospectionProjections: new(true),
+				UserSchema:                      new(true),
 			})
 		},
 	}, {

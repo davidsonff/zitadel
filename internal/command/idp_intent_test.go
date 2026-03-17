@@ -253,7 +253,7 @@ func TestCommands_CreateIntent(t *testing.T) {
 								success,
 								failure,
 								"idp",
-								map[string]interface{}{
+								map[string]any{
 									"verifier": "pkceOAuthVerifier",
 								},
 							)
@@ -268,7 +268,7 @@ func TestCommands_CreateIntent(t *testing.T) {
 				idpID:      "idp",
 				successURL: "https://success.url",
 				failureURL: "https://failure.url",
-				idpArguments: map[string]interface{}{
+				idpArguments: map[string]any{
 					"verifier": "pkceOAuthVerifier",
 				},
 			},
@@ -313,7 +313,7 @@ func TestCommands_CreateIntent(t *testing.T) {
 								success,
 								failure,
 								"idp",
-								map[string]interface{}{
+								map[string]any{
 									"verifier": "pkceOAuthVerifier",
 								},
 							)
@@ -328,7 +328,7 @@ func TestCommands_CreateIntent(t *testing.T) {
 				idpID:      "idp",
 				successURL: "https://success.url",
 				failureURL: "https://failure.url",
-				idpArguments: map[string]interface{}{
+				idpArguments: map[string]any{
 					"verifier": "pkceOAuthVerifier",
 				},
 			},
@@ -373,7 +373,7 @@ func TestCommands_CreateIntent(t *testing.T) {
 								success,
 								failure,
 								"idp",
-								map[string]interface{}{
+								map[string]any{
 									"verifier": "pkceOAuthVerifier",
 								},
 							)
@@ -388,7 +388,7 @@ func TestCommands_CreateIntent(t *testing.T) {
 				idpID:      "idp",
 				successURL: "https://success.url",
 				failureURL: "https://failure.url",
-				idpArguments: map[string]interface{}{
+				idpArguments: map[string]any{
 					"verifier": "pkceOAuthVerifier",
 				},
 			},

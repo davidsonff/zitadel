@@ -141,7 +141,7 @@ func (i *Instance) CreateHumanUser(ctx context.Context) *user_v2.AddHumanUserRes
 		Profile: &user_v2.SetHumanProfile{
 			GivenName:         "Mickey",
 			FamilyName:        "Mouse",
-			PreferredLanguage: gu.Ptr("nl"),
+			PreferredLanguage: new("nl"),
 			Gender:            gu.Ptr(user_v2.Gender_GENDER_MALE),
 		},
 		Email: &user_v2.SetHumanEmail{
@@ -172,7 +172,7 @@ func (i *Instance) CreateHumanUserNoPhone(ctx context.Context) *user_v2.AddHuman
 		Profile: &user_v2.SetHumanProfile{
 			GivenName:         "Mickey",
 			FamilyName:        "Mouse",
-			PreferredLanguage: gu.Ptr("nl"),
+			PreferredLanguage: new("nl"),
 			Gender:            gu.Ptr(user_v2.Gender_GENDER_MALE),
 		},
 		Email: &user_v2.SetHumanEmail{
@@ -197,7 +197,7 @@ func (i *Instance) CreateHumanUserWithTOTP(ctx context.Context, secret string) *
 		Profile: &user_v2.SetHumanProfile{
 			GivenName:         "Mickey",
 			FamilyName:        "Mouse",
-			PreferredLanguage: gu.Ptr("nl"),
+			PreferredLanguage: new("nl"),
 			Gender:            gu.Ptr(user_v2.Gender_GENDER_MALE),
 		},
 		Email: &user_v2.SetHumanEmail{
@@ -212,7 +212,7 @@ func (i *Instance) CreateHumanUserWithTOTP(ctx context.Context, secret string) *
 				ReturnCode: &user_v2.ReturnPhoneVerificationCode{},
 			},
 		},
-		TotpSecret: gu.Ptr(secret),
+		TotpSecret: new(secret),
 	})
 	logging.OnError(err).Panic("create human user")
 	i.TriggerUserByID(ctx, resp.GetUserId())
@@ -311,8 +311,8 @@ func (i *Instance) CreateHumanUserVerified(ctx context.Context, org, email, phon
 		Profile: &user_v2.SetHumanProfile{
 			GivenName:         "Mickey",
 			FamilyName:        "Mouse",
-			NickName:          gu.Ptr("Mickey"),
-			PreferredLanguage: gu.Ptr("nl"),
+			NickName:          new("Mickey"),
+			PreferredLanguage: new("nl"),
 			Gender:            gu.Ptr(user_v2.Gender_GENDER_MALE),
 		},
 		Email: &user_v2.SetHumanEmail{

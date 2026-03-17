@@ -127,7 +127,7 @@ func TestLimits_SetLimits(t *testing.T) {
 										limits.SetEventType,
 									),
 									limits.ChangeAuditLogRetention(gu.Ptr(time.Minute)),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 						),
@@ -140,7 +140,7 @@ func TestLimits_SetLimits(t *testing.T) {
 										&limits.NewAggregate("limits1", "instance1").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(false)),
+									limits.ChangeBlock(new(false)),
 								),
 							),
 						),
@@ -150,7 +150,7 @@ func TestLimits_SetLimits(t *testing.T) {
 			args: args{
 				ctx: authz.WithInstanceID(context.Background(), "instance1"),
 				setLimits: &SetLimits{
-					Block: gu.Ptr(false),
+					Block: new(false),
 				},
 			},
 			res: res{
@@ -347,7 +347,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										limits.SetEventType,
 									),
 									limits.ChangeAuditLogRetention(gu.Ptr(time.Minute)),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 						),
@@ -360,7 +360,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("limits1", "instance1").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(false)),
+									limits.ChangeBlock(new(false)),
 								),
 							),
 						),
@@ -372,7 +372,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 				setLimitsBulk: []*SetInstanceLimitsBulk{{
 					InstanceID: "instance1",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(false),
+						Block: new(false),
 					},
 				}},
 			},
@@ -462,7 +462,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("switch-to-block", "instance2").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(false)),
+									limits.ChangeBlock(new(false)),
 								),
 							),
 							eventFromEventPusher(
@@ -472,7 +472,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("already-blocked", "instance3").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 							eventFromEventPusher(
@@ -482,7 +482,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("unblock", "instance4").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 							eventFromEventPusher(
@@ -492,7 +492,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("relimit", "instance5").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 							eventFromEventPusher(
@@ -511,7 +511,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("create-limits", "instance0").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 							eventFromEventPusherWithInstanceID(
@@ -522,7 +522,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("add-block", "instance1").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 							eventFromEventPusherWithInstanceID(
@@ -533,7 +533,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("switch-to-block", "instance2").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 							eventFromEventPusherWithInstanceID(
@@ -544,7 +544,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("unblock", "instance4").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(false)),
+									limits.ChangeBlock(new(false)),
 								),
 							),
 							eventFromEventPusherWithInstanceID(
@@ -555,7 +555,7 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 										&limits.NewAggregate("relimit", "instance5").Aggregate,
 										limits.SetEventType,
 									),
-									limits.ChangeBlock(gu.Ptr(true)),
+									limits.ChangeBlock(new(true)),
 								),
 							),
 						),
@@ -567,32 +567,32 @@ func TestLimits_SetLimitsBulk(t *testing.T) {
 				setLimitsBulk: []*SetInstanceLimitsBulk{{
 					InstanceID: "instance0",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(true),
+						Block: new(true),
 					},
 				}, {
 					InstanceID: "instance1",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(true),
+						Block: new(true),
 					},
 				}, {
 					InstanceID: "instance2",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(true),
+						Block: new(true),
 					},
 				}, {
 					InstanceID: "instance3",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(true),
+						Block: new(true),
 					},
 				}, {
 					InstanceID: "instance4",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(false),
+						Block: new(false),
 					},
 				}, {
 					InstanceID: "instance5",
 					SetLimits: SetLimits{
-						Block: gu.Ptr(true),
+						Block: new(true),
 					},
 				}},
 			},

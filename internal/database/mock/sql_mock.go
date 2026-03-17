@@ -131,9 +131,9 @@ func ExpectQuery(stmt string, opts ...QueryOpt) expectation {
 	}
 }
 
-type AnyType[T interface{}] struct{}
+type AnyType[T any] struct{}
 
 // Match satisfies sqlmock.Argument interface
 func (a AnyType[T]) Match(v driver.Value) bool {
-	return reflect.TypeOf(new(T)).Elem().Kind().String() == reflect.TypeOf(v).Kind().String()
+	return reflect.TypeFor[T]().Kind().String() == reflect.TypeOf(v).Kind().String()
 }

@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -28,7 +27,7 @@ func Test_buildMetadataQuery(t *testing.T) {
 		{
 			name:    "equals",
 			key:     "foo",
-			value:   &filter.CompValue{StringValue: gu.Ptr("bar")},
+			value:   &filter.CompValue{StringValue: new("bar")},
 			op:      &filter.CompareOp{Equal: true},
 			want:    test.Must(query.NewUserMetadataExistsQuery("foo", []byte("bar"), query.TextEquals, query.BytesEquals)),
 			wantErr: false,
@@ -36,7 +35,7 @@ func Test_buildMetadataQuery(t *testing.T) {
 		{
 			name:    "not equals",
 			key:     "foo",
-			value:   &filter.CompValue{StringValue: gu.Ptr("bar")},
+			value:   &filter.CompValue{StringValue: new("bar")},
 			op:      &filter.CompareOp{NotEqual: true},
 			want:    test.Must(query.NewUserMetadataExistsQuery("foo", []byte("bar"), query.TextEquals, query.BytesNotEquals)),
 			wantErr: false,
@@ -44,14 +43,14 @@ func Test_buildMetadataQuery(t *testing.T) {
 		{
 			name:    "unsupported operator",
 			key:     "foo",
-			value:   &filter.CompValue{StringValue: gu.Ptr("bar")},
+			value:   &filter.CompValue{StringValue: new("bar")},
 			op:      &filter.CompareOp{StartsWith: true},
 			wantErr: true,
 		},
 		{
 			name:    "unsupported comparison value",
 			key:     "foo",
-			value:   &filter.CompValue{Int: gu.Ptr(10)},
+			value:   &filter.CompValue{Int: new(10)},
 			op:      &filter.CompareOp{Equal: true},
 			wantErr: true,
 		},
@@ -124,7 +123,7 @@ func Test_buildActiveUserStateQuery(t *testing.T) {
 		},
 		{
 			name:         "invalid comp value",
-			compareValue: &filter.CompValue{StringValue: gu.Ptr("foo")},
+			compareValue: &filter.CompValue{StringValue: new("foo")},
 			compOp:       &filter.CompareOp{Equal: true},
 			wantErr:      true,
 		},

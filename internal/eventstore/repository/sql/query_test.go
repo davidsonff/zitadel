@@ -80,17 +80,17 @@ func Test_prepareColumns(t *testing.T) {
 	var reducedEvents []eventstore.Event
 
 	type fields struct {
-		dbRow []interface{}
+		dbRow []any
 	}
 	type args struct {
 		columns eventstore.Columns
-		dest    interface{}
+		dest    any
 		dbErr   error
 		useV1   bool
 	}
 	type res struct {
 		query    string
-		expected interface{}
+		expected any
 		dbErr    func(error) bool
 	}
 	tests := []struct {
@@ -119,7 +119,7 @@ func Test_prepareColumns(t *testing.T) {
 				expected: sql.NullFloat64{Float64: 43, Valid: true},
 			},
 			fields: fields{
-				dbRow: []interface{}{sql.NullFloat64{Float64: 43, Valid: true}},
+				dbRow: []any{sql.NullFloat64{Float64: 43, Valid: true}},
 			},
 		},
 		{
@@ -133,7 +133,7 @@ func Test_prepareColumns(t *testing.T) {
 				expected: sql.NullFloat64{Float64: 43, Valid: true},
 			},
 			fields: fields{
-				dbRow: []interface{}{sql.NullFloat64{Float64: 43, Valid: true}},
+				dbRow: []any{sql.NullFloat64{Float64: 43, Valid: true}},
 			},
 		},
 		{
@@ -164,7 +164,7 @@ func Test_prepareColumns(t *testing.T) {
 				},
 			},
 			fields: fields{
-				dbRow: []interface{}{time.Time{}, eventstore.EventType(""), uint64(5), sql.RawBytes(nil), "", sql.NullString{}, "", eventstore.AggregateType("user"), "hodor", eventstore.Version("")},
+				dbRow: []any{time.Time{}, eventstore.EventType(""), uint64(5), sql.RawBytes(nil), "", sql.NullString{}, "", eventstore.AggregateType("user"), "hodor", eventstore.Version("")},
 			},
 		},
 		{
@@ -183,7 +183,7 @@ func Test_prepareColumns(t *testing.T) {
 				},
 			},
 			fields: fields{
-				dbRow: []interface{}{time.Time{}, eventstore.EventType(""), uint64(5), sql.NullFloat64{Float64: 42, Valid: true}, sql.RawBytes(nil), "", sql.NullString{}, "", eventstore.AggregateType("user"), "hodor", uint8(1)},
+				dbRow: []any{time.Time{}, eventstore.EventType(""), uint64(5), sql.NullFloat64{Float64: 42, Valid: true}, sql.RawBytes(nil), "", sql.NullString{}, "", eventstore.AggregateType("user"), "hodor", uint8(1)},
 			},
 		},
 		{
@@ -202,7 +202,7 @@ func Test_prepareColumns(t *testing.T) {
 				},
 			},
 			fields: fields{
-				dbRow: []interface{}{time.Time{}, eventstore.EventType(""), uint64(5), sql.NullFloat64{Float64: 0, Valid: false}, sql.RawBytes(nil), "", sql.NullString{}, "", eventstore.AggregateType("user"), "hodor", uint8(1)},
+				dbRow: []any{time.Time{}, eventstore.EventType(""), uint64(5), sql.NullFloat64{Float64: 0, Valid: false}, sql.RawBytes(nil), "", sql.NullString{}, "", eventstore.AggregateType("user"), "hodor", uint8(1)},
 			},
 		},
 		{
@@ -273,8 +273,8 @@ func Test_prepareColumns(t *testing.T) {
 	}
 }
 
-func prepareTestScan(err error, res []interface{}) scan {
-	return func(dests ...interface{}) error {
+func prepareTestScan(err error, res []any) scan {
+	return func(dests ...any) error {
 		if err != nil {
 			return err
 		}
@@ -303,7 +303,7 @@ func Test_prepareCondition(t *testing.T) {
 	}
 	type res struct {
 		clause string
-		values []interface{}
+		values []any
 	}
 	tests := []struct {
 		name string
@@ -404,7 +404,7 @@ func Test_prepareCondition(t *testing.T) {
 			},
 			res: res{
 				clause: " WHERE aggregate_type = ANY(?) AND creation_date::TIMESTAMP < (SELECT COALESCE(MIN(start), NOW())::TIMESTAMP FROM crdb_internal.cluster_transactions where application_name = ANY(?))",
-				values: []interface{}{[]eventstore.AggregateType{"user", "org"}, database.TextArray[string]{}},
+				values: []any{[]eventstore.AggregateType{"user", "org"}, database.TextArray[string]{}},
 			},
 		},
 		{
@@ -421,7 +421,7 @@ func Test_prepareCondition(t *testing.T) {
 			},
 			res: res{
 				clause: ` WHERE aggregate_type = ANY(?) AND hlc_to_timestamp("position") < (SELECT COALESCE(MIN(start), NOW())::TIMESTAMP FROM crdb_internal.cluster_transactions where application_name = ANY(?))`,
-				values: []interface{}{[]eventstore.AggregateType{"user", "org"}, database.TextArray[string]{}},
+				values: []any{[]eventstore.AggregateType{"user", "org"}, database.TextArray[string]{}},
 			},
 		},
 		{
@@ -441,7 +441,7 @@ func Test_prepareCondition(t *testing.T) {
 			},
 			res: res{
 				clause: " WHERE aggregate_type = ANY(?) AND aggregate_id = ? AND event_type = ANY(?) AND creation_date::TIMESTAMP < (SELECT COALESCE(MIN(start), NOW())::TIMESTAMP FROM crdb_internal.cluster_transactions where application_name = ANY(?))",
-				values: []interface{}{[]eventstore.AggregateType{"user", "org"}, "1234", []eventstore.EventType{"user.created", "org.created"}, database.TextArray[string]{}},
+				values: []any{[]eventstore.AggregateType{"user", "org"}, "1234", []eventstore.EventType{"user.created", "org.created"}, database.TextArray[string]{}},
 			},
 		},
 		{
@@ -460,7 +460,7 @@ func Test_prepareCondition(t *testing.T) {
 			},
 			res: res{
 				clause: ` WHERE aggregate_type = ANY(?) AND aggregate_id = ? AND event_type = ANY(?) AND hlc_to_timestamp("position") < (SELECT COALESCE(MIN(start), NOW())::TIMESTAMP FROM crdb_internal.cluster_transactions where application_name = ANY(?))`,
-				values: []interface{}{[]eventstore.AggregateType{"user", "org"}, "1234", []eventstore.EventType{"user.created", "org.created"}, database.TextArray[string]{}},
+				values: []any{[]eventstore.AggregateType{"user", "org"}, "1234", []eventstore.EventType{"user.created", "org.created"}, database.TextArray[string]{}},
 			},
 		},
 	}
@@ -744,7 +744,7 @@ func Test_query_events_with_crdb_locking(t *testing.T) {
 func Test_query_events_mocked(t *testing.T) {
 	type args struct {
 		query *eventstore.SearchQueryBuilder
-		dest  interface{}
+		dest  any
 		useV1 bool
 	}
 	type res struct {

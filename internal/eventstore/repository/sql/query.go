@@ -32,7 +32,7 @@ type querier interface {
 	dialect.Database
 }
 
-type scan func(dest ...interface{}) error
+type scan func(dest ...any) error
 
 type tx struct {
 	*sql.Tx
@@ -54,7 +54,7 @@ func (t *tx) QueryContext(ctx context.Context, scan func(rows *sql.Rows) error, 
 	return rows.Err()
 }
 
-func query(ctx context.Context, criteria querier, searchQuery *eventstore.SearchQueryBuilder, dest interface{}, useV1 bool) error {
+func query(ctx context.Context, criteria querier, searchQuery *eventstore.SearchQueryBuilder, dest any, useV1 bool) error {
 	q, err := repository.QueryFromBuilder(searchQuery)
 	if err != nil {
 		return err
@@ -120,7 +120,7 @@ func query(ctx context.Context, criteria querier, searchQuery *eventstore.Search
 	query = criteria.placeholder(query)
 
 	var contextQuerier interface {
-		QueryContext(context.Context, func(rows *sql.Rows) error, string, ...interface{}) error
+		QueryContext(context.Context, func(rows *sql.Rows) error, string, ...any) error
 	}
 	contextQuerier = criteria.Client()
 	if q.Tx != nil {
@@ -145,7 +145,7 @@ func query(ctx context.Context, criteria querier, searchQuery *eventstore.Search
 	return nil
 }
 
-func prepareColumns(criteria querier, columns eventstore.Columns, useV1 bool) (string, func(s scan, dest interface{}) error) {
+func prepareColumns(criteria querier, columns eventstore.Columns, useV1 bool) (string, func(s scan, dest any) error) {
 	switch columns {
 	case eventstore.ColumnsMaxSequence:
 		return criteria.maxSequenceQuery(useV1), maxSequenceScanner
@@ -166,7 +166,7 @@ func prepareTimeTravel(ctx context.Context, criteria querier, allow bool) string
 	return criteria.Timetravel(took)
 }
 
-func maxSequenceScanner(row scan, dest interface{}) (err error) {
+func maxSequenceScanner(row scan, dest any) (err error) {
 	position, ok := dest.(*sql.NullFloat64)
 	if !ok {
 		return zerrors.ThrowInvalidArgumentf(nil, "SQL-NBjA9", "type must be sql.NullInt64 got: %T", dest)
@@ -178,7 +178,7 @@ func maxSequenceScanner(row scan, dest interface{}) (err error) {
 	return zerrors.ThrowInternal(err, "SQL-bN5xg", "something went wrong")
 }
 
-func instanceIDsScanner(scanner scan, dest interface{}) (err error) {
+func instanceIDsScanner(scanner scan, dest any) (err error) {
 	ids, ok := dest.(*[]string)
 	if !ok {
 		return zerrors.ThrowInvalidArgument(nil, "SQL-Begh2", "type must be an array of string")
@@ -194,8 +194,8 @@ func instanceIDsScanner(scanner scan, dest interface{}) (err error) {
 	return nil
 }
 
-func eventsScanner(useV1 bool) func(scanner scan, dest interface{}) (err error) {
-	return func(scanner scan, dest interface{}) (err error) {
+func eventsScanner(useV1 bool) func(scanner scan, dest any) (err error) {
+	return func(scanner scan, dest any) (err error) {
 		reduce, ok := dest.(eventstore.Reducer)
 		if !ok {
 			return zerrors.ThrowInvalidArgumentf(nil, "SQL-4GP6F", "events scanner: invalid type %T", dest)

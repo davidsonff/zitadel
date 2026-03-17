@@ -26,10 +26,10 @@ type fieldSchemaInfo struct {
 }
 
 var (
-	timeType            = reflect.TypeOf(time.Time{})
-	languageTagType     = reflect.TypeOf(language.Tag{})
-	httpURLType         = reflect.TypeOf(HttpURL{})
-	writeOnlyStringType = reflect.TypeOf(WriteOnlyString(""))
+	timeType            = reflect.TypeFor[time.Time]()
+	languageTagType     = reflect.TypeFor[language.Tag]()
+	httpURLType         = reflect.TypeFor[HttpURL]()
+	writeOnlyStringType = reflect.TypeFor[WriteOnlyString]()
 )
 
 func BuildSchema(args SchemaBuilderArgs) *ResourceSchema {
@@ -50,7 +50,7 @@ func BuildSchema(args SchemaBuilderArgs) *ResourceSchema {
 }
 
 func buildSchemaAttributes(fieldType reflect.Type) []*SchemaAttribute {
-	if fieldType.Kind() == reflect.Ptr {
+	if fieldType.Kind() == reflect.Pointer {
 		fieldType = fieldType.Elem()
 	}
 
@@ -59,8 +59,7 @@ func buildSchemaAttributes(fieldType reflect.Type) []*SchemaAttribute {
 	}
 
 	attributes := make([]*SchemaAttribute, 0, fieldType.NumField())
-	for i := 0; i < fieldType.NumField(); i++ {
-		field := fieldType.Field(i)
+	for field := range fieldType.Fields() {
 		attribute := buildAttribute(field)
 
 		if attribute != nil {
@@ -107,7 +106,7 @@ func buildAttribute(field reflect.StructField) *SchemaAttribute {
 }
 
 func isFieldMultiValued(field reflect.StructField) bool {
-	if field.Type.Kind() != reflect.Ptr {
+	if field.Type.Kind() != reflect.Pointer {
 		return field.Type.Kind() == reflect.Slice
 	}
 
@@ -140,14 +139,14 @@ func getFieldAttributeType(fieldType reflect.Type) SchemaAttributeType {
 
 func getFieldType(field reflect.StructField) reflect.Type {
 	fieldType := field.Type
-	if fieldType.Kind() == reflect.Ptr {
+	if fieldType.Kind() == reflect.Pointer {
 		fieldType = fieldType.Elem()
 	}
 
 	if fieldType.Kind() == reflect.Slice || fieldType.Kind() == reflect.Array {
 		fieldType = fieldType.Elem()
 
-		if fieldType.Kind() == reflect.Ptr {
+		if fieldType.Kind() == reflect.Pointer {
 			fieldType = fieldType.Elem()
 		}
 	}

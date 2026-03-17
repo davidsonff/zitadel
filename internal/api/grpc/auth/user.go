@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"slices"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
 	"github.com/zitadel/zitadel/internal/api/grpc/change"
@@ -250,10 +251,8 @@ func isIAMAdmin(memberships []*query.Membership) bool {
 }
 
 func appendIfNotExists(array []string, value string) []string {
-	for _, a := range array {
-		if a == value {
-			return array
-		}
+	if slices.Contains(array, value) {
+		return array
 	}
 	return append(array, value)
 }

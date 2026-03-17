@@ -61,7 +61,7 @@ func (s *CreateSchemaUser) Valid(ctx context.Context, c *Commands) (err error) {
 		return err
 	}
 
-	var v interface{}
+	var v any
 	if err := json.Unmarshal(s.Data, &v); err != nil {
 		return zerrors.ThrowInvalidArgument(nil, "COMMAND-7o3ZGxtXUz", "Errors.User.Invalid")
 	}

@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 	"github.com/zitadel/oidc/v3/pkg/op"
 	"golang.org/x/text/language"
@@ -80,7 +79,7 @@ func (s *Server) verifyAccessToken(ctx context.Context, tkn string) (_ *accessTo
 func accessTokenV1(tokenID, subject string, token *model.TokenView) *accessToken {
 	var preferredLanguage *language.Tag
 	if token.PreferredLanguage != "" {
-		preferredLanguage = gu.Ptr(language.Make(token.PreferredLanguage))
+		preferredLanguage = new(language.Make(token.PreferredLanguage))
 	}
 	return &accessToken{
 		tokenID:           tokenID,

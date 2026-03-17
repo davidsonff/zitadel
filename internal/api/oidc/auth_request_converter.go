@@ -193,8 +193,8 @@ func UILocalesToBusiness(tags []language.Tag) []string {
 
 func GetSelectedIDPIDFromScopes(scopes oidc.SpaceDelimitedArray) string {
 	for _, scope := range scopes {
-		if strings.HasPrefix(scope, domain.SelectIDPScope) {
-			return strings.TrimPrefix(scope, domain.SelectIDPScope)
+		if after, ok := strings.CutPrefix(scope, domain.SelectIDPScope); ok {
+			return after
 		}
 	}
 	return ""

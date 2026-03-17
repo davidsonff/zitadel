@@ -11,6 +11,6 @@ import (
 
 func (notify Notify) SendPasswordChange(ctx context.Context, user *query.NotifyUser) error {
 	url := console.LoginHintLink(http_utils.DomainContext(ctx).Origin(), user.PreferredLoginName)
-	args := make(map[string]interface{})
+	args := make(map[string]any)
 	return notify(url, args, domain.PasswordChangeMessageType, true)
 }

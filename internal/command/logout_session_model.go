@@ -50,7 +50,7 @@ func (wm *SessionLogoutWriteModel) Query() *eventstore.SearchQueryBuilder {
 			sessionlogout.BackChannelLogoutRegisteredType,
 			sessionlogout.BackChannelLogoutSentType,
 		).
-		EventData(map[string]interface{}{
+		EventData(map[string]any{
 			"oidc_session_id": wm.OIDCSessionID,
 		}).
 		Builder()

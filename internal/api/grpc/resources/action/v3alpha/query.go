@@ -351,17 +351,17 @@ func executionToPb(e *query.Execution) *action.GetExecution {
 }
 
 func executionIDToCondition(include string) *action.Condition {
-	if strings.HasPrefix(include, domain.ExecutionTypeRequest.String()) {
-		return includeRequestToCondition(strings.TrimPrefix(include, domain.ExecutionTypeRequest.String()))
+	if after, ok := strings.CutPrefix(include, domain.ExecutionTypeRequest.String()); ok {
+		return includeRequestToCondition(after)
 	}
-	if strings.HasPrefix(include, domain.ExecutionTypeResponse.String()) {
-		return includeResponseToCondition(strings.TrimPrefix(include, domain.ExecutionTypeResponse.String()))
+	if after, ok := strings.CutPrefix(include, domain.ExecutionTypeResponse.String()); ok {
+		return includeResponseToCondition(after)
 	}
-	if strings.HasPrefix(include, domain.ExecutionTypeEvent.String()) {
-		return includeEventToCondition(strings.TrimPrefix(include, domain.ExecutionTypeEvent.String()))
+	if after, ok := strings.CutPrefix(include, domain.ExecutionTypeEvent.String()); ok {
+		return includeEventToCondition(after)
 	}
-	if strings.HasPrefix(include, domain.ExecutionTypeFunction.String()) {
-		return includeFunctionToCondition(strings.TrimPrefix(include, domain.ExecutionTypeFunction.String()))
+	if after, ok := strings.CutPrefix(include, domain.ExecutionTypeFunction.String()); ok {
+		return includeFunctionToCondition(after)
 	}
 	return nil
 }

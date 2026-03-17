@@ -103,7 +103,7 @@ func (c *Commands) MigrateOrgGenericOIDCToGoogleProvider(ctx context.Context, re
 	return c.migrateOrgGenericOIDC(ctx, resourceOwner, id, provider)
 }
 
-func (c *Commands) migrateOrgGenericOIDC(ctx context.Context, resourceOwner, id string, provider interface{}) (*domain.ObjectDetails, error) {
+func (c *Commands) migrateOrgGenericOIDC(ctx context.Context, resourceOwner, id string, provider any) (*domain.ObjectDetails, error) {
 	orgAgg := org.NewAggregate(resourceOwner)
 	writeModel := NewOIDCOrgIDPWriteModel(resourceOwner, id)
 

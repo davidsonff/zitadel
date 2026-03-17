@@ -2,6 +2,7 @@ package command
 
 import (
 	"context"
+	"slices"
 
 	"github.com/zitadel/zitadel/internal/domain"
 	"github.com/zitadel/zitadel/internal/eventstore"
@@ -133,10 +134,5 @@ func ProjectAggregateFromWriteModel(wm *eventstore.WriteModel) *eventstore.Aggre
 }
 
 func hasProjectState(check domain.ProjectState, states ...domain.ProjectState) bool {
-	for _, state := range states {
-		if check == state {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(states, check)
 }

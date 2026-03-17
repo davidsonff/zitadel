@@ -13,7 +13,7 @@ type projectionTables struct {
 	Version string `json:"version"`
 }
 
-func (mig *projectionTables) Check(lastRun map[string]interface{}) bool {
+func (mig *projectionTables) Check(lastRun map[string]any) bool {
 	currentVersion, _ := lastRun["version"].(string)
 	return currentVersion != mig.Version
 }

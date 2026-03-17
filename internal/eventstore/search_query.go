@@ -117,7 +117,7 @@ type SearchQuery struct {
 	aggregateTypes []AggregateType
 	aggregateIDs   []string
 	eventTypes     []EventType
-	eventData      map[string]interface{}
+	eventData      map[string]any
 	positionAfter  float64
 }
 
@@ -133,7 +133,7 @@ func (q SearchQuery) GetEventTypes() []EventType {
 	return q.eventTypes
 }
 
-func (q SearchQuery) GetEventData() map[string]interface{} {
+func (q SearchQuery) GetEventData() map[string]any {
 	return q.eventData
 }
 
@@ -400,7 +400,7 @@ func (query *SearchQuery) EventTypes(types ...EventType) *SearchQuery {
 
 // EventData filters for events with the given event data.
 // Use this call with care as it will be slower than the other filters.
-func (query *SearchQuery) EventData(data map[string]interface{}) *SearchQuery {
+func (query *SearchQuery) EventData(data map[string]any) *SearchQuery {
 	query.eventData = data
 	return query
 }

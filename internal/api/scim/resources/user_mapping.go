@@ -390,8 +390,8 @@ func (h *UsersHandler) buildResourceForQuery(ctx context.Context, user *query.Us
 		Schemas: []schemas.ScimSchemaType{schemas.IdUser},
 		Meta: &schemas.ResourceMeta{
 			ResourceType: schemas.UserResourceType,
-			Created:      gu.Ptr(user.CreationDate.UTC()),
-			LastModified: gu.Ptr(user.ChangeDate.UTC()),
+			Created:      new(user.CreationDate.UTC()),
+			LastModified: new(user.ChangeDate.UTC()),
 			Version:      strconv.FormatUint(user.Sequence, 10),
 			Location:     schemas.BuildLocationForResource(ctx, h.schema.PluralName, user.ID),
 		},
@@ -403,8 +403,8 @@ func (h *UsersHandler) buildResourceForWriteModel(ctx context.Context, user *com
 		Schemas: []schemas.ScimSchemaType{schemas.IdUser},
 		Meta: &schemas.ResourceMeta{
 			ResourceType: schemas.UserResourceType,
-			Created:      gu.Ptr(user.CreationDate.UTC()),
-			LastModified: gu.Ptr(user.ChangeDate.UTC()),
+			Created:      new(user.CreationDate.UTC()),
+			LastModified: new(user.ChangeDate.UTC()),
 			Version:      strconv.FormatUint(user.ProcessedSequence, 10),
 			Location:     schemas.BuildLocationForResource(ctx, h.schema.PluralName, user.AggregateID),
 		},

@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
@@ -1395,7 +1394,7 @@ func TestCommands_changeUserEmailWithGenerator(t *testing.T) {
 				},
 				EmailAddress:    "email-changed@test.ch",
 				IsEmailVerified: false,
-				PlainCode:       gu.Ptr("a"),
+				PlainCode:       new("a"),
 			},
 		},
 		{
@@ -1741,7 +1740,7 @@ func TestCommands_sendUserEmailCodeWithGeneratorEvents(t *testing.T) {
 				},
 				EmailAddress:    "email@test.ch",
 				IsEmailVerified: false,
-				PlainCode:       gu.Ptr("a"),
+				PlainCode:       new("a"),
 			},
 		},
 		{

@@ -58,7 +58,7 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 		},
 		wantChanges: 1,
 		wantEvent: quota.SetEvent{
-			ResetInterval: durationPtr(time.Minute),
+			ResetInterval: new(time.Minute),
 		},
 	}, {
 		name: "change reset interval and amount",
@@ -78,8 +78,8 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 		},
 		wantChanges: 2,
 		wantEvent: quota.SetEvent{
-			ResetInterval: durationPtr(time.Minute),
-			Amount:        uint64Ptr(10),
+			ResetInterval: new(time.Minute),
+			Amount:        new(uint64(10)),
 		},
 	}, {
 		name: "change nothing",
@@ -114,7 +114,7 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 			notifications: make([]*QuotaNotification, 0),
 		},
 		wantChanges: 1,
-		wantEvent:   quota.SetEvent{Limit: boolPtr(false)},
+		wantEvent:   quota.SetEvent{Limit: new(false)},
 	}, {
 		name: "change amount to zero value",
 		fields: fields{
@@ -132,7 +132,7 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 			notifications: make([]*QuotaNotification, 0),
 		},
 		wantChanges: 1,
-		wantEvent:   quota.SetEvent{Amount: uint64Ptr(0)},
+		wantEvent:   quota.SetEvent{Amount: new(uint64(0))},
 	}, {
 		name: "change from to zero value",
 		fields: fields{
@@ -276,7 +276,7 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 			}},
 			idGenerator: id_mock.NewIDGeneratorExpectIDs(t, "notification1", "notification2"),
 		},
-		wantErr: func(t assert.TestingT, err error, i ...interface{}) bool {
+		wantErr: func(t assert.TestingT, err error, i ...any) bool {
 			return zerrors.IsErrorInvalidArgument(err)
 		},
 	}, {
@@ -341,10 +341,10 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 		},
 		wantChanges: 5,
 		wantEvent: quota.SetEvent{
-			From:          timePtr(time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)),
-			ResetInterval: durationPtr(time.Hour),
-			Amount:        uint64Ptr(5),
-			Limit:         boolPtr(true),
+			From:          new(time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)),
+			ResetInterval: new(time.Hour),
+			Amount:        new(uint64(5)),
+			Limit:         new(true),
 			Notifications: &[]*quota.SetEventNotification{{
 				ID:      "notification1",
 				Percent: 10,
@@ -358,9 +358,9 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 		wantChanges: 5,
 		wantEvent: quota.SetEvent{
 			From:          &time.Time{},
-			ResetInterval: durationPtr(0),
-			Amount:        uint64Ptr(0),
-			Limit:         boolPtr(false),
+			ResetInterval: new(time.Duration(0)),
+			Amount:        new(uint64(0)),
+			Limit:         new(false),
 			Notifications: &[]*quota.SetEventNotification{},
 		},
 	}}
@@ -397,7 +397,14 @@ func TestQuotaWriteModel_NewChanges(t *testing.T) {
 	}
 }
 
-func uint64Ptr(i uint64) *uint64                 { return &i }
-func boolPtr(b bool) *bool                       { return &b }
-func durationPtr(d time.Duration) *time.Duration { return &d }
-func timePtr(t time.Time) *time.Time             { return &t }
+//go:fix inline
+func uint64Ptr(i uint64) *uint64 { return new(i) }
+
+//go:fix inline
+func boolPtr(b bool) *bool { return new(b) }
+
+//go:fix inline
+func durationPtr(d time.Duration) *time.Duration { return new(d) }
+
+//go:fix inline
+func timePtr(t time.Time) *time.Time { return new(t) }

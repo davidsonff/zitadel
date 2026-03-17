@@ -48,7 +48,7 @@ func (s *Server) Introspect(ctx context.Context, r *op.Request[op.IntrospectionR
 
 	// make sure both channels are always read,
 	// and cancel the context on first error
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		var resErr error
 
 		select {

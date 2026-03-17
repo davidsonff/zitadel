@@ -33,7 +33,7 @@ type FilteredValuesEvaluationResultMatch struct {
 	SourceIndex int
 }
 
-type EvaluationResult interface{}
+type EvaluationResult any
 
 func NewEvaluator(schema schemas.ScimSchemaType) *Evaluator {
 	return &Evaluator{
@@ -173,7 +173,7 @@ func (e *Evaluator) evaluateUnaryCondition(item reflect.Value, condition *UnaryC
 		return false, err
 	}
 
-	if field.Kind() == reflect.Ptr {
+	if field.Kind() == reflect.Pointer {
 		return !field.IsZero(), nil
 	}
 

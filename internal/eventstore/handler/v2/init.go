@@ -68,7 +68,7 @@ type InitColumn struct {
 	Name          string
 	Type          ColumnType
 	nullable      bool
-	defaultValue  interface{}
+	defaultValue  any
 	deleteCascade string
 }
 
@@ -93,7 +93,7 @@ func Nullable() ColumnOption {
 	}
 }
 
-func Default(value interface{}) ColumnOption {
+func Default(value any) ColumnOption {
 	return func(c *InitColumn) {
 		c.defaultValue = value
 	}
@@ -231,11 +231,12 @@ func NewTableCheck(table *Table, opts ...execOption) *handler.Check {
 func NewMultiTableCheck(primaryTable *Table, secondaryTables ...*SuffixedTable) *handler.Check {
 	config := execConfig{}
 	create := func(config execConfig) string {
-		stmt := createTableStatement(primaryTable, config.tableName, "")
+		var stmt strings.Builder
+		stmt.WriteString(createTableStatement(primaryTable, config.tableName, ""))
 		for _, table := range secondaryTables {
-			stmt += createTableStatement(&table.Table, config.tableName, "_"+table.suffix)
+			stmt.WriteString(createTableStatement(&table.Table, config.tableName, "_"+table.suffix))
 		}
-		return stmt
+		return stmt.String()
 	}
 
 	return &handler.Check{
@@ -248,12 +249,12 @@ func NewMultiTableCheck(primaryTable *Table, secondaryTables ...*SuffixedTable) 
 func NewViewCheck(selectStmt string, secondaryTables ...*SuffixedTable) *handler.Check {
 	config := execConfig{}
 	create := func(config execConfig) string {
-		var stmt string
+		var stmt strings.Builder
 		for _, table := range secondaryTables {
-			stmt += createTableStatement(&table.Table, config.tableName, "_"+table.suffix)
+			stmt.WriteString(createTableStatement(&table.Table, config.tableName, "_"+table.suffix))
 		}
-		stmt += createViewStatement(config.tableName, selectStmt)
-		return stmt
+		stmt.WriteString(createViewStatement(config.tableName, selectStmt))
+		return stmt.String()
 	}
 
 	return &handler.Check{
@@ -298,11 +299,12 @@ func isErrAlreadyExists(err error) bool {
 }
 
 func createTableStatement(table *Table, tableName string, suffix string) string {
-	stmt := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s, PRIMARY KEY (%s)",
+	var stmt strings.Builder
+	stmt.WriteString(fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (%s, PRIMARY KEY (%s)",
 		tableName+suffix,
 		createColumnsStatement(table.columns, tableName),
 		strings.Join(table.primaryKey, ", "),
-	)
+	))
 	for _, key := range table.foreignKeys {
 		ref := tableName
 		if len(key.RefColumns) > 0 {
@@ -311,18 +313,18 @@ func createTableStatement(table *Table, tableName string, suffix string) string 
 		if len(key.Columns) == 0 {
 			key.Columns = table.primaryKey
 		}
-		stmt += fmt.Sprintf(", CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s ON DELETE CASCADE", foreignKeyName(key.Name, tableName, suffix), strings.Join(key.Columns, ","), ref)
+		stmt.WriteString(fmt.Sprintf(", CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s ON DELETE CASCADE", foreignKeyName(key.Name, tableName, suffix), strings.Join(key.Columns, ","), ref))
 	}
 	for _, constraint := range table.constraints {
-		stmt += fmt.Sprintf(", CONSTRAINT %s UNIQUE (%s)", constraintName(constraint.Name, tableName, suffix), strings.Join(constraint.Columns, ","))
+		stmt.WriteString(fmt.Sprintf(", CONSTRAINT %s UNIQUE (%s)", constraintName(constraint.Name, tableName, suffix), strings.Join(constraint.Columns, ",")))
 	}
 
-	stmt += ");"
+	stmt.WriteString(");")
 
 	for _, index := range table.indices {
-		stmt += createIndexStatement(index, tableName+suffix)
+		stmt.WriteString(createIndexStatement(index, tableName+suffix))
 	}
-	return stmt
+	return stmt.String()
 }
 
 func createViewStatement(viewName string, selectStmt string) string {
@@ -386,7 +388,7 @@ func createColumnsStatement(cols []*InitColumn, tableName string) string {
 	return strings.Join(columns, ",")
 }
 
-func defaultValue(value interface{}) string {
+func defaultValue(value any) string {
 	switch v := value.(type) {
 	case string:
 		return "'" + v + "'"

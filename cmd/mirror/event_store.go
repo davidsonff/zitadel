@@ -100,7 +100,7 @@ func copyEvents(ctx context.Context, source, dest *db.DB, bulkSize uint32) {
 	errs := make(chan error, 3)
 
 	go func() {
-		err := sourceConn.Raw(func(driverConn interface{}) error {
+		err := sourceConn.Raw(func(driverConn any) error {
 			conn := driverConn.(*stdlib.Conn).Conn()
 			nextPos <- true
 			var i uint32
@@ -161,7 +161,7 @@ func copyEvents(ctx context.Context, source, dest *db.DB, bulkSize uint32) {
 	}()
 
 	var eventCount int64
-	errs <- destConn.Raw(func(driverConn interface{}) error {
+	errs <- destConn.Raw(func(driverConn any) error {
 		conn := driverConn.(*stdlib.Conn).Conn()
 
 		tag, err := conn.PgConn().CopyFrom(ctx, reader, "COPY eventstore.events2 FROM STDIN")
@@ -206,7 +206,7 @@ func copyUniqueConstraints(ctx context.Context, source, dest *db.DB) {
 	logging.OnError(err).Fatal("unable to acquire source connection")
 
 	go func() {
-		err := sourceConn.Raw(func(driverConn interface{}) error {
+		err := sourceConn.Raw(func(driverConn any) error {
 			conn := driverConn.(*stdlib.Conn).Conn()
 			var stmt database.Statement
 			stmt.WriteString("COPY (SELECT instance_id, unique_type, unique_field FROM eventstore.unique_constraints ")
@@ -224,7 +224,7 @@ func copyUniqueConstraints(ctx context.Context, source, dest *db.DB) {
 	logging.OnError(err).Fatal("unable to acquire dest connection")
 
 	var eventCount int64
-	err = destConn.Raw(func(driverConn interface{}) error {
+	err = destConn.Raw(func(driverConn any) error {
 		conn := driverConn.(*stdlib.Conn).Conn()
 
 		if shouldReplace {

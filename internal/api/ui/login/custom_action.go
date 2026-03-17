@@ -93,7 +93,7 @@ func (l *Login) runPostExternalAuthenticationActions(
 			user.IsPhoneVerified = verified
 			userChanged = true
 		}),
-		actions.SetFields("metadata", func(c *actions.FieldConfig) interface{} {
+		actions.SetFields("metadata", func(c *actions.FieldConfig) any {
 			return metadataList.MetadataListFromDomain(c.Runtime)
 		}),
 		actions.SetFields("v1",
@@ -113,17 +113,17 @@ func (l *Login) runPostExternalAuthenticationActions(
 
 		ctxFieldOptions := append(tokenCtxFields(tokens),
 			actions.SetFields("v1",
-				actions.SetFields("externalUser", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("externalUser", func(c *actions.FieldConfig) any {
 					return object.UserFromExternalUser(c, user)
 				}),
-				actions.SetFields("providerInfo", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("providerInfo", func(c *actions.FieldConfig) any {
 					return c.Runtime.ToValue(idpUser)
 				}),
 				actions.SetFields("authRequest", object.AuthRequestField(authRequest)),
 				actions.SetFields("httpRequest", object.HTTPRequestField(httpRequest)),
 				actions.SetFields("authError", authErrStr),
 				actions.SetFields("org",
-					actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+					actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 						return func(goja.FunctionCall) goja.Value {
 							metadata, err := l.query.SearchOrgMetadata(
 								ctx,
@@ -193,7 +193,7 @@ func (l *Login) runPostInternalAuthenticationActions(
 
 	metadataList := object.MetadataListFromDomain(nil)
 	apiFields := actions.WithAPIFields(
-		actions.SetFields("metadata", func(c *actions.FieldConfig) interface{} {
+		actions.SetFields("metadata", func(c *actions.FieldConfig) any {
 			return metadataList.MetadataListFromDomain(c.Runtime)
 		}),
 		actions.SetFields("v1",
@@ -296,7 +296,7 @@ func (l *Login) runPreCreationActions(
 			}
 			user.Phone.IsPhoneVerified = verified
 		}),
-		actions.SetFields("metadata", func(c *actions.FieldConfig) interface{} {
+		actions.SetFields("metadata", func(c *actions.FieldConfig) any {
 			return metadataList.MetadataListFromDomain(c.Runtime)
 		}),
 		actions.SetFields("v1",
@@ -311,13 +311,13 @@ func (l *Login) runPreCreationActions(
 
 		ctxOpts := actions.SetContextFields(
 			actions.SetFields("v1",
-				actions.SetFields("user", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("user", func(c *actions.FieldConfig) any {
 					return object.UserFromHuman(c, user)
 				}),
 				actions.SetFields("authRequest", object.AuthRequestField(authRequest)),
 				actions.SetFields("httpRequest", object.HTTPRequestField(httpRequest)),
 				actions.SetFields("org",
-					actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+					actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 						return func(goja.FunctionCall) goja.Value {
 							metadata, err := l.query.SearchOrgMetadata(
 								ctx,
@@ -381,7 +381,7 @@ func (l *Login) runPostCreationActions(
 
 		ctxFields := actions.SetContextFields(
 			actions.SetFields("v1",
-				actions.SetFields("getUser", func(c *actions.FieldConfig) interface{} {
+				actions.SetFields("getUser", func(c *actions.FieldConfig) any {
 					return func(call goja.FunctionCall) goja.Value {
 						user, err := l.query.GetUserByID(actionCtx, true, userID)
 						if err != nil {
@@ -393,7 +393,7 @@ func (l *Login) runPostCreationActions(
 				actions.SetFields("authRequest", object.AuthRequestField(authRequest)),
 				actions.SetFields("httpRequest", object.HTTPRequestField(httpRequest)),
 				actions.SetFields("org",
-					actions.SetFields("getMetadata", func(c *actions.FieldConfig) interface{} {
+					actions.SetFields("getMetadata", func(c *actions.FieldConfig) any {
 						return func(goja.FunctionCall) goja.Value {
 							metadata, err := l.query.SearchOrgMetadata(
 								ctx,
@@ -431,7 +431,7 @@ func (l *Login) runPostCreationActions(
 
 func tokenCtxFields(tokens *oidc.Tokens[*oidc.IDTokenClaims]) []actions.FieldOption {
 	var accessToken, idToken, refreshToken string
-	getClaim := func(claim string) interface{} {
+	getClaim := func(claim string) any {
 		return nil
 	}
 	claimsJSON := func() (string, error) {
@@ -450,7 +450,7 @@ func tokenCtxFields(tokens *oidc.Tokens[*oidc.IDTokenClaims]) []actions.FieldOpt
 	refreshToken = tokens.RefreshToken
 	idToken = tokens.IDToken
 	if tokens.IDTokenClaims != nil {
-		getClaim = func(claim string) interface{} {
+		getClaim = func(claim string) any {
 			return tokens.IDTokenClaims.Claims[claim]
 		}
 		claimsJSON = func() (string, error) {

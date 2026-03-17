@@ -50,7 +50,7 @@ func NewSAMLIDPAddedEvent(
 	}
 }
 
-func (e *SAMLIDPAddedEvent) Payload() interface{} {
+func (e *SAMLIDPAddedEvent) Payload() any {
 	return e
 }
 
@@ -160,7 +160,7 @@ func ChangeSAMLOptions(options OptionChanges) func(*SAMLIDPChangedEvent) {
 	}
 }
 
-func (e *SAMLIDPChangedEvent) Payload() interface{} {
+func (e *SAMLIDPChangedEvent) Payload() any {
 	return e
 }
 

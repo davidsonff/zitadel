@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -141,7 +140,7 @@ func userAgentToPb(ua domain.UserAgent) *session.UserAgent {
 		Description:   ua.Description,
 	}
 	if ua.IP != nil {
-		out.Ip = gu.Ptr(ua.IP.String())
+		out.Ip = new(ua.IP.String())
 	}
 	if ua.Header == nil {
 		return out

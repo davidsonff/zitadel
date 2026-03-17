@@ -109,7 +109,7 @@ func (c *Commands) MigrateInstanceGenericOIDCToGoogleProvider(ctx context.Contex
 	return c.migrateInstanceGenericOIDC(ctx, id, provider)
 }
 
-func (c *Commands) migrateInstanceGenericOIDC(ctx context.Context, id string, provider interface{}) (*domain.ObjectDetails, error) {
+func (c *Commands) migrateInstanceGenericOIDC(ctx context.Context, id string, provider any) (*domain.ObjectDetails, error) {
 	instanceID := authz.GetInstance(ctx).InstanceID()
 	instanceAgg := instance.NewAggregate(instanceID)
 	writeModel := NewOIDCInstanceIDPWriteModel(instanceID, id)

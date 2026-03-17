@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
@@ -165,7 +164,7 @@ func userAgentToPb(ua domain.UserAgent) *session.UserAgent {
 		Description:   ua.Description,
 	}
 	if ua.IP != nil {
-		out.Ip = gu.Ptr(ua.IP.String())
+		out.Ip = new(ua.IP.String())
 	}
 	if ua.Header == nil {
 		return out

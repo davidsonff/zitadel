@@ -2124,7 +2124,7 @@ func (wm *IDPTypeWriteModel) Query() *eventstore.SearchQueryBuilder {
 			instance.OIDCIDPMigratedGoogleEventType,
 			instance.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Or().
 		AggregateTypes(org.AggregateType).
 		EventTypes(
@@ -2144,21 +2144,21 @@ func (wm *IDPTypeWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.OIDCIDPMigratedGoogleEventType,
 			org.IDPRemovedEventType,
 		).
-		EventData(map[string]interface{}{"id": wm.ID}).
+		EventData(map[string]any{"id": wm.ID}).
 		Or(). // old events
 		AggregateTypes(instance.AggregateType).
 		EventTypes(
 			instance.IDPConfigAddedEventType,
 			instance.IDPConfigRemovedEventType,
 		).
-		EventData(map[string]interface{}{"idpConfigId": wm.ID}).
+		EventData(map[string]any{"idpConfigId": wm.ID}).
 		Or().
 		AggregateTypes(org.AggregateType).
 		EventTypes(
 			org.IDPConfigAddedEventType,
 			org.IDPConfigRemovedEventType,
 		).
-		EventData(map[string]interface{}{"idpConfigId": wm.ID}).
+		EventData(map[string]any{"idpConfigId": wm.ID}).
 		Builder()
 }
 

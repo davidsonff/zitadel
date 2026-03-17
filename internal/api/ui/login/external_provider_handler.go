@@ -694,7 +694,7 @@ func (l *Login) renderExternalNotFoundOption(w http.ResponseWriter, r *http.Requ
 		data.ExternalPhone = human.PhoneNumber
 		data.ExternalPhoneVerified = human.IsPhoneVerified
 	}
-	funcs := map[string]interface{}{
+	funcs := map[string]any{
 		"selectedLanguage": func(l string) bool {
 			return data.Language == l
 		},

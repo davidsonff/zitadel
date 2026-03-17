@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
@@ -302,9 +301,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -357,9 +356,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -401,9 +400,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -482,9 +481,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -563,9 +562,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -646,9 +645,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -729,9 +728,9 @@ func TestCommands_LinkSessionToSAMLRequest(t *testing.T) {
 							session.NewAddedEvent(mockCtx,
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),

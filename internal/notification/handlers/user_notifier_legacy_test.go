@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
@@ -1954,7 +1953,7 @@ func newUserNotifierLegacy(t *testing.T, ctrl *gomock.Controller, queries *mock.
 		if w.messageSMS != nil {
 			w.messageSMS.sms.TriggeringEventType = a.event.Type()
 			channel.EXPECT().HandleMessage(w.messageSMS.sms).DoAndReturn(func(message *messages.SMS) error {
-				message.VerificationID = gu.Ptr(verificationID)
+				message.VerificationID = new(verificationID)
 				return w.messageSMS.err
 			})
 		}

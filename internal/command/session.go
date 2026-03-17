@@ -412,7 +412,7 @@ func sessionTokenCreator(idGenerator id.Generator, sessionAlg crypto.EncryptionA
 		if err != nil {
 			return "", "", err
 		}
-		encrypted, err := sessionAlg.Encrypt([]byte(fmt.Sprintf(authz.SessionTokenFormat, sessionID, id)))
+		encrypted, err := sessionAlg.Encrypt(fmt.Appendf(nil, authz.SessionTokenFormat, sessionID, id))
 		if err != nil {
 			return "", "", err
 		}

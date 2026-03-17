@@ -41,7 +41,7 @@ func TestNotify_SendEmailVerificationCode(t *testing.T) {
 			},
 			want: &notifyResult{
 				url:                                "https://example.com/ui/login/mail/verification?authRequestID=authRequestID&code=123&orgID=org1&userID=user1",
-				args:                               map[string]interface{}{"Code": "123"},
+				args:                               map[string]any{"Code": "123"},
 				messageType:                        domain.VerifyEmailMessageType,
 				allowUnverifiedNotificationChannel: true,
 			},
@@ -75,7 +75,7 @@ func TestNotify_SendEmailVerificationCode(t *testing.T) {
 			},
 			want: &notifyResult{
 				url:                                "https://example.com/email/verify?userID=user1&code=123&orgID=org1",
-				args:                               map[string]interface{}{"Code": "123"},
+				args:                               map[string]any{"Code": "123"},
 				messageType:                        domain.VerifyEmailMessageType,
 				allowUnverifiedNotificationChannel: true,
 			},

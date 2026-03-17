@@ -74,7 +74,7 @@ func (c *Commands) generateInitialWebKeysCommands(ctx context.Context, instanceI
 	defer func() { span.EndWithError(err) }()
 
 	commands := make([]eventstore.Command, 0, 3)
-	for i := 0; i < 2; i++ {
+	for i := range 2 {
 		addedCmd, aggregate, err := c.generateWebKeyCommand(ctx, instanceID, conf)
 		if err != nil {
 			return nil, err

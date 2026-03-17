@@ -8,7 +8,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/pquerna/otp/totp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -207,9 +206,9 @@ func TestCommands_CreateSession(t *testing.T) {
 			args{
 				ctx: authz.NewMockContext("instance1", "", ""),
 				userAgent: &domain.UserAgent{
-					FingerprintID: gu.Ptr("fp1"),
+					FingerprintID: new("fp1"),
 					IP:            net.ParseIP("1.2.3.4"),
-					Description:   gu.Ptr("firefox"),
+					Description:   new("firefox"),
 					Header:        http.Header{"foo": []string{"bar"}},
 				},
 				lifetime: -10 * time.Minute,
@@ -234,9 +233,9 @@ func TestCommands_CreateSession(t *testing.T) {
 			args{
 				ctx: authz.NewMockContext("instance1", "", ""),
 				userAgent: &domain.UserAgent{
-					FingerprintID: gu.Ptr("fp1"),
+					FingerprintID: new("fp1"),
 					IP:            net.ParseIP("1.2.3.4"),
-					Description:   gu.Ptr("firefox"),
+					Description:   new("firefox"),
 					Header:        http.Header{"foo": []string{"bar"}},
 				},
 				lifetime: 10 * time.Minute,
@@ -247,9 +246,9 @@ func TestCommands_CreateSession(t *testing.T) {
 					session.NewAddedEvent(context.Background(),
 						&session.NewAggregate("sessionID", "instance1").Aggregate,
 						&domain.UserAgent{
-							FingerprintID: gu.Ptr("fp1"),
+							FingerprintID: new("fp1"),
 							IP:            net.ParseIP("1.2.3.4"),
-							Description:   gu.Ptr("firefox"),
+							Description:   new("firefox"),
 							Header:        http.Header{"foo": []string{"bar"}},
 						},
 					),
@@ -328,9 +327,9 @@ func TestCommands_UpdateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -1159,9 +1158,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -1190,9 +1189,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -1221,9 +1220,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -1258,9 +1257,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -1296,9 +1295,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							)),
@@ -1335,9 +1334,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							),
@@ -1376,9 +1375,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							),
@@ -1418,9 +1417,9 @@ func TestCommands_TerminateSession(t *testing.T) {
 							session.NewAddedEvent(context.Background(),
 								&session.NewAggregate("sessionID", "instance1").Aggregate,
 								&domain.UserAgent{
-									FingerprintID: gu.Ptr("fp1"),
+									FingerprintID: new("fp1"),
 									IP:            net.ParseIP("1.2.3.4"),
-									Description:   gu.Ptr("firefox"),
+									Description:   new("firefox"),
 									Header:        http.Header{"foo": []string{"bar"}},
 								},
 							),

@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
@@ -203,7 +202,7 @@ func TestCommands_CreateInviteCode(t *testing.T) {
 					ResourceOwner: "org1",
 					ID:            "userID",
 				},
-				returnCode: gu.Ptr("code"),
+				returnCode: new("code"),
 			},
 		},
 		{

@@ -3,6 +3,7 @@ package command
 import (
 	"context"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
@@ -218,12 +219,7 @@ func getInstanceDomainWriteModel(ctx context.Context, filter preparation.FilterT
 }
 
 func containsURI(uris []string, uri string) bool {
-	for _, u := range uris {
-		if u == uri {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(uris, uri)
 }
 
 func (c *Commands) getInstanceDomainsWriteModel(ctx context.Context, instanceID string) (*InstanceDomainsWriteModel, error) {

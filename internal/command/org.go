@@ -2,6 +2,7 @@ package command
 
 import (
 	"context"
+	"slices"
 	"strings"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
@@ -751,10 +752,5 @@ func isOrgStateExists(state domain.OrgState) bool {
 }
 
 func hasOrgState(check domain.OrgState, states ...domain.OrgState) bool {
-	for _, state := range states {
-		if check == state {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(states, check)
 }

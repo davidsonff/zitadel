@@ -3,8 +3,6 @@ package filter
 import (
 	"reflect"
 	"testing"
-
-	"github.com/muhlemmer/gu"
 )
 
 func TestParsePath(t *testing.T) {
@@ -45,7 +43,7 @@ func TestParsePath(t *testing.T) {
 			want: &Path{
 				AttrPath: &AttrPath{
 					AttrName: "name",
-					SubAttr:  gu.Ptr("familyName"),
+					SubAttr:  new("familyName"),
 				},
 			},
 		},
@@ -70,7 +68,7 @@ func TestParsePath(t *testing.T) {
 												Equal: true,
 											},
 											Right: CompValue{
-												StringValue: gu.Ptr("work"),
+												StringValue: new("work"),
 											},
 										},
 									},
@@ -107,7 +105,7 @@ func TestParsePath(t *testing.T) {
 							},
 						},
 					},
-					SubAttr: gu.Ptr("displayName"),
+					SubAttr: new("displayName"),
 				},
 			},
 		},

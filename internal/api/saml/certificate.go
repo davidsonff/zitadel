@@ -32,19 +32,19 @@ const (
 type CertificateAndKey struct {
 	algorithm   jose.SignatureAlgorithm
 	id          string
-	key         interface{}
-	certificate interface{}
+	key         any
+	certificate any
 }
 
 func (c *CertificateAndKey) SignatureAlgorithm() jose.SignatureAlgorithm {
 	return c.algorithm
 }
 
-func (c *CertificateAndKey) Key() interface{} {
+func (c *CertificateAndKey) Key() any {
 	return c.key
 }
 
-func (c *CertificateAndKey) Certificate() interface{} {
+func (c *CertificateAndKey) Certificate() any {
 	return c.certificate
 }
 
@@ -200,7 +200,7 @@ func setSAMLCtx(ctx context.Context) context.Context {
 }
 
 func retry(retryable func() error) (err error) {
-	for i := 0; i < retryCount; i++ {
+	for range retryCount {
 		err = retryable()
 		if err == nil {
 			return nil

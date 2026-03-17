@@ -22,7 +22,7 @@ type transaction struct {
 
 var _ crdb.Tx = (*transaction)(nil)
 
-func (t *transaction) Exec(ctx context.Context, query string, args ...interface{}) error {
+func (t *transaction) Exec(ctx context.Context, query string, args ...any) error {
 	_, err := t.Tx.ExecContext(ctx, query, args...)
 	return err
 }

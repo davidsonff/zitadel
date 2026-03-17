@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/zitadel/logging"
 	"golang.org/x/text/language"
 
@@ -1063,7 +1062,7 @@ func (repo *AuthRequestRepo) nextSteps(ctx context.Context, request *domain.Auth
 	request.DisplayName = userSession.DisplayName
 	request.AvatarKey = userSession.AvatarKey
 	if user.HumanView != nil && user.HumanView.PreferredLanguage != "" {
-		request.PreferredLanguage = gu.Ptr(language.Make(user.HumanView.PreferredLanguage))
+		request.PreferredLanguage = new(language.Make(user.HumanView.PreferredLanguage))
 	}
 
 	isInternalLogin := (request.SelectedIDPConfigID == "" && userSession.SelectedIDPConfigID == "") || request.RequestLocalAuth

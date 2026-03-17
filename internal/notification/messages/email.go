@@ -45,9 +45,9 @@ func (msg *Email) GetContent() (string, error) {
 	headers["Cc"] = strings.Join(msg.CC, ", ")
 	headers["Date"] = time.Now().Format(time.RFC1123Z)
 
-	message := ""
+	var message strings.Builder
 	for k, v := range headers {
-		message += fmt.Sprintf("%s: %s"+lineBreak, k, v)
+		message.WriteString(fmt.Sprintf("%s: %s"+lineBreak, k, v))
 	}
 
 	//default mime-type is html
@@ -56,9 +56,9 @@ func (msg *Email) GetContent() (string, error) {
 		mime = "MIME-Version: 1.0" + lineBreak + "Content-Type: text/plain; charset=\"UTF-8\"" + lineBreak + lineBreak
 	}
 	subject := "Subject: " + bEncodeWord(msg.Subject) + lineBreak
-	message += subject + mime + lineBreak + msg.Content
+	message.WriteString(subject + mime + lineBreak + msg.Content)
 
-	return message, nil
+	return message.String(), nil
 }
 
 func (msg *Email) GetTriggeringEventType() eventstore.EventType {

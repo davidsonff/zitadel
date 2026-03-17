@@ -2,6 +2,7 @@ package management
 
 import (
 	"context"
+	"slices"
 
 	"github.com/zitadel/zitadel/internal/api/authz"
 	"github.com/zitadel/zitadel/internal/zerrors"
@@ -23,10 +24,5 @@ func checkExplicitProjectPermission(ctx context.Context, grantID, projectID stri
 }
 
 func listContainsID(ids []string, id string) bool {
-	for _, i := range ids {
-		if i == id {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(ids, id)
 }

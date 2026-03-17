@@ -101,7 +101,7 @@ func (a *NumberArray[F]) Scan(src any) (err error) {
 
 	//nolint: exhaustive
 	// only defined types
-	switch reflect.TypeOf(*a).Elem().Kind() {
+	switch reflect.TypeFor[NumberArray[F]]().Elem().Kind() {
 	case reflect.Int8:
 		mapper, scanner = castedScan[int8](a)
 	case reflect.Uint8:

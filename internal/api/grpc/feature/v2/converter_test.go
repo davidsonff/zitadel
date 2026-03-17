@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
@@ -19,28 +18,28 @@ import (
 
 func Test_systemFeaturesToCommand(t *testing.T) {
 	arg := &feature_pb.SetSystemFeaturesRequest{
-		LoginDefaultOrg:                     gu.Ptr(true),
-		OidcTriggerIntrospectionProjections: gu.Ptr(false),
+		LoginDefaultOrg:                     new(true),
+		OidcTriggerIntrospectionProjections: new(false),
 		OidcLegacyIntrospection:             nil,
-		UserSchema:                          gu.Ptr(true),
-		Actions:                             gu.Ptr(true),
-		OidcTokenExchange:                   gu.Ptr(true),
+		UserSchema:                          new(true),
+		Actions:                             new(true),
+		OidcTokenExchange:                   new(true),
 		ImprovedPerformance:                 nil,
-		OidcSingleV1SessionTermination:      gu.Ptr(true),
+		OidcSingleV1SessionTermination:      new(true),
 		LoginV2: &feature_pb.LoginV2{
 			Required: true,
-			BaseUri:  gu.Ptr("https://login.com"),
+			BaseUri:  new("https://login.com"),
 		},
 	}
 	want := &command.SystemFeatures{
-		LoginDefaultOrg:                 gu.Ptr(true),
-		TriggerIntrospectionProjections: gu.Ptr(false),
+		LoginDefaultOrg:                 new(true),
+		TriggerIntrospectionProjections: new(false),
 		LegacyIntrospection:             nil,
-		UserSchema:                      gu.Ptr(true),
-		Actions:                         gu.Ptr(true),
-		TokenExchange:                   gu.Ptr(true),
+		UserSchema:                      new(true),
+		Actions:                         new(true),
+		TokenExchange:                   new(true),
 		ImprovedPerformance:             nil,
-		OIDCSingleV1SessionTermination:  gu.Ptr(true),
+		OIDCSingleV1SessionTermination:  new(true),
 		LoginV2: &feature.LoginV2{
 			Required: true,
 			BaseURI:  &url.URL{Scheme: "https", Host: "login.com"},
@@ -154,7 +153,7 @@ func Test_systemFeaturesToPb(t *testing.T) {
 		},
 		LoginV2: &feature_pb.LoginV2FeatureFlag{
 			Required: true,
-			BaseUri:  gu.Ptr("https://login.com"),
+			BaseUri:  new("https://login.com"),
 			Source:   feature_pb.Source_SOURCE_SYSTEM,
 		},
 		PermissionCheckV2: &feature_pb.FeatureFlag{
@@ -168,40 +167,40 @@ func Test_systemFeaturesToPb(t *testing.T) {
 
 func Test_instanceFeaturesToCommand(t *testing.T) {
 	arg := &feature_pb.SetInstanceFeaturesRequest{
-		LoginDefaultOrg:                     gu.Ptr(true),
-		OidcTriggerIntrospectionProjections: gu.Ptr(false),
+		LoginDefaultOrg:                     new(true),
+		OidcTriggerIntrospectionProjections: new(false),
 		OidcLegacyIntrospection:             nil,
-		UserSchema:                          gu.Ptr(true),
-		OidcTokenExchange:                   gu.Ptr(true),
-		Actions:                             gu.Ptr(true),
+		UserSchema:                          new(true),
+		OidcTokenExchange:                   new(true),
+		Actions:                             new(true),
 		ImprovedPerformance:                 nil,
-		WebKey:                              gu.Ptr(true),
-		DebugOidcParentError:                gu.Ptr(true),
-		OidcSingleV1SessionTermination:      gu.Ptr(true),
-		EnableBackChannelLogout:             gu.Ptr(true),
+		WebKey:                              new(true),
+		DebugOidcParentError:                new(true),
+		OidcSingleV1SessionTermination:      new(true),
+		EnableBackChannelLogout:             new(true),
 		LoginV2: &feature_pb.LoginV2{
 			Required: true,
-			BaseUri:  gu.Ptr("https://login.com"),
+			BaseUri:  new("https://login.com"),
 		},
-		ConsoleUseV2UserApi: gu.Ptr(true),
+		ConsoleUseV2UserApi: new(true),
 	}
 	want := &command.InstanceFeatures{
-		LoginDefaultOrg:                 gu.Ptr(true),
-		TriggerIntrospectionProjections: gu.Ptr(false),
+		LoginDefaultOrg:                 new(true),
+		TriggerIntrospectionProjections: new(false),
 		LegacyIntrospection:             nil,
-		UserSchema:                      gu.Ptr(true),
-		TokenExchange:                   gu.Ptr(true),
-		Actions:                         gu.Ptr(true),
+		UserSchema:                      new(true),
+		TokenExchange:                   new(true),
+		Actions:                         new(true),
 		ImprovedPerformance:             nil,
-		WebKey:                          gu.Ptr(true),
-		DebugOIDCParentError:            gu.Ptr(true),
-		OIDCSingleV1SessionTermination:  gu.Ptr(true),
-		EnableBackChannelLogout:         gu.Ptr(true),
+		WebKey:                          new(true),
+		DebugOIDCParentError:            new(true),
+		OIDCSingleV1SessionTermination:  new(true),
+		EnableBackChannelLogout:         new(true),
 		LoginV2: &feature.LoginV2{
 			Required: true,
 			BaseURI:  &url.URL{Scheme: "https", Host: "login.com"},
 		},
-		ConsoleUseV2UserApi: gu.Ptr(true),
+		ConsoleUseV2UserApi: new(true),
 	}
 	got, err := instanceFeaturesToCommand(arg)
 	assert.Equal(t, want, got)
@@ -327,7 +326,7 @@ func Test_instanceFeaturesToPb(t *testing.T) {
 		},
 		LoginV2: &feature_pb.LoginV2FeatureFlag{
 			Required: true,
-			BaseUri:  gu.Ptr("https://login.com"),
+			BaseUri:  new("https://login.com"),
 			Source:   feature_pb.Source_SOURCE_INSTANCE,
 		},
 		PermissionCheckV2: &feature_pb.FeatureFlag{

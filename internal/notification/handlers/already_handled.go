@@ -9,7 +9,7 @@ import (
 type alreadyHandled struct {
 	event      eventstore.Event
 	eventTypes []eventstore.EventType
-	data       map[string]interface{}
+	data       map[string]any
 
 	handled bool
 }
@@ -36,7 +36,7 @@ func (a *alreadyHandled) Query() *eventstore.SearchQueryBuilder {
 		Builder()
 }
 
-func (n *NotificationQueries) IsAlreadyHandled(ctx context.Context, event eventstore.Event, data map[string]interface{}, eventTypes ...eventstore.EventType) (bool, error) {
+func (n *NotificationQueries) IsAlreadyHandled(ctx context.Context, event eventstore.Event, data map[string]any, eventTypes ...eventstore.EventType) (bool, error) {
 	already := &alreadyHandled{
 		event:      event,
 		eventTypes: eventTypes,

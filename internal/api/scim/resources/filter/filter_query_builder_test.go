@@ -6,7 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
 
 	"github.com/zitadel/zitadel/internal/api/scim/schemas"
@@ -375,7 +374,7 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			attrPaths: []*AttrPath{
 				{
 					AttrName: "foo",
-					SubAttr:  gu.Ptr("bar"),
+					SubAttr:  new("bar"),
 				},
 			},
 			wantFieldPath: "foo.bar",
@@ -385,11 +384,11 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			attrPaths: []*AttrPath{
 				{
 					AttrName: "foo",
-					SubAttr:  gu.Ptr("bar"),
+					SubAttr:  new("bar"),
 				},
 				{
 					AttrName: "baz",
-					SubAttr:  gu.Ptr("woo"),
+					SubAttr:  new("woo"),
 				},
 			},
 			wantFieldPath: "foo.bar.baz.woo",
@@ -399,9 +398,9 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			schema: "urn:foo:bar",
 			attrPaths: []*AttrPath{
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:bar:"),
+					UrnAttributePrefix: new("urn:foo:bar:"),
 					AttrName:           "foo",
-					SubAttr:            gu.Ptr("bar"),
+					SubAttr:            new("bar"),
 				},
 			},
 			wantFieldPath: "foo.bar",
@@ -411,14 +410,14 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			schema: "urn:foo:bar",
 			attrPaths: []*AttrPath{
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:bar:"),
+					UrnAttributePrefix: new("urn:foo:bar:"),
 					AttrName:           "foo",
-					SubAttr:            gu.Ptr("bar"),
+					SubAttr:            new("bar"),
 				},
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:bar:"),
+					UrnAttributePrefix: new("urn:foo:bar:"),
 					AttrName:           "foo2",
-					SubAttr:            gu.Ptr("bar2"),
+					SubAttr:            new("bar2"),
 				},
 			},
 			wantFieldPath: "foo.bar.foo2.bar2",
@@ -429,12 +428,12 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			attrPaths: []*AttrPath{
 				{
 					AttrName: "foo",
-					SubAttr:  gu.Ptr("bar"),
+					SubAttr:  new("bar"),
 				},
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:bar:"),
+					UrnAttributePrefix: new("urn:foo:bar:"),
 					AttrName:           "foo2",
-					SubAttr:            gu.Ptr("bar2"),
+					SubAttr:            new("bar2"),
 				},
 			},
 			wantFieldPath: "foo.bar.foo2.bar2",
@@ -444,7 +443,7 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			schema: "urn:foo:bar",
 			attrPaths: []*AttrPath{
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:baz"),
+					UrnAttributePrefix: new("urn:foo:baz"),
 					AttrName:           "foo",
 				},
 			},
@@ -455,11 +454,11 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 			schema: "urn:foo:bar",
 			attrPaths: []*AttrPath{
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:bar:"),
+					UrnAttributePrefix: new("urn:foo:bar:"),
 					AttrName:           "foo",
 				},
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:baz"),
+					UrnAttributePrefix: new("urn:foo:baz"),
 					AttrName:           "foo2",
 				},
 			},
@@ -473,7 +472,7 @@ func Test_queryBuilder_reduceAttrPaths(t *testing.T) {
 					AttrName: "foo",
 				},
 				{
-					UrnAttributePrefix: gu.Ptr("urn:foo:baz"),
+					UrnAttributePrefix: new("urn:foo:baz"),
 					AttrName:           "foo2",
 				},
 			},
