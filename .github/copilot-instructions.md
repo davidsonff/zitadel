@@ -3,7 +3,7 @@
 This is **ZITADEL**, an open-source identity infrastructure platform written in Go (backend) with Angular/TypeScript frontends.
 
 ## Key conventions
-- Backend is Go 1.23, event-driven CQRS pattern
+- Backend is Go 1.26, event-driven CQRS pattern
 - APIs defined via Protocol Buffers (`proto/`) with gRPC + grpc-gateway REST
 - Angular admin console in `console/`, TypeScript login UI in `login/`
 - PostgreSQL 14+ as primary datastore
