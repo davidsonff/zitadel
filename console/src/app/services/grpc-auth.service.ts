@@ -227,7 +227,7 @@ export class GrpcAuthService {
         orgs = (await this.listMyProjectOrgs(ORG_LIMIT, 0)).resultList;
         this.cachedOrgs.next(orgs);
 
-        const find = this.cachedOrgs.getValue().find((tmp) => tmp.id === id);
+        const find = this.cachedOrgs.getValue().find((tmp) => tmp.id === org.id);
         if (find) {
           this.setActiveOrg(find);
           return Promise.resolve(find);

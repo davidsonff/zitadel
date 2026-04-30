@@ -79,6 +79,10 @@ migrations/cockroach/migrate_cloud.go
 node_modules/
 .kreya
 
+# local dev configs (contain seeded credentials)
+/tmp-local.yaml
+/tmp-*.yaml
+
 go.work
 go.work.sum
 # Local Netlify folder

@@ -11,6 +11,18 @@ GOCOVERDIR = tmp/coverage
 INTEGRATION_DB_FLAVOR ?= postgres
 ZITADEL_MASTERKEY ?= MasterkeyNeedsToHave32Characters
 
+# Container tooling. Override with e.g. `make CONTAINER_TOOL=podman docker_image`.
+# Auto-detects docker, then podman.
+CONTAINER_TOOL ?= $(shell command -v docker 2>/dev/null || command -v podman 2>/dev/null || echo docker)
+# Compose command: docker uses `docker compose`, podman uses `podman-compose` (or `podman compose`).
+ifeq ($(notdir $(CONTAINER_TOOL)),podman)
+COMPOSE_TOOL ?= $(shell command -v podman-compose 2>/dev/null || echo "$(CONTAINER_TOOL) compose")
+BUILD_ENV ?=
+else
+COMPOSE_TOOL ?= $(CONTAINER_TOOL) compose
+BUILD_ENV ?= DOCKER_BUILDKIT=1
+endif
+
 export GOCOVERDIR INTEGRATION_DB_FLAVOR ZITADEL_MASTERKEY
 
 .PHONY: compile
@@ -18,7 +30,7 @@ compile: core_build console_build compile_pipeline
 
 .PHONY: docker_image
 docker_image: compile
-	DOCKER_BUILDKIT=1 docker build -f build/Dockerfile -t $(ZITADEL_IMAGE) .
+	$(BUILD_ENV) $(CONTAINER_TOOL) build -f build/Dockerfile -t $(ZITADEL_IMAGE) .
 
 .PHONY: compile_pipeline
 compile_pipeline: console_move
@@ -113,11 +125,11 @@ core_unit_test:
 
 .PHONY: core_integration_db_up
 core_integration_db_up:
-	docker compose -f internal/integration/config/docker-compose.yaml up --pull always --wait $${INTEGRATION_DB_FLAVOR} cache
+	$(COMPOSE_TOOL) -f internal/integration/config/docker-compose.yaml up --pull always --wait $${INTEGRATION_DB_FLAVOR} cache
 
 .PHONY: core_integration_db_down
 core_integration_db_down:
-	docker compose -f internal/integration/config/docker-compose.yaml down
+	$(COMPOSE_TOOL) -f internal/integration/config/docker-compose.yaml down
 
 .PHONY: core_integration_setup
 core_integration_setup:

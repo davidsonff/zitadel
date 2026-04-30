@@ -222,9 +222,8 @@ export class AppComponent {
       )
       .subscribe({
         next: (org) => (this.org = org),
-        error: async (err) => {
-          console.error(err);
-          return this.router.navigate(['/users/me']);
+        error: (err) => {
+          console.error('Failed to load active org:', err);
         },
       });
 
